@@ -120,9 +120,14 @@ public class Personnage {
     
     public void deplace() {
         Random rand = new Random();
-       
-        int dx = rand.nextInt(2) - 1;
-        int dy = rand.nextInt(2) - 1;
+        int dx = 0;
+        int dy = 0;
+        
+        // Assurez que dx et dy sont simultanément non différent de zero
+        do {
+            dx = rand.nextInt(2) - 1;
+            dy = rand.nextInt(2) - 1;
+        } while (dx == 0 && dy == 0);
 
         this.pos.translate(dx, dy);
     }
