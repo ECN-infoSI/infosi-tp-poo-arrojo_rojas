@@ -121,10 +121,10 @@ public class Personnage {
     public void deplace() {
         Random rand = new Random();
        
-        int dx = rand.nextInt(); 
-        int dy = rand.nextInt();
+        int dx = rand.nextInt(2) - 1;
+        int dy = rand.nextInt(2) - 1;
 
-        this.pos.setPosition(dx, dy);
+        this.pos.translate(dx, dy);
     }
     
     public void affiche(){
