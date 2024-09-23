@@ -11,11 +11,11 @@ import java.util.Arrays;
  * @author Augusto ARROJO et Fernando ROJAS
  */
 public class Objet {
-	String nom;
-	int prix_achat;
-	int prix_vente;
-	String description;
-        Point2D pos;
+    private String nom;
+    private int prix_achat;
+    private int prix_vente;
+    private String description;
+    private Point2D pos;
 
     /**
      * Constructeur d'objet

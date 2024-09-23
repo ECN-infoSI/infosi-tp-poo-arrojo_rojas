@@ -8,7 +8,7 @@ package org.centrale.objet.woe.projettp1;
 * @author Augusto ARROJO et Fernando ROJAS
 */
 public class Epee extends Objet {
-int bonus_att;
+    private int bonus_att;
 
     /**
      * Constructeur de la classe Epee

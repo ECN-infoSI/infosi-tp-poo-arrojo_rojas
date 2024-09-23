@@ -20,17 +20,43 @@ public class World {
     Paysan peon;
     Lapin bugs;
     ArrayList<Creature> crea;
-    /*ArrayList<PotionSoin> potion;
-    ArrayList<Epee> sword;   */
+    ArrayList<PotionSoin> potion;
+    ArrayList<Epee> sword;
     
     /**
-     *Constructeur par défaut de World
+     * Constructeur par défaut de World
     */
     public World(){
-        robin = new Archer();
-        peon = new Paysan();
-        bugs = new Lapin();
-        world = new HashMap();
+        //world = new HashMap();
+        crea = new ArrayList<>();
+        sword = new ArrayList<>();
+        potion = new ArrayList<>();
+        Archer robin = new Archer();
+    	Paysan peon = new Paysan();
+    	Lapin bugs1 = new Lapin();
+    	Guerrier grosBill = new Guerrier();
+    	Loup wolfie = new Loup();
+        crea.add(robin);
+    	crea.add(peon);
+    	crea.add(bugs1);
+    	crea.add(grosBill);
+    	crea.add(wolfie);
+        PotionSoin ps = new PotionSoin();
+        Epee epee = new Epee();
+        potion.add(ps);
+        sword.add(epee);
+    }
+    
+    /**
+     * Constructeur de World
+     * @param crea
+     * @param potion
+     * @param sword
+     */
+    public World(ArrayList<Creature> crea, ArrayList<PotionSoin> potion, ArrayList<Epee> sword) {
+        this.crea = crea;
+        this.potion = potion;
+        this.sword = sword;
     }
     
     /**
@@ -38,13 +64,37 @@ public class World {
     */
     public void creerMondeAlea(){
         Random generateurAleatoire = new Random();
-        //Object[] personnages = new Object[3];
-        Object[] personnages = {robin, peon, bugs};
-        //personnages[0] = robin;
-        //personnages[1] = peon;
-        //personnages[2] = bugs;
         
-        int i = 0;
+   	int nombre_crea = crea.size();
+    	ArrayList<Point2D> vu = new ArrayList<>();
+    	for (int i = 0 ; i < nombre_crea ; i++){
+        	crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	while (vu.contains(crea.get(i).getPos())) {
+                    crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	}
+        	vu.add(crea.get(i).getPos());
+    	}
+        int nombre_potion = potion.size();
+    	ArrayList<Point2D> vu_potion = new ArrayList<>();
+    	for (int i = 0 ; i < nombre_potion ; i++){
+        	potion.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	while (vu_potion.contains(potion.get(i).getPos())) {
+                    potion.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	}
+        	vu_potion.add(potion.get(i).getPos());
+    	}
+        int nombre_sword = sword.size();
+    	ArrayList<Point2D> vu_sword = new ArrayList<>();
+    	for (int i = 0 ; i < nombre_sword ; i++){
+        	sword.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	while (vu_potion.contains(sword.get(i).getPos())) {
+                    sword.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+        	}
+        	vu_sword.add(sword.get(i).getPos());
+    	}
+        
+          
+        /*int i = 0;
         
         while(i < personnages.length){
             int nbAleaX = generateurAleatoire.nextInt();
@@ -79,7 +129,46 @@ public class World {
                 }
                 
             }
-        }
+        }     */
     }
     
+    /**
+     * Methode pour afficher potion, espée et creatures
+    */
+    public void affiche() {
+        int nombre_crea = crea.size();
+        for (int i = 0 ; i < nombre_crea ; i++){
+            crea.get(i).affiche();
+        }
+        int nombre_potion = potion.size();
+        for (int i = 0 ; i < nombre_potion ; i++){
+            potion.get(i).affiche();
+        }
+        int nombre_sword = sword.size();
+        for (int i = 0 ; i < nombre_sword ; i++){
+            sword.get(i).affiche();
+        }
+        
+    }
+    
+    /**
+     * Méthode pour soigner 
+    */
+    public void soigne(){
+    	ArrayList<Integer> a_supprimer = new ArrayList<>();
+    	for (int i = 0 ; i < potion.size() ; i++){
+            for (int j = 0; j < crea.size(); j++){
+                if (crea.get(j).getPos().equals(potion.get(i).getPos())) {
+                    crea.get(j).setPtVie(crea.get(j).getPtVie() + potion.get(i).getValeur_soin());
+                     a_supprimer.add(i);
+                }
+            }
+    	}
+        
+        for (int k = 0; k < potion.size(); k++) {
+            if (a_supprimer.contains(k)){
+                potion.set(k, null);
+            }
+        }
+    }
 }

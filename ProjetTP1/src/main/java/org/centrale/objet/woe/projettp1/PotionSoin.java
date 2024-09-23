@@ -11,8 +11,7 @@ import java.util.Arrays;
 * @author Augusto ARROJO et Fernando ROJAS
 */
 public class PotionSoin extends Objet{
-    
-int valeur_soin;
+    private int valeur_soin;
 
     /**
      *Constructeur de PotionSoin
