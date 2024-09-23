@@ -71,7 +71,7 @@ public class Guerrier extends Personnage {
                     System.out.println("La parade réussi");
                     ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());
                 }
-                System.out.println("L'attaque inflige " + ouch + "points de dégâts");
+                System.out.println("L'attaque inflige " + ouch + " points de dégâts");
             if (ouch >= 0.5*c.getPtVie()) {
                 System.out.println("C'est super efficace");
             }
@@ -79,7 +79,7 @@ public class Guerrier extends Personnage {
                 System.out.println("Ce n'est pas très efficace");
             }
             c.setPtVie(c.getPtVie()-ouch);
-            System.out.println("Il reste " + c.getPtVie() + "points de vie");
+            System.out.println("Il reste " + c.getPtVie() + " points de vie");
             }
             
             
