@@ -17,7 +17,6 @@ public class Creature {
     private int ptPar;
     private int pageAtt;
     private int pagePar;
-    private int distAttMax;
     private Point2D pos;
    
     /**
@@ -27,16 +26,14 @@ public class Creature {
      * @param pPar Points de parade du creature
      * @param paAtt Pourcentage de chance de toucher avec une creature
      * @param paPar Pourcentage de chance de parer une creature
-     * @param dMax Distance d'attaque maximale
      * @param p Position du creature
     */
-    public Creature (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
+    public Creature (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
         this.ptVie = pV;
         this.degAtt = dA;
         this.ptPar = pPar;
         this.pageAtt = paAtt;
         this.pagePar = paPar;
-        this.distAttMax = dMax;
         this.pos = new Point2D(p);
     }
     
@@ -50,7 +47,6 @@ public class Creature {
         this.ptPar = c.getPtPar();
         this.pageAtt = c.getPageAtt();
         this.pagePar = c.getPagePar();
-        this.distAttMax = c.getDistAttMax();
         this.pos = new Point2D (c.pos);
     }
     
@@ -64,7 +60,6 @@ public class Creature {
         this.ptPar = 5;
         this.pageAtt = 1;
         this.pagePar = 1;
-        this.distAttMax = 1;
         this.pos = new Point2D();  // Position par défaut (0, 0) 
     }
     
@@ -146,22 +141,6 @@ public class Creature {
     */
     public void setPagePar(int pagePar) {
         this.pagePar = pagePar;
-    }
-
-    /**
-     * Fonction pour obtenir la distance d'attaque maximale
-     * @return Distance d'attaque maximale
-    */
-    public int getDistAttMax() {
-        return distAttMax;
-    }
-
-    /**
-     * Fonction pour définir la distance d'attaque maximale
-     * @param distAttMax Distance d'attaque maximale
-    */
-    public void setDistAttMax(int distAttMax) {
-        this.distAttMax = distAttMax;
     }
 
     /**

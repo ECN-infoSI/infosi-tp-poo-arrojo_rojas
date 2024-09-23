@@ -17,11 +17,10 @@ public class Lapin extends Monstre {
      * @param pPar Points de parade du lapin
      * @param paAtt Pourcentage de chance de toucher avec une attaque
      * @param paPar Pourcentage de chance de parer une attaque
-     * @param dMax Distance d'attaque maximale
      * @param p Position du lapin
      */
-    public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p) {
-        super (pV, dA, pPar, paAtt, paPar, dMax, p);
+    public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
+        super (pV, dA, pPar, paAtt, paPar, p);
     }
     
     /**

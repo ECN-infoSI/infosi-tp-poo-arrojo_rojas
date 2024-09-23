@@ -18,12 +18,11 @@ public class Monstre extends Creature {
      * @param pPar Points de parade du monstre
      * @param paAtt Pourcentage de chance de toucher avec une attaque
      * @param paPar Pourcentage de chance de parer une attaque
-     * @param dMax Distance d'attaque maximale
      * @param p Position du monstre
      */
     
-    public Monstre (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
-        super(pV,dA, pPar, paAtt, paPar, dMax, p);
+    public Monstre (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,dA, pPar, paAtt, paPar, p);
     }
     
     /**

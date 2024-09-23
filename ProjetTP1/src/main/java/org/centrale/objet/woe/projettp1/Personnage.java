@@ -6,133 +6,81 @@ package org.centrale.objet.woe.projettp1;
 import java.util.Random;
 
 /**
- *
- * @author Augusto Arrojo et Fernando ROJAS
+ * Sous-classe de la classe Créature qui gére les personnages
+ * @author Augusto ARROJO et Fernando ROJAS
  */
-public class Personnage {
+public class Personnage extends Creature {
     private String nom;
-    private int ptVie;
-    private int degAtt;
-    private int ptPar;
-    private int pageAtt;
-    private int pagePar;
     private int distAttMax;
     private Point2D pos;
     
+    /**
+     * Constructeur de Personnage
+     * @param N
+     * @param pV
+     * @param dA
+     * @param pPar
+     * @param paAtt
+     * @param paPar
+     * @param dMax
+     * @param p
+     */
     public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
+        super(pV, dA, pPar, paAtt, paPar, p);
         this.nom = N;
-        this.ptVie = pV;
-        this.degAtt = dA;
-        this.ptPar = pPar;
-        this.pageAtt = paAtt;
-        this.pagePar = paPar;
-        this.distAttMax = dMax;
-        this.pos = new Point2D(p);
+        this.distAttMax = dA;
     }
     
+    /**
+     * Constructeur de copie de Personnage
+     * @param perso
+     */
     public Personnage (Personnage perso) {
+        super((Creature)perso);
         this.nom = perso.getNom();
-        this.ptVie = perso.getPtVie();
-        this.degAtt = perso.getDegAtt();
-        this.ptPar = perso.getPtPar();
-        this.pageAtt = perso.getPageAtt();
-        this.pagePar = perso.getPagePar();
         this.distAttMax = perso.getDistAttMax();
-        this.pos = new Point2D (perso.pos);
     }
     
+    /**
+     * Constructeur par défaut de personnage
+     */
     public Personnage ()
     {
+        super();
         this.nom = "Inconnu";
-        this.ptVie = 100;  // Valeur par défaut
-        this.degAtt = 10;
-        this.ptPar = 5;
-        this.pageAtt = 1;
-        this.pagePar = 1;
         this.distAttMax = 1;
-        this.pos = new Point2D();  // Position par défaut (0, 0) 
     }
     
-    
+    /**
+     * Fonction pour obtenir le nom de personnage
+     * @return le nom de personnage
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Fonction pour définir le nom de personnage
+     * @param n le nom de personnage
+     */
     public void setNom(String n) {
         this.nom = n;
     }
 
-    public int getPtVie() {
-        return ptVie;
-    }
-
-    public void setPtVie(int ptVie) {
-        this.ptVie = ptVie;
-    }
-
-    public int getDegAtt() {
-        return degAtt;
-    }
-
-    public void setDegAtt(int degAtt) {
-        this.degAtt = degAtt;
-    }
-
-    public int getPtPar() {
-        return ptPar;
-    }
-
-    public void setPtPar(int ptPar) {
-        this.ptPar = ptPar;
-    }
-
-    public int getPageAtt() {
-        return pageAtt;
-    }
-
-    public void setPageAtt(int pageAtt) {
-        this.pageAtt = pageAtt;
-    }
-
-    public int getPagePar() {
-        return pagePar;
-    }
-
-    public void setPagePar(int pagePar) {
-        this.pagePar = pagePar;
-    }
-
+    /**
+     * Fonction pour obtenir la distance d'attaque maximale
+     * @return Distance d'attaque maximale
+    */
     public int getDistAttMax() {
         return distAttMax;
     }
 
+    /**
+     * Fonction pour définir la distance d'attaque maximale
+     * @param distAttMax Distance d'attaque maximale
+    */
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
     }
-
-    public Point2D getPos() {
-        return pos;
-    }
-
-    public void setPos(Point2D pos) {
-        this.pos = pos;
-    }
-    
-    public void deplace() {
-        Random rand = new Random();
-        int dx = 0;
-        int dy = 0;
-        
-        // Assurez que dx et dy sont simultanément non différent de zero
-        do {
-            dx = rand.nextInt(2) - 1;
-            dy = rand.nextInt(2) - 1;
-        } while (dx == 0 && dy == 0);
-
-        this.pos.translate(dx, dy);
-    }
-    
-    public void affiche(){
-        this.pos.affiche();
-    } 
+   
 }

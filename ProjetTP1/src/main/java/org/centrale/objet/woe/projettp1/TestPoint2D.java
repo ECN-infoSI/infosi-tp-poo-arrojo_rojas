@@ -5,10 +5,15 @@
 package org.centrale.objet.woe.projettp1;
 
 /**
- *
- * @author Augusto Arrojo et Fernando ROJAS
+ * Fonction pour tester le jeu
+ * @author Augusto ARROJO et Fernando ROJAS
  */
 public class TestPoint2D {
+
+    /**
+     * Fonction pour tester le jeu
+     * @param args
+     */
     public static void main(String[] args) {
         // Créer un point en utilisant le constructeur avec des coordonnées
         Point2D point1 = new Point2D(3, 4);

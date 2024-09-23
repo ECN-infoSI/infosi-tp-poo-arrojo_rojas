@@ -6,10 +6,14 @@ package org.centrale.objet.woe.projettp1;
 
 /**
  *
- * @author Augusto Arrojo et Fernando ROJAS
+ * @author Augusto ARROJO et Fernando ROJAS
  */
 public class TestWoE {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
        World wlrd = new World();
        wlrd.creerMondeAlea();
