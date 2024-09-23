@@ -13,7 +13,7 @@ import java.util.Random;
  * @author Fernando ROJAS
  */
 public class World {
-    HashMap<Object,Point2D> world;
+    HashMap<Creature,Point2D> world;
     Archer robin;
     Paysan peon;
     Lapin bugs;
@@ -29,7 +29,7 @@ public class World {
     public void creerMondeAlea(){
         Random generateurAleatoire = new Random();
         //Object[] personnages = new Object[3];
-        Object[] personnages = {robin, peon, bugs};
+        Creature[] personnages = {robin, peon, bugs};
         //personnages[0] = robin;
         //personnages[1] = peon;
         //personnages[2] = bugs;
