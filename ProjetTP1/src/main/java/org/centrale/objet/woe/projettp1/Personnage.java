@@ -32,7 +32,7 @@ public class Personnage extends Creature {
     
     /**
      * Constructeur de copie de Personnage
-     * @param perso
+     * @param perso à copier
      */
     public Personnage (Personnage perso) {
         super((Creature)perso);

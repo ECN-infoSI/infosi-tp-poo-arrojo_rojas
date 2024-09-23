@@ -5,14 +5,14 @@
 package org.centrale.objet.woe.projettp1;
 
 /**
- *
+ * Methode pour tester le jeu
  * @author Augusto ARROJO et Fernando ROJAS
  */
 public class TestWoE {
 
     /**
-     *
-     * @param args
+     * Methode pour tester le jeu
+     * @param args paramètres du main
      */
     public static void main(String[] args) {
        World wlrd = new World();

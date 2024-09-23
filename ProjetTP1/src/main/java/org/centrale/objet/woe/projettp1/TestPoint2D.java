@@ -12,7 +12,7 @@ public class TestPoint2D {
 
     /**
      * Fonction pour tester le jeu
-     * @param args
+     * @param args paramètres du main
      */
     public static void main(String[] args) {
         // Créer un point en utilisant le constructeur avec des coordonnées

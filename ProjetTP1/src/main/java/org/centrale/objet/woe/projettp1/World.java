@@ -6,6 +6,8 @@
 package org.centrale.objet.woe.projettp1;
 import java.util.Map;
 import java.util.HashMap;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -17,14 +19,13 @@ public class World {
     Archer robin;
     Paysan peon;
     Lapin bugs;
-    /*Guerrier grosBill;
-    Loup wolfie;
     ArrayList<Creature> crea;
-    ArrayList<PotionSoin> potion;
+    /*ArrayList<PotionSoin> potion;
     ArrayList<Epee> sword;   */
+    
     /**
      *Constructeur par défaut de World
-     */
+    */
     public World(){
         robin = new Archer();
         peon = new Paysan();
