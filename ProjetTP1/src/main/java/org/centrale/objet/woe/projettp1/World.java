@@ -3,22 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package org.centrale.objet.WoE.projettp;
+package org.centrale.objet.woe.projettp1;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 
 /**
- *
- * @author Fernando ROJAS
+ * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des différentes entités
+ * @author Augusto ARROJO et Fernando ROJAS
  */
 public class World {
     HashMap<Object,Point2D> world;
     Archer robin;
     Paysan peon;
     Lapin bugs;
-           
-    
+    /*Guerrier grosBill;
+    Loup wolfie;
+    ArrayList<Creature> crea;
+    ArrayList<PotionSoin> potion;
+    ArrayList<Epee> sword;   */
+    /**
+     *Constructeur par défaut de World
+     */
     public World(){
         robin = new Archer();
         peon = new Paysan();
@@ -26,6 +32,9 @@ public class World {
         world = new HashMap();
     }
     
+    /**
+     * Méthode permettant d'initialiser les positions des objets dans le monde
+    */
     public void creerMondeAlea(){
         Random generateurAleatoire = new Random();
         //Object[] personnages = new Object[3];
