@@ -12,18 +12,17 @@ import java.util.Random;
 public class Personnage extends Creature {
     private String nom;
     private int distAttMax;
-    private Point2D pos;
     
     /**
      * Constructeur de Personnage
-     * @param N
-     * @param pV
-     * @param dA
-     * @param pPar
-     * @param paAtt
-     * @param paPar
-     * @param dMax
-     * @param p
+     * @param N Nom du personnage
+     * @param pV Points de Vie du personnage
+     * @param dA Points de dégâts infligés par une attaque
+     * @param pPar Points de dégâts évités lors d'une parade
+     * @param paAtt Pourcentage de chance de toucher avec une attaque
+     * @param paPar Pourcentage de chance de parer une attque
+     * @param dMax Distance d'attaque maximale
+     * @param p Position du personnage
      */
     public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
         super(pV, dA, pPar, paAtt, paPar, p);
