@@ -6,7 +6,7 @@ package org.centrale.objet.woe.projettp1;
 
 /**
  * Sous-classe de personnage qui gére les archers
- * @author Augusto Arrojo et Fernando ROJAS
+ * @author Augusto ARROJO et Fernando ROJAS
  */
 public class Archer extends Personnage {
     private int nbFleches;
@@ -30,41 +30,41 @@ public class Archer extends Personnage {
     
     
     /**
-     * Constructeur de copie d'Archer
-     * @param a à copier
-     */
+    * Constructeur de copie d'Archer
+    * @param a à copier
+    */
     public Archer(Archer a) {
         super(a);  // Appel au constructeur par copie de la classe parent Lapin
         this.nbFleches = a.nbFleches;
     }
     
     /**
-     * Constructeur par défaut de l'archer
+    * Constructeur par défaut de l'archer
     */
     public Archer(){
         super();
         this.nbFleches = 5;
     }
     
-     /**
-     *
-     * @return Le nombre de flèches de l'archer
-     */
+    /**
+    * Fonction pour obtenir le nombre de flèches de l'archer 
+    * @return Le nombre de flèches de l'archer
+    */
     public int getNbFleches() {
         return nbFleches;
     }
     
     /**
-     *
-     * @param nbFleches Nombre de flèches de l'archer
+    * Fonction pour définir le nombre de flèches de l'archer 
+    * @param nbFleches Nombre de flèches de l'archer
     */
     public void setNbFleches(int nbFleches) {
         this.nbFleches = nbFleches;
     }
     
     /**
-     * Fonction d'affichage de nombre de flèches de l'archer
-     */
+    * Fonction d'affichage de nombre de flèches de l'archer
+    */
     @Override
     public void affiche() {
         super.affiche();
