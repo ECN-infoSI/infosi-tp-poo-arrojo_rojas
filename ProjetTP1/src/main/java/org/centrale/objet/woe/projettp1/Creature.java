@@ -19,7 +19,17 @@ public class Creature {
     private int pagePar;
     private int distAttMax;
     private Point2D pos;
-    
+   
+    /**
+     *Constructeur de creature
+     * @param pV Point de vie du creature
+     * @param dA Dégâts d'attaque du creature
+     * @param pPar Points de parade du creature
+     * @param paAtt Pourcentage de chance de toucher avec une creature
+     * @param paPar Pourcentage de chance de parer une creature
+     * @param dMax Distance d'attaque maximale
+     * @param p Position du creature
+    */
     public Creature (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
         this.ptVie = pV;
         this.degAtt = dA;
@@ -30,6 +40,10 @@ public class Creature {
         this.pos = new Point2D(p);
     }
     
+    /**
+    * Constructeur de copie de creature
+    * @param c à copier
+    */
     public Creature (Creature c) {
         this.ptVie = c.getPtVie();
         this.degAtt = c.getDegAtt();
@@ -40,6 +54,9 @@ public class Creature {
         this.pos = new Point2D (c.pos);
     }
     
+    /**
+     * Constructeur par défaut de creature
+    */
     public Creature ()
     {
         this.ptVie = 100;  // Valeur par défaut
@@ -52,120 +69,120 @@ public class Creature {
     }
     
     /**
-     * 
-     * @return
-     */
+     * Fonction pour obtenir la vie de creature
+     * @return Le nombre de point de vie de la créature
+    */
     public int getPtVie() {
         return ptVie;
     }
 
     /**
-     *
-     * @param pv
-     */
+     * Fonction pour définir la vie de creature
+     * @param pv Le nombre de point de vie de la créature
+    */
     public void setPtVie(int pv) {
         this.ptVie = pv;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir les dégâts infligés par une attque
+     * @return Le nombre de dégâts infligés par une attque
+    */
     public int getDegAtt() {
         return degAtt;
     }
 
     /**
-     *
-     * @param degAtt
-     */
+     * Fonction pour définir les dégâts infligés par une attque
+     * @param degAtt Le nombre de dégâts infligés par une attaque
+    */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir les dégâts évités par une parade
+     * @return Le nombre de dégâts évités par une parade
+    */
     public int getPtPar() {
         return ptPar;
     }
 
     /**
-     *
-     * @param ptPar
-     */
+     * Fonction pour définir les dégâts évités par une parade
+     * @param ptPar Le nombre de dégâts évités par une parade
+    */
     public void setPtPar(int ptPar) {
         this.ptPar = ptPar;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir le pourcentage de chance de toucher avec une attaque
+     * @return la pourcentage de chance de toucher avec une attaque
+    */
     public int getPageAtt() {
         return pageAtt;
     }
 
     /**
-     *
-     * @param pageAtt
-     */
+     * Fonction pour définir le pourcentage de chance de toucher avec une attaque
+     * @param pageAtt la pourcentage de chance de toucher avec une attaque
+    */
     public void setPageAtt(int pageAtt) {
         this.pageAtt = pageAtt;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir le pourcentage de chance de parer une attaque
+     * @return Le pourcentage de chance de parer une attaque
+    */
     public int getPagePar() {
         return pagePar;
     }
 
     /**
-     *
-     * @param pagePar
-     */
+     * Fonction pour définir le pourcentage de chance de parer une attaqu
+     * @param pagePar Le pourcentage de chance de parer une attaque
+    */
     public void setPagePar(int pagePar) {
         this.pagePar = pagePar;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir la distance d'attaque maximale
+     * @return Distance d'attaque maximale
+    */
     public int getDistAttMax() {
         return distAttMax;
     }
 
     /**
-     *
-     * @param distAttMax
-     */
+     * Fonction pour définir la distance d'attaque maximale
+     * @param distAttMax Distance d'attaque maximale
+    */
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
     }
 
     /**
-     *
-     * @return
-     */
+     * Fonction pour obtenir la position de la créature
+     * @return la position de la créature
+    */
     public Point2D getPos() {
         return pos;
     }
 
     /**
-     *
-     * @param pos
-     */
+     * Fonction pour définir la position de la créature
+     * @param pos la position de la créature
+    */
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
     
     /**
-     *
-     */
+     * Fonction qui permet deplacer la créature
+    */
     public void deplace() {
         Random rand = new Random();
         int dx = 0;
@@ -181,8 +198,8 @@ public class Creature {
     }
     
     /**
-     *
-     */
+     * Fonction pour afficher les attributs correspondant à la créature
+    */
     public void affiche(){
         this.pos.affiche();
     } 
