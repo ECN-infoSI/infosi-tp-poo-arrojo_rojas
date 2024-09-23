@@ -55,6 +55,17 @@ class Point2D{
         return this.PosY;
     }
     
+     /**
+     * Méthode pour obtenir les coordonnées d'un point
+     * @return Les coordonnées x,y
+     */
+    public int[] GetPosition() {
+        int tab[] = new int[2];
+        tab[0] = PosX;
+        tab[1] = PosY;
+        
+        return tab;
+    }
     /**
      * Methode pour définir la position x
      * @param x la position x
