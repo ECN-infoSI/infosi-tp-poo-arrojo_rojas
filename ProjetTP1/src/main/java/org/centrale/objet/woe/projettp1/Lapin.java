@@ -5,18 +5,36 @@
 package org.centrale.objet.woe.projettp1;
 
 /**
- *
- * @author Augusto Arrojo et Fernando ROJAS
+ * Sous-classe de monstre qui gére les Lapins
+ * @author Augusto ARROJO et Fernando ROJAS
  */
 public class Lapin extends Monstre {    
+
+    /**
+     * Constructeur de Lapin
+     * @param pV Point de vie du lapin
+     * @param dA Dégâts d'attaque du lapin
+     * @param pPar Points de parade du lapin
+     * @param paAtt Pourcentage de chance de toucher avec une attaque
+     * @param paPar Pourcentage de chance de parer une attaque
+     * @param dMax Distance d'attaque maximale
+     * @param p Position du lapin
+     */
     public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p) {
         super (pV, dA, pPar, paAtt, paPar, dMax, p);
     }
     
+    /**
+    * Constructeur de copie de Lapin
+    * @param l à copier
+     */
     public Lapin(Lapin l) {
         super(l);  // Appel au constructeur par copie de la classe parent Lapin
     }
     
+    /**
+     * Constructeur par défaut de Lapin
+     */
     public Lapin(){
         super();
     }

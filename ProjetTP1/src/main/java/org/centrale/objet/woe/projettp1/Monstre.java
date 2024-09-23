@@ -6,121 +6,38 @@ package org.centrale.objet.woe.projettp1;
 import java.util.Random;
 
 /**
- *
- * @author Augusto Arrojo et Fernando ROJAS
+ * Sous-classe de Créature qui gére les monstres
+ * @author Augusto ARROJO et Fernando ROJAS
  */
-public class Monstre {
-    private int ptVie;
-    private int degAtt;
-    private int ptPar;
-    private int pageAtt;
-    private int pagePar;
-    private int distAttMax;
-    private Point2D pos;
+public class Monstre extends Creature {
+
+    /**
+     *Constructeur de monstre
+     * @param pV Point de vie du monstre
+     * @param dA Dégâts d'attaque du monstre
+     * @param pPar Points de parade du monstre
+     * @param paAtt Pourcentage de chance de toucher avec une attaque
+     * @param paPar Pourcentage de chance de parer une attaque
+     * @param dMax Distance d'attaque maximale
+     * @param p Position du monstre
+     */
     
     public Monstre (int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
-        this.ptVie = pV;
-        this.degAtt = dA;
-        this.ptPar = pPar;
-        this.pageAtt = paAtt;
-        this.pagePar = paPar;
-        this.distAttMax = dMax;
-        this.pos = new Point2D(p);
+        super(pV,dA, pPar, paAtt, paPar, dMax, p);
     }
     
-    public Monstre (Monstre m) {
-        this.ptVie = m.getPtVie();
-        this.degAtt = m.getDegAtt();
-        this.ptPar = m.getPtPar();
-        this.pageAtt = m.getPageAtt();
-        this.pagePar = m.getPagePar();
-        this.distAttMax = m.getDistAttMax();
-        this.pos = new Point2D (m.pos);
+    /**
+    * Constructeur de copie de monstre
+    * @param m à copier
+     */
+    public Monstre(Monstre m) {
+        super((Creature)m);
     }
     
-    public Monstre ()
-    {
-        this.ptVie = 100;  // Valeur par défaut
-        this.degAtt = 10;
-        this.ptPar = 5;
-        this.pageAtt = 1;
-        this.pagePar = 1;
-        this.distAttMax = 1;
-        this.pos = new Point2D();  // Position par défaut (0, 0) 
+    /**
+     *Constructeur par défaut de Monstre
+     */
+    public Monstre() {
+        super();
     }
-
-    public int getPtVie() {
-        return ptVie;
-    }
-
-    public void setPtVie(int pv) {
-        this.ptVie = pv;
-    }
-
-    public int getDegAtt() {
-        return degAtt;
-    }
-
-    public void setDegAtt(int degAtt) {
-        this.degAtt = degAtt;
-    }
-
-    public int getPtPar() {
-        return ptPar;
-    }
-
-    public void setPtPar(int ptPar) {
-        this.ptPar = ptPar;
-    }
-
-    public int getPageAtt() {
-        return pageAtt;
-    }
-
-    public void setPageAtt(int pageAtt) {
-        this.pageAtt = pageAtt;
-    }
-
-    public int getPagePar() {
-        return pagePar;
-    }
-
-    public void setPagePar(int pagePar) {
-        this.pagePar = pagePar;
-    }
-
-    public int getDistAttMax() {
-        return distAttMax;
-    }
-
-    public void setDistAttMax(int distAttMax) {
-        this.distAttMax = distAttMax;
-    }
-
-    public Point2D getPos() {
-        return pos;
-    }
-
-    public void setPos(Point2D pos) {
-        this.pos = pos;
-    }
-    
-    public void deplace() {
-        Random rand = new Random();
-        int dx = 0;
-        int dy = 0;
-        
-        // Assurez que dx et dy sont simultanément non différent de zero
-        do {
-            dx = rand.nextInt(2) - 1;
-            dy = rand.nextInt(2) - 1;
-        } while (dx == 0 && dy == 0);
-
-        this.pos.translate(dx, dy);
-    }
-    
-    
-    public void affiche(){
-        this.pos.affiche();
-    } 
 }
