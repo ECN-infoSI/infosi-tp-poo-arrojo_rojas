@@ -32,8 +32,8 @@ public class Archer extends Personnage {
     
     
     /**
-    * Constructeur de copie d'Archer
-    * @param a à copier
+     * Constructeur de copie d'Archer
+     * @param a à copier
     */
     public Archer(Archer a) {
         super(a);  // Appel au constructeur par copie de la classe parent Lapin
@@ -49,23 +49,23 @@ public class Archer extends Personnage {
     }
     
     /**
-    * Fonction pour obtenir le nombre de flèches de l'archer 
-    * @return Le nombre de flèches de l'archer
+     * Méthode pour obtenir le nombre de flèches de l'archer 
+     * @return Le nombre de flèches de l'archer
     */
     public int getNbFleches() {
         return nbFleches;
     }
     
     /**
-    * Fonction pour définir le nombre de flèches de l'archer 
-    * @param nbFleches Nombre de flèches de l'archer
+     * Méthode pour définir le nombre de flèches de l'archer 
+     * @param nbFleches Nombre de flèches de l'archer
     */
     public void setNbFleches(int nbFleches) {
         this.nbFleches = nbFleches;
     }
     
     /**
-    * Fonction d'affichage de nombre de flèches de l'archer
+    * Méthode d'affichage de nombre de flèches de l'archer
     */
     @Override
     public void affiche() {
@@ -74,7 +74,7 @@ public class Archer extends Personnage {
     }
     
     /**
-     * Fonction pour gérer le combat
+     * Méthode pour gérer le combat
      * @param c Créature à combattre
     */
     public void combattre(Creature c) {
@@ -113,7 +113,7 @@ public class Archer extends Personnage {
                 }
             }
         }
-        System.out.println("L'attaque inflige " + ouch + "points de dégâts");
+        System.out.println("L'attaque inflige " + ouch + " points de dégâts");
         if (ouch >= 0.5*c.getPtVie()) {
             System.out.println("C'est super efficace");
         }
@@ -121,6 +121,6 @@ public class Archer extends Personnage {
             System.out.println("Ce n'est pas très efficace");
         }
         c.setPtVie(c.getPtVie()-ouch);
-        System.out.println("Il reste " + c.getPtVie() + "points de vie");     
+        System.out.println("Il reste " + c.getPtVie() + " points de vie");     
     }  
 }

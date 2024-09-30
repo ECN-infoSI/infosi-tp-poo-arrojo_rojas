@@ -20,7 +20,7 @@ public class Creature {
     private Point2D pos;
    
     /**
-     *Constructeur de creature
+     * Constructeur de creature
      * @param pV Point de vie du creature
      * @param dA Dégâts d'attaque du creature
      * @param pPar Points de parade du creature
@@ -64,7 +64,7 @@ public class Creature {
     }
     
     /**
-     * Fonction pour obtenir la vie de creature
+     * Méthode pour obtenir la vie de creature
      * @return Le nombre de point de vie de la créature
     */
     public int getPtVie() {
@@ -72,7 +72,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir la vie de creature
+     * Méthode pour définir la vie de creature
      * @param pv Le nombre de point de vie de la créature
     */
     public void setPtVie(int pv) {
@@ -80,7 +80,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour obtenir les dégâts infligés par une attque
+     * Méthode pour obtenir les dégâts infligés par une attque
      * @return Le nombre de dégâts infligés par une attque
     */
     public int getDegAtt() {
@@ -88,7 +88,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir les dégâts infligés par une attque
+     * Méthode pour définir les dégâts infligés par une attque
      * @param degAtt Le nombre de dégâts infligés par une attaque
     */
     public void setDegAtt(int degAtt) {
@@ -96,7 +96,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour obtenir les dégâts évités par une parade
+     * Méthode pour obtenir les dégâts évités par une parade
      * @return Le nombre de dégâts évités par une parade
     */
     public int getPtPar() {
@@ -104,7 +104,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir les dégâts évités par une parade
+     * Méthode pour définir les dégâts évités par une parade
      * @param ptPar Le nombre de dégâts évités par une parade
     */
     public void setPtPar(int ptPar) {
@@ -112,7 +112,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour obtenir le pourcentage de chance de toucher avec une attaque
+     * Méthode pour obtenir le pourcentage de chance de toucher avec une attaque
      * @return la pourcentage de chance de toucher avec une attaque
     */
     public int getPageAtt() {
@@ -120,7 +120,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir le pourcentage de chance de toucher avec une attaque
+     * Méthode pour définir le pourcentage de chance de toucher avec une attaque
      * @param pageAtt la pourcentage de chance de toucher avec une attaque
     */
     public void setPageAtt(int pageAtt) {
@@ -128,7 +128,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour obtenir le pourcentage de chance de parer une attaque
+     * Méthode pour obtenir le pourcentage de chance de parer une attaque
      * @return Le pourcentage de chance de parer une attaque
     */
     public int getPagePar() {
@@ -136,7 +136,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir le pourcentage de chance de parer une attaqu
+     * Méthode pour définir le pourcentage de chance de parer une attaqu
      * @param pagePar Le pourcentage de chance de parer une attaque
     */
     public void setPagePar(int pagePar) {
@@ -144,7 +144,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour obtenir la position de la créature
+     * Méthode pour obtenir la position de la créature
      * @return la position de la créature
     */
     public Point2D getPos() {
@@ -152,7 +152,7 @@ public class Creature {
     }
 
     /**
-     * Fonction pour définir la position de la créature
+     * Méthode pour définir la position de la créature
      * @param pos la position de la créature
     */
     public void setPos(Point2D pos) {
@@ -160,7 +160,7 @@ public class Creature {
     }
     
     /**
-     * Fonction qui permet deplacer la créature
+     * Méthode qui permet deplacer la créature
     */
     public void deplace() {
         Random rand = new Random();
@@ -177,7 +177,7 @@ public class Creature {
     }
     
     /**
-     * Fonction pour afficher les attributs correspondant à la créature
+     * Méthode pour afficher les attributs correspondant à la créature
     */
     public void affiche(){
         this.pos.affiche();

@@ -17,8 +17,8 @@ public class Epee extends Objet {
      * @param prix_achat Prix d'achat de l'objet
      * @param prix_vente Prix de vente de l'objet
      * @param description Description de l'objet
-     * @param pos
-     */
+     * @param pos position
+     */ 
     public Epee(int bonus_att, String nom, int prix_achat, int prix_vente, String description, Point2D pos) {
         super(nom, prix_achat, prix_vente, description, pos);
         this.bonus_att = bonus_att;
@@ -26,7 +26,7 @@ public class Epee extends Objet {
 
     /**
      * Constructeur par défaut de Epee
-     */
+    */
     public Epee() {
         super();
         this.bonus_att = 10;
@@ -35,14 +35,14 @@ public class Epee extends Objet {
     /**
      * Constructeur de recopie
      * @param e Epee à recopier
-     */
+    */
     public Epee(Epee e) {
         super((Objet)e);
         this.bonus_att = e.bonus_att;
     }
 
     /**
-     * 
+     * Méthode pour obtenir le bonis d'attaque
      * @return Bonus d'attaque de l'objet
      */
     public int getBonus_att() {
@@ -50,7 +50,7 @@ public class Epee extends Objet {
     }
 
     /**
-     *
+     * Méthode pour définir le bonus d'attaque
      * @param bonus_att Bonus d'attaque de l'objet
      */
     public void setBonus_att(int bonus_att) {

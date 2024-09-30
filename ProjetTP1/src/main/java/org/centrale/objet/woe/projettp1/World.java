@@ -15,13 +15,39 @@ import java.util.Random;
  * @author Augusto ARROJO et Fernando ROJAS
  */
 public class World {
-    HashMap<Object,Point2D> world;
-    Archer robin;
-    Paysan peon;
-    Lapin bugs;
-    ArrayList<Creature> crea;
-    ArrayList<PotionSoin> potion;
-    ArrayList<Epee> sword;
+    /**
+     * HashMap pour du monde
+    */
+    public HashMap<Object,Point2D> world;
+    /**
+     * Array pour des Robins
+    */
+    public Archer robin;
+    /**
+     * Array pour des Paysans
+    */
+    public Paysan peon;
+    /**
+     * Array pour des Lapins
+    */
+    public Lapin bugs;
+    /**
+     * Array pour des Creatures
+    */
+    public ArrayList<Creature> crea;
+    /**
+     * Array pour des Potions de Soin
+    */
+    public ArrayList<PotionSoin> potion;
+    /**
+     * Array pour des Espee
+    */
+    public ArrayList<Epee> sword;
+    
+    /**
+     * Taille du monde
+    */
+    public final static int TAILLE_WORLD = 50; 
     
     /**
      * Constructeur par défaut de World
@@ -49,9 +75,9 @@ public class World {
     
     /**
      * Constructeur de World
-     * @param crea
-     * @param potion
-     * @param sword
+     * @param crea creature
+     * @param potion potion
+     * @param sword sword
      */
     public World(ArrayList<Creature> crea, ArrayList<PotionSoin> potion, ArrayList<Epee> sword) {
         this.crea = crea;

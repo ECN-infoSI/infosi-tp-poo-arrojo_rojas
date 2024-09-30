@@ -9,7 +9,8 @@ import java.util.Arrays;
 /**
  * Classe qui gére les objets
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
+
 public class Objet {
     private String nom;
     private int prix_achat;
@@ -19,80 +20,80 @@ public class Objet {
 
     /**
      * Constructeur d'objet
-     * @return
-     */
+     * @return le prix d'achat
+    */
     public int getPrix_achat() {
     	return prix_achat;
 	}
 
     /**
-     *
-     * @return
-     */
+     * Méthode pour obtenir le nnom
+     * @return nom
+    */
     public String getNom() {
     	return nom;
 	}
 
     /**
-     *
-     * @param nom
-     */
+     * Méthode pour définir le nnom
+     * @param nom nom
+    */
     public void setNom(String nom) {
     	this.nom = nom;
 	}
 
     /**
-     *
-     * @param prix_achat
-     */
+     * Méthode pour définir le prix d'achat
+     * @param prix_achat prix d'achat
+    */
     public void setPrix_achat(int prix_achat) {
     	this.prix_achat = prix_achat;
 	}
 
     /**
-     *
-     * @return
-     */
+     * Méthode pour obtenir le prix de vente
+     * @return prix de vente
+    */
     public int getPrix_vente() {
     	return prix_vente;
 	}
 
     /**
-     *
-     * @param prix_vente
-     */
+     * Méthode pour définir le prix de vente
+     * @param prix_vente prix vente
+    */
     public void setPrix_vente(int prix_vente) {
     	this.prix_vente = prix_vente;
 	}
 
     /**
-     *
-     * @return
+     * Méthode pour obtenir la description
+     * @return description
      */
     public String getDescription() {
     	return description;
 	}
 
     /**
-     *
-     * @param description
+     * Méthode pour définir la description
+     * @param description description
      */
     public void setDescription(String description) {
     	this.description = description;
 	}
 
     /**
-     *
-     * @return
+     * Méthode pour obtenir la position
+     * @return position
      */
     public Point2D getPos() {
         return pos;
     }
 
     /**
-     *
-     * @param pos
-     */
+     * Méthode pour définir la position
+     * @param pos position
+    */
     public void setPos(Point2D pos) {
         this.pos = new Point2D(pos);
     }
@@ -116,8 +117,8 @@ public class Objet {
      * @param prix_achat Prix à l'achat de l'objet
      * @param prix_vente Prix à la vente de l'objet
      * @param description Description de l'objet
-     * @param pos
-     */
+     * @param pos positiob
+    */
     public Objet(String nom,int prix_achat, int prix_vente, String description, Point2D pos) {
     	this.nom = nom;
     	this.prix_achat = prix_achat;
@@ -127,9 +128,9 @@ public class Objet {
 	}
     
     /**
-     *Constructeur de copie
+     * Constructeur de copie
      * @param o Objet à copier
-     */
+    */
     public Objet(Objet o) {
     	this.nom = o.nom;
     	this.prix_achat = o.prix_achat;

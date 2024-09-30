@@ -51,7 +51,7 @@ public class Personnage extends Creature {
     }
     
     /**
-     * Fonction pour obtenir le nom de personnage
+     * Méthode pour obtenir le nom de personnage
      * @return le nom de personnage
      */
     public String getNom() {
@@ -59,7 +59,7 @@ public class Personnage extends Creature {
     }
 
     /**
-     * Fonction pour définir le nom de personnage
+     * Méthode pour définir le nom de personnage
      * @param n le nom de personnage
      */
     public void setNom(String n) {
@@ -67,7 +67,7 @@ public class Personnage extends Creature {
     }
 
     /**
-     * Fonction pour obtenir la distance d'attaque maximale
+     * Méthode pour obtenir la distance d'attaque maximale
      * @return Distance d'attaque maximale
     */
     public int getDistAttMax() {
@@ -75,7 +75,7 @@ public class Personnage extends Creature {
     }
 
     /**
-     * Fonction pour définir la distance d'attaque maximale
+     * Méthode pour définir la distance d'attaque maximale
      * @param distAttMax Distance d'attaque maximale
     */
     public void setDistAttMax(int distAttMax) {
