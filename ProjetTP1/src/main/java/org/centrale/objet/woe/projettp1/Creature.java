@@ -20,7 +20,7 @@ public class Creature {
     private Point2D pos;
    
     /**
-     *Constructeur de creature
+     * Constructeur de creature
      * @param pV Point de vie du creature
      * @param dA Dégâts d'attaque du creature
      * @param pPar Points de parade du creature

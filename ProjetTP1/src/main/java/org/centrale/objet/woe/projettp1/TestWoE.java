@@ -1,7 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package org.centrale.objet.woe.projettp1;
 
 import java.util.ArrayList;
@@ -9,17 +8,18 @@ import java.util.Arrays;
 
 /**
  * Methode pour tester le jeu
+ *
  * @author Augusto ARROJO et Fernando ROJAS
  */
-
 public class TestWoE {
 
     /**
      * Methode pour tester le jeu
+     *
      * @param args paramètres du main
      */
     public static void main(String[] args) {
-        
+
         /*Archer Arch1 = new Archer();
         Guerrier Guer1 = new Guerrier();
         Lapin Lap1 = new Lapin();
@@ -54,7 +54,7 @@ public class TestWoE {
         wrld2.affiche();
 	
         /*Création et placements des entités pour le test de déplacement*/
-        /*System.out.println("Test de déplacement");
+ /*System.out.println("Test de déplacement");
         Point2D pa = new Point2D(0,0);
         Point2D pb = new Point2D(10,10);
         Point2D pc = new Point2D(-10,-10);
@@ -65,7 +65,7 @@ public class TestWoE {
             
             
         /*Test de déplacement*/
-        /*bugs.affiche();
+ /*bugs.affiche();
         System.out.println("Déplacement de bugs");
         bugs.deplace();
         bugs.affiche();
@@ -94,26 +94,25 @@ public class TestWoE {
             
             
         /*Test de copie*/
-        Point2D r1 = new Point2D(0,0);
-        Archer robin = new Archer("robin",10,100,30,10,60,30,r1,10);
+        Point2D r1 = new Point2D(0, 0);
+        Archer robin = new Archer("robin", 10, 100, 30, 10, 60, 30, r1, 10);
         Archer GuillaumeT = new Archer(robin);
-            
-        System.out.println("La position de robin est "+ Arrays.toString(robin.getPos().GetPosition()));
-        System.out.println("La position de GuillaumeT est "+ Arrays.toString(GuillaumeT.getPos().GetPosition()));
+
+        System.out.println("La position de robin est " + Arrays.toString(robin.getPos().GetPosition()));
+        System.out.println("La position de GuillaumeT est " + Arrays.toString(GuillaumeT.getPos().GetPosition()));
         robin.deplace();
-        System.out.println("La position de robin est "+ Arrays.toString(robin.getPos().GetPosition()));
-        System.out.println("La position de GuillaumeT est "+ Arrays.toString(GuillaumeT.getPos().GetPosition()));
-        
+        System.out.println("La position de robin est " + Arrays.toString(robin.getPos().GetPosition()));
+        System.out.println("La position de GuillaumeT est " + Arrays.toString(GuillaumeT.getPos().GetPosition()));
+
 
         /*Création et placements des entités pour le test de combat*/
-            
         System.out.println("Test du combat");
-        Point2D p1 = new Point2D(0,0);
-        Point2D p2 = new Point2D(1,0);
-        Point2D p3 = new Point2D(0,1);
-        Guerrier Bob = new Guerrier("Kevin",40,40,30,45,90,5,p1);
-        Loup random_mob = new Loup(100,20,5,60,60,p2);
-        Archer Steve = new Archer("Steve",75,30,20,30,5,10,p3,4);
+        Point2D p1 = new Point2D(0, 0);
+        Point2D p2 = new Point2D(1, 0);
+        Point2D p3 = new Point2D(0, 1);
+        Guerrier Bob = new Guerrier("Kevin", 40, 40, 30, 45, 90, 5, p1);
+        Loup random_mob = new Loup(100, 20, 5, 60, 60, p2);
+        Archer Steve = new Archer("Steve", 75, 30, 20, 30, 5, 10, p3, 4);
 
 
         /*Test de combat */
@@ -129,9 +128,9 @@ public class TestWoE {
         Bob.affiche();
         random_mob.affiche();
         Steve.affiche();
-            
+
         /*Test de Soin*/
-        /*Point2D pa1 = new Point2D(0,0);
+ /*Point2D pa1 = new Point2D(0,0);
         Point2D pa2 = new Point2D(1,0);
         Point2D pa3 = new Point2D(-1,0);
         Point2D pa4 = new Point2D(0,1);
