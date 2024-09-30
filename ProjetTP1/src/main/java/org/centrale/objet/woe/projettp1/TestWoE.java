@@ -20,7 +20,7 @@ public class TestWoE {
      */
     public static void main(String[] args) {
 
-        /*Archer Arch1 = new Archer();
+        Archer Arch1 = new Archer();
         Guerrier Guer1 = new Guerrier();
         Lapin Lap1 = new Lapin();
         Loup Loup1 = new Loup();
@@ -29,8 +29,7 @@ public class TestWoE {
         Epee Ep1 = new Epee();
             
         ArrayList<Creature> crea = new ArrayList<>();
-        ArrayList<PotionSoin> potion = new ArrayList<>();
-        ArrayList<Epee> sword = new ArrayList<>();
+        ArrayList<Objet> obj = new ArrayList<>();
             
         crea.add(Arch1);
         crea.add(Guer1);
@@ -38,15 +37,15 @@ public class TestWoE {
         crea.add(Pays1);
         crea.add(Loup1);
             
-        potion.add(Ps1);
-        sword.add(Ep1);
+        obj.add(Ps1);
+        obj.add(Ep1);
                    
             
-        World wrld = new World(crea,potion,sword);
+        World wrld = new World(crea,obj);
         wrld.creerMondeAlea(); 
         
         wrld.affiche();
-                       
+        System.out.println("------------------------------");              
         System.out.println("Génération du monde: Essai n°2");
         World wrld2 = new World();
         wrld2.creerMondeAlea();
@@ -94,6 +93,7 @@ public class TestWoE {
             
             
         /*Test de copie*/
+        /*
         Point2D r1 = new Point2D(0, 0);
         Archer robin = new Archer("robin", 10, 100, 30, 10, 60, 30, r1, 10);
         Archer GuillaumeT = new Archer(robin);
@@ -106,7 +106,7 @@ public class TestWoE {
 
 
         /*Création et placements des entités pour le test de combat*/
-        System.out.println("Test du combat");
+        /*System.out.println("Test du combat");
         Point2D p1 = new Point2D(0, 0);
         Point2D p2 = new Point2D(1, 0);
         Point2D p3 = new Point2D(0, 1);
@@ -114,8 +114,9 @@ public class TestWoE {
         Loup random_mob = new Loup(100, 20, 5, 60, 60, p2);
         Archer Steve = new Archer("Steve", 75, 30, 20, 30, 5, 10, p3, 4);
 
-
+        
         /*Test de combat */
+        /*
         Bob.affiche();
         random_mob.affiche();
         Steve.affiche();

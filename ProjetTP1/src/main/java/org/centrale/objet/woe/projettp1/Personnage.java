@@ -1,14 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 import java.util.Random;
 
 /**
  * Sous-classe de la classe Créature qui gére les personnages
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
 public class Personnage extends Creature {
     private String nom;
     private int distAttMax;
@@ -23,7 +23,7 @@ public class Personnage extends Creature {
      * @param paPar Pourcentage de chance de parer une attque
      * @param dMax Distance d'attaque maximale
      * @param p Position du personnage
-     */
+    */
     public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
         super(pV, dA, pPar, paAtt, paPar, p);
         this.nom = N;
@@ -33,7 +33,7 @@ public class Personnage extends Creature {
     /**
      * Constructeur de copie de Personnage
      * @param perso à copier
-     */
+    */
     public Personnage (Personnage perso) {
         super((Creature)perso);
         this.nom = perso.getNom();
@@ -42,7 +42,7 @@ public class Personnage extends Creature {
     
     /**
      * Constructeur par défaut de personnage
-     */
+    */
     public Personnage ()
     {
         super();
@@ -53,7 +53,7 @@ public class Personnage extends Creature {
     /**
      * Méthode pour obtenir le nom de personnage
      * @return le nom de personnage
-     */
+    */
     public String getNom() {
         return nom;
     }
@@ -61,7 +61,7 @@ public class Personnage extends Creature {
     /**
      * Méthode pour définir le nom de personnage
      * @param n le nom de personnage
-     */
+    */
     public void setNom(String n) {
         this.nom = n;
     }

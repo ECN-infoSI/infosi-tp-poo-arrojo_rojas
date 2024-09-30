@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 
 import java.util.Random;
@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Classe gérant les créatures
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
 
 public class Creature {
     private int ptVie;
@@ -38,8 +38,8 @@ public class Creature {
     }
     
     /**
-    * Constructeur de copie de creature
-    * @param c à copier
+     * Constructeur de copie de creature
+     * @param c à copier
     */
     public Creature (Creature c) {
         this.ptVie = c.getPtVie();
@@ -180,6 +180,8 @@ public class Creature {
      * Méthode pour afficher les attributs correspondant à la créature
     */
     public void affiche(){
+//        System.out.println("La classe est : "+ this.getClass().getName());
+        this.getPtVie();
         this.pos.affiche();
     } 
 }

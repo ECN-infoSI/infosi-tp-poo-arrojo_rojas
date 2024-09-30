@@ -16,34 +16,13 @@ import java.util.Random;
  */
 public class World {
     /**
-     * HashMap pour du monde
-    */
-    public HashMap<Object,Point2D> world;
-    /**
-     * Array pour des Robins
-    */
-    public Archer robin;
-    /**
-     * Array pour des Paysans
-    */
-    public Paysan peon;
-    /**
-     * Array pour des Lapins
-    */
-    public Lapin bugs;
-    /**
      * Array pour des Creatures
     */
     public ArrayList<Creature> crea;
     /**
-     * Array pour des Potions de Soin
+     * Array pour des objets
     */
-    public ArrayList<PotionSoin> potion;
-    /**
-     * Array pour des Espee
-    */
-    public ArrayList<Epee> sword;
-    
+    public ArrayList<Objet> obj;
     /**
      * Taille du monde
     */
@@ -54,9 +33,9 @@ public class World {
     */
     public World(){
         //world = new HashMap();
+        int taille = TAILLE_WORLD;
         crea = new ArrayList<>();
-        sword = new ArrayList<>();
-        potion = new ArrayList<>();
+        obj = new ArrayList<>();
         Archer robin = new Archer();
     	Paysan peon = new Paysan();
     	Lapin bugs1 = new Lapin();
@@ -69,20 +48,18 @@ public class World {
     	crea.add(wolfie);
         PotionSoin ps = new PotionSoin();
         Epee epee = new Epee();
-        potion.add(ps);
-        sword.add(epee);
+        obj.add(ps);
+        obj.add(epee);
     }
     
     /**
      * Constructeur de World
      * @param crea creature
-     * @param potion potion
-     * @param sword sword
-     */
-    public World(ArrayList<Creature> crea, ArrayList<PotionSoin> potion, ArrayList<Epee> sword) {
+     * @param obj objet
+    */
+    public World(ArrayList<Creature> crea, ArrayList<Objet> obj) {
         this.crea = crea;
-        this.potion = potion;
-        this.sword = sword;
+        this.obj = obj;
     }
     
     /**
@@ -93,31 +70,23 @@ public class World {
         
    	int nombre_crea = crea.size();
     	ArrayList<Point2D> vu = new ArrayList<>();
-    	for (int i = 0 ; i < nombre_crea ; i++){
-        	crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+    	for (int i = 0; i < nombre_crea; i++){
+        	crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD),generateurAleatoire.nextInt(TAILLE_WORLD));
         	while (vu.contains(crea.get(i).getPos())) {
-                    crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
+                    crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD),generateurAleatoire.nextInt(TAILLE_WORLD));
         	}
         	vu.add(crea.get(i).getPos());
     	}
-        int nombre_potion = potion.size();
-    	ArrayList<Point2D> vu_potion = new ArrayList<>();
-    	for (int i = 0 ; i < nombre_potion ; i++){
-        	potion.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
-        	while (vu_potion.contains(potion.get(i).getPos())) {
-                    potion.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
-        	}
-        	vu_potion.add(potion.get(i).getPos());
-    	}
-        int nombre_sword = sword.size();
-    	ArrayList<Point2D> vu_sword = new ArrayList<>();
-    	for (int i = 0 ; i < nombre_sword ; i++){
-        	sword.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
-        	while (vu_potion.contains(sword.get(i).getPos())) {
-                    sword.get(i).getPos().setPosition(generateurAleatoire.nextInt(101)-50,generateurAleatoire.nextInt(101)-50);
-        	}
-        	vu_sword.add(sword.get(i).getPos());
-    	}
+        
+        int nombre_obj = obj.size();
+        ArrayList<Point2D> vu_obj = new ArrayList<>();
+        for (int i = 0; i < nombre_obj; i++) {
+                obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+                while (vu_obj.contains(obj.get(i).getPos())) {
+                    obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+                }
+        }
+       
         
           
         /*int i = 0;
@@ -159,20 +128,16 @@ public class World {
     }
     
     /**
-     * Methode pour afficher potion, espée et creatures
+     * Methode pour afficher creatures et objets
     */
     public void affiche() {
         int nombre_crea = crea.size();
         for (int i = 0 ; i < nombre_crea ; i++){
             crea.get(i).affiche();
         }
-        int nombre_potion = potion.size();
-        for (int i = 0 ; i < nombre_potion ; i++){
-            potion.get(i).affiche();
-        }
-        int nombre_sword = sword.size();
-        for (int i = 0 ; i < nombre_sword ; i++){
-            sword.get(i).affiche();
+        int nombre_obj = obj.size();
+        for (int i = 0 ; i < nombre_obj ; i++){
+            obj.get(i).affiche();
         }
         
     }
@@ -180,20 +145,32 @@ public class World {
     /**
      * Méthode pour soigner 
     */
-    public void soigne(){
-    	ArrayList<Integer> a_supprimer = new ArrayList<>();
-    	for (int i = 0 ; i < potion.size() ; i++){
-            for (int j = 0; j < crea.size(); j++){
-                if (crea.get(j).getPos().equals(potion.get(i).getPos())) {
-                    crea.get(j).setPtVie(crea.get(j).getPtVie() + potion.get(i).getValeur_soin());
-                     a_supprimer.add(i);
+    public void soigne() {
+        ArrayList<Integer> a_supprimer = new ArrayList<>();
+
+        // Itera sobre os objetos na lista 'obj'
+        for (int i = 0; i < obj.size(); i++) {
+            // Verifica se o objeto na posição 'i' é uma instância de 'Potion'
+            if (obj.get(i) instanceof PotionSoin) {
+                PotionSoin potion = (PotionSoin) obj.get(i);  // Downcast para 'Potion'
+
+                // Itera sobre as criaturas na lista 'crea'
+                for (int j = 0; j < crea.size(); j++) {
+                    // Verifica se a posição da criatura e da poção são iguais
+                    if (crea.get(j).getPos().equals(potion.getPos())) {
+                        // Cura a criatura com o valor de cura da poção
+                        crea.get(j).setPtVie(crea.get(j).getPtVie() + potion.getValeur_soin());
+
+                        // Adiciona o índice da poção à lista de remoção
+                        a_supprimer.add(i);
+                    }
                 }
             }
-    	}
-        
-        for (int k = 0; k < potion.size(); k++) {
-            if (a_supprimer.contains(k)){
-                potion.set(k, null);
+        }
+        // Remove as poções utilizadas
+        for (int k = 0; k < obj.size(); k++) {
+            if (a_supprimer.contains(k)) {
+                obj.set(k, null); // Remove a poção ao definir como 'null'
             }
         }
     }
