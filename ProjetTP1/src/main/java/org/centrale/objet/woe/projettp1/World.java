@@ -49,9 +49,9 @@ public class World {
     
     /**
      * Constructeur de World
-     * @param crea
-     * @param potion
-     * @param sword
+     * @param crea creature
+     * @param potion potion
+     * @param sword sword
      */
     public World(ArrayList<Creature> crea, ArrayList<PotionSoin> potion, ArrayList<Epee> sword) {
         this.crea = crea;

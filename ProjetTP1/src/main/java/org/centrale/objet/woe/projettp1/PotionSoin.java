@@ -14,13 +14,13 @@ public class PotionSoin extends Objet{
     private int valeur_soin;
 
     /**
-     *Constructeur de PotionSoin
+     * Constructeur de PotionSoin
      * @param valeur_soin Points de vie regagné après l'utilisation d'une potion de soin
      * @param nom Nom de l'objet
      * @param prix_achat Prix à l'achat de l'objet
      * @param prix_vente Prix à la vente de l'objet
      * @param description Description de l'objet
-     * @param pos
+     * @param pos Position
      */
     public PotionSoin(int valeur_soin, String nom, int prix_achat, int prix_vente, String description, Point2D pos) {
         super(nom, prix_achat, prix_vente, description, pos);
@@ -28,41 +28,41 @@ public class PotionSoin extends Objet{
     }
 
     /**
-     *Constructeur par défaut
-     */
+     * Constructeur par défaut
+    */
     public PotionSoin() {
         super();
         this.valeur_soin = 1000000000;
     }
 
     /**
-     *Constructeur de recopie
+     * Constructeur de recopie
      * @param o Potion à recopier
-     */
+    */
     public PotionSoin(PotionSoin o) {
         super((Objet)o);
         this.valeur_soin = o.valeur_soin;
     }
     
     /**
-     *
-     * @return
+     * Méthode pour obtenir la valeur du soin
+     * @return la valeur du soin
      */
     public int getValeur_soin() {
         return valeur_soin;
     }
 
     /**
-     *
-     * @param valeur_soin
+     * Méthode pour définir la valeur du soin
+     * @param valeur_soin valeur du soin
      */
     public void setValeur_soin(int valeur_soin) {
         this.valeur_soin = valeur_soin;
     }
     
     /**
-     *Fonction d'affichage pour PotionSoin
-     */
+     * Méthode d'affichage pour PotionSoin
+    */
     @Override
     public void affiche() {
         super.affiche();
