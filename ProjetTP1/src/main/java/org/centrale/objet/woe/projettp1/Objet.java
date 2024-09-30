@@ -24,7 +24,7 @@ public class Objet {
     */
     public int getPrix_achat() {
     	return prix_achat;
-	}
+    }
 
     /**
      * Méthode pour obtenir le nnom
@@ -32,7 +32,7 @@ public class Objet {
     */
     public String getNom() {
     	return nom;
-	}
+    }
 
     /**
      * Méthode pour définir le nnom
@@ -40,7 +40,7 @@ public class Objet {
     */
     public void setNom(String nom) {
     	this.nom = nom;
-	}
+    }
 
     /**
      * Méthode pour définir le prix d'achat
@@ -48,7 +48,7 @@ public class Objet {
     */
     public void setPrix_achat(int prix_achat) {
     	this.prix_achat = prix_achat;
-	}
+    }
 
     /**
      * Méthode pour obtenir le prix de vente
@@ -56,7 +56,7 @@ public class Objet {
     */
     public int getPrix_vente() {
     	return prix_vente;
-	}
+    }
 
     /**
      * Méthode pour définir le prix de vente
@@ -64,7 +64,7 @@ public class Objet {
     */
     public void setPrix_vente(int prix_vente) {
     	this.prix_vente = prix_vente;
-	}
+    }
 
     /**
      * Méthode pour obtenir la description
@@ -72,7 +72,7 @@ public class Objet {
      */
     public String getDescription() {
     	return description;
-	}
+    }
 
     /**
      * Méthode pour définir la description
@@ -80,7 +80,7 @@ public class Objet {
      */
     public void setDescription(String description) {
     	this.description = description;
-	}
+    }
 
     /**
      * Méthode pour obtenir la position
@@ -109,7 +109,7 @@ public class Objet {
          this.prix_vente = 0;
          this.description = "Ceci est un objet random, et par conséquent, possède une utilité nulle";
          this.pos = new Point2D(0,0);
-	}
+    }
 
     /**
      * Constructeur
@@ -125,7 +125,7 @@ public class Objet {
     	this.prix_vente = prix_vente;
     	this.description = description;
         this.pos = new Point2D(pos);
-	}
+    }
     
     /**
      * Constructeur de copie
@@ -137,7 +137,7 @@ public class Objet {
     	this.prix_vente = o.prix_vente;
     	this.description = o.description;
         this.pos = new Point2D(o.pos);
-	}
+    }
     
     
     /**
@@ -146,10 +146,10 @@ public class Objet {
     public void affiche() {
         Class nclasse = this.getClass();
         System.out.println("La classe est : "+ nclasse.getName());
-        System.out.println("Nom "+ nom);
-        System.out.println("Prix d'Achat "+ prix_achat);
-        System.out.println("Prix_vente "+ prix_vente);
-        System.out.println("Description "+ description);
-        System.out.println("Position " + Arrays.toString(pos.GetPosition()));
+        System.out.println("Nom : "+ nom);
+        System.out.println("Prix d'Achat : "+ prix_achat);
+        System.out.println("Prix_vente : "+ prix_vente);
+        System.out.println("Description : "+ description);
+        System.out.println("Position : " + Arrays.toString(pos.GetPosition()));
     }
 }

@@ -70,7 +70,7 @@ public class Archer extends Personnage {
     @Override
     public void affiche() {
         super.affiche();
-        System.out.println("L'archer possédé " + nbFleches + "  flèches");
+        System.out.println("L'archer possédé " + nbFleches + " flèches");
     }
     
     /**
