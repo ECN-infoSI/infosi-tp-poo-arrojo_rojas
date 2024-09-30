@@ -12,7 +12,6 @@ package org.centrale.objet.woe.projettp1;
 class Point2D{
     private int PosX;
     private int PosY;
-    
     /**
      * Constructeur de Point2D
      * @param a Coordonnée selon x

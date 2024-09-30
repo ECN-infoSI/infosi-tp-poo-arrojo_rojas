@@ -71,20 +71,18 @@ public class World {
    	int nombre_crea = crea.size();
     	ArrayList<Point2D> vu = new ArrayList<>();
     	for (int i = 0; i < nombre_crea; i++){
-        	crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD),generateurAleatoire.nextInt(TAILLE_WORLD));
-        	while (vu.contains(crea.get(i).getPos())) {
+        	do {
                     crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD),generateurAleatoire.nextInt(TAILLE_WORLD));
-        	}
+        	} while (vu.contains(crea.get(i).getPos()));
         	vu.add(crea.get(i).getPos());
     	}
         
         int nombre_obj = obj.size();
         ArrayList<Point2D> vu_obj = new ArrayList<>();
         for (int i = 0; i < nombre_obj; i++) {
-                obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
-                while (vu_obj.contains(obj.get(i).getPos())) {
+                do {
                     obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
-                }
+                } while (vu_obj.contains(obj.get(i).getPos()));
         }
        
         
@@ -173,5 +171,15 @@ public class World {
                 obj.set(k, null); // Remove a poção ao definir como 'null'
             }
         }
+    }
+    
+    public boolean caseLibre(Point2D pos) {
+        int nombre_crea = crea.size();
+        for(int i = 0; i < nombre_crea; i++) {
+            if (crea.get(i).getPos() == pos) {
+                return false;
+            }
+        }
+        return true;       
     }
 }

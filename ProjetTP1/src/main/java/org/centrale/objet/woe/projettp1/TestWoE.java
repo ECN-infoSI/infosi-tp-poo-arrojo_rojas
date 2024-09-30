@@ -51,6 +51,5 @@ public class TestWoE {
         wrld2.creerMondeAlea();
             
         wrld2.affiche();
-        
     }
 }
