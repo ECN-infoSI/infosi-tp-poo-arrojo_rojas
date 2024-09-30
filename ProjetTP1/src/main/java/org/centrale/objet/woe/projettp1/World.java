@@ -84,45 +84,6 @@ public class World {
                     obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
                 } while (vu_obj.contains(obj.get(i).getPos()));
         }
-       
-        
-          
-        /*int i = 0;
-        
-        while(i < personnages.length){
-            int nbAleaX = generateurAleatoire.nextInt();
-            int nbAleaY = generateurAleatoire.nextInt();
-            Point2D p = new Point2D(nbAleaX,nbAleaY);
-            
-            if (world.containsValue(p)){
-            } else {
-                Point2D point = new Point2D(nbAleaX, nbAleaY);
-                if(personnages[i].getClass() == Archer.class){
-                    Archer archer = (Archer) personnages[i];
-                    archer.setPos(point);
-                    world.put(archer, point);
-                    i++;
-                } else if(personnages[i].getClass() == Paysan.class){
-                    Paysan paysan = (Paysan) personnages[i];
-                    paysan.setPos(point);
-                    world.put(paysan, point);
-                    i++;
-                } else if(personnages[i].getClass() == Lapin.class){
-                    Lapin lapin = (Lapin) personnages[i];
-                    lapin.setPos(point);
-                    world.put(lapin, point);
-                    i++;
-                } else if(personnages[i].getClass() == Monstre.class){
-                    Monstre monstre = (Monstre) personnages[i];
-                    monstre.setPos(point);
-                    world.put(monstre, point);
-                    i++;
-                } else {
-                    System.out.println("Personnage pas identifié");
-                }
-                
-            }
-        }     */
     }
     
     /**
@@ -137,6 +98,40 @@ public class World {
         for (int i = 0 ; i < nombre_obj ; i++){
             obj.get(i).affiche();
         }
+        
+    }
+    
+    /**
+     * Methode pour afficher des différentes creatures
+    */
+    public void affiche_protagoniste() {
+        int p = 0;
+        int g = 0;
+        int l = 0;
+        int a = 0;
+        int lo = 0;
+        for (Creature c : crea) {
+            if ("org.centrale.objet.woe.projettp1.Paysan".equals(c.getClass().getName())) {
+                p += 1;
+            }
+            if ("org.centrale.objet.woe.projettp1.Loup".equals(c.getClass().getName())) {
+                lo += 1;
+            }
+            if ("org.centrale.objet.woe.projettp1.Guerrier".equals(c.getClass().getName())) {
+                g += 1;
+            }
+            if ("org.centrale.objet.woe.projettp1.Archer".equals(c.getClass().getName())) {
+                a += 1;
+            }
+            if ("org.centrale.objet.woe.projettp1.Lapin".equals(c.getClass().getName())) {
+                l += 1;
+            }
+        }
+            System.out.println("Le monde contient " + g + " Guerriers");
+            System.out.println("Le monde contient " + a + " Archers");
+            System.out.println("Le monde contient " + p + " Paysans");
+            System.out.println("Le monde contient " + l + " Lapins");
+            System.out.println("Le monde contient " + lo + " Loups");
         
     }
     
@@ -173,10 +168,10 @@ public class World {
         }
     }
     
-    public boolean caseLibre(Point2D pos) {
+    public boolean check_deplacement(Point2D pos) {
         int nombre_crea = crea.size();
         for(int i = 0; i < nombre_crea; i++) {
-            if (crea.get(i).getPos() == pos) {
+            if (crea.get(i).getPos() == pos || Math.abs(crea.get(i).getPos().getX()) > 50 || Math.abs(crea.get(i).getPos().getY()) > 50) {
                 return false;
             }
         }
