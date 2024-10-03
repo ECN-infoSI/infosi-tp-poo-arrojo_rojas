@@ -180,8 +180,7 @@ public class Creature {
      * Méthode pour afficher les attributs correspondant à la créature
     */
     public void affiche(){
-//        System.out.println("La classe est : "+ this.getClass().getName());
-        this.getPtVie();
+        System.out.println(this.getClass().getName() + " | " + this.getPtVie() + " point(s) de vie");
         this.pos.affiche();
     } 
 }
