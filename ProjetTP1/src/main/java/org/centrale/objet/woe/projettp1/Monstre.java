@@ -9,7 +9,7 @@ import java.util.Random;
  * Sous-classe de Créature qui gére les monstres
  * @author Augusto ARROJO et Fernando ROJAS
  */
-public class Monstre extends Creature {
+abstract public class Monstre extends Creature {
 
     /**
      *Constructeur de monstre

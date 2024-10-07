@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Augusto ARROJO et Fernando ROJAS
 */
 
-public class Creature {
+abstract public class Creature {
     private int ptVie;
     private int degAtt;
     private int ptPar;
