@@ -7,7 +7,7 @@ package org.centrale.objet.woe.projettp1;
 import java.util.Random;
 
 /**
- * Classe gérant les créatures
+ * Classe qui gére les créatures
  * @author Augusto ARROJO et Fernando ROJAS
 */
 
