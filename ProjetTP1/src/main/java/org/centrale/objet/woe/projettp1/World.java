@@ -178,8 +178,8 @@ public class World {
         return true;       
     }
     
-    public Personnage CreationJoueur () {
-        /*Personnage Joueur = new Joueur();
-        return Joueur;*/
-    };
+    /*public Personnage CreationJoueur () {
+        Personnage Joueur = new Joueur();
+        return Joueur;
+    };*/
 }
