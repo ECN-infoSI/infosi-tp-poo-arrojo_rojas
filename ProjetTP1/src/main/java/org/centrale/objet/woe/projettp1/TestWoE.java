@@ -108,5 +108,9 @@ public class TestWoE {
         }
         long finN4 = System.nanoTime();
         System.out.println("Temps ecoulé en ns pour calculer les PV totaux avec une liste chainée avec parcours basé sur la taille : " + (finN4-debutN4));
+    
+        // Check database
+        DatabaseTools database = new DatabaseTools ();
+        database.getConnection();
     }
 }
