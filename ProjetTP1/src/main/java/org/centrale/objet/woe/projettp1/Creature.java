@@ -10,8 +10,7 @@ import java.util.Random;
  * Classe qui gére les créatures
  * @author Augusto ARROJO et Fernando ROJAS
 */
-
-abstract public class Creature {
+public abstract class Creature extends ElementDeJeu implements Deplacable {
     private int ptVie;
     private int degAtt;
     private int ptPar;

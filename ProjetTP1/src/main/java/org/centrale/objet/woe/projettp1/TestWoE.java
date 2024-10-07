@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+*/
 package org.centrale.objet.woe.projettp1;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -12,14 +12,14 @@ import java.util.Random;
  * Methode pour tester le jeu
  *
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
 public class TestWoE {
 
     /**
      * Methode pour tester le jeu
      *
      * @param args paramètres du main
-     */
+    */
     public static void main(String[] args) {
         int Total_PV = 0;
             

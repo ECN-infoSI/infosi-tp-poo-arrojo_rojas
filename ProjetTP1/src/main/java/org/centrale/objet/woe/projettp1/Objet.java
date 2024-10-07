@@ -10,8 +10,7 @@ import java.util.Arrays;
  * Classe qui gére les objets
  * @author Augusto ARROJO et Fernando ROJAS
 */
-
-public class Objet {
+public abstract class Objet extends ElementDeJeu {
     private String nom;
     private int prix_achat;
     private int prix_vente;
@@ -69,7 +68,7 @@ public class Objet {
     /**
      * Méthode pour obtenir la description
      * @return description
-     */
+    */
     public String getDescription() {
     	return description;
     }
@@ -77,7 +76,7 @@ public class Objet {
     /**
      * Méthode pour définir la description
      * @param description description
-     */
+    */
     public void setDescription(String description) {
     	this.description = description;
     }
@@ -85,7 +84,7 @@ public class Objet {
     /**
      * Méthode pour obtenir la position
      * @return position
-     */
+    */
     public Point2D getPos() {
         return pos;
     }

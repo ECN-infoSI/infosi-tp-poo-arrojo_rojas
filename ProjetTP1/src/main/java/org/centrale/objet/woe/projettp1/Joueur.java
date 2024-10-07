@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 /**
  * Classe qui permet au joueur utiliser une personnage à partir d'une liste des disponibles
  * @author Fernando ROJAS et Augusto ARROJO
- */
+*/
 public class Joueur {
     HashMap<String,Class> perso_dispos; 
     Personnage perso_joueur;
@@ -24,7 +24,7 @@ public class Joueur {
     /**
      * Constructeur de la classe Epee
      * @param perso_dispos Hashmap qui contient les classes de personnages qui sont disponibles à choisir
-     */ 
+    */ 
     public Joueur(){ 
         perso_dispos = new HashMap<>(); //On crée une liste des classes qui sont disponibles pour choisir
         perso_dispos.put("archer", Archer.class);
@@ -32,7 +32,7 @@ public class Joueur {
     }
     /**
      * Méthode qui permet de choisir le personnage qui va gérer le joueur
-     */
+    */
     public void choisir(){
         Scanner scanner = new Scanner(System.in);
         

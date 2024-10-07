@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 
 package org.centrale.objet.woe.projettp1;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des différentes entités
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
 public class World {
     /**
      * Array pour des Creatures

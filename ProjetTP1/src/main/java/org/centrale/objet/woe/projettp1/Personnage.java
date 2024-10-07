@@ -9,7 +9,7 @@ import java.util.Random;
  * Sous-classe de la classe Créature qui gére les personnages
  * @author Augusto ARROJO et Fernando ROJAS
 */
-public class Personnage extends Creature {
+public abstract class Personnage extends Creature {
     private String nom;
     private int distAttMax;
     
