@@ -28,7 +28,7 @@ public class TestWoE {
         monde.creerMondeAlea();
         monde.quantite_elements();
         
-        //Joueur player = new Joueur();
-        //player.choisir();
+        Joueur player = new Joueur();
+        player.choisir();
     }
 }
