@@ -1,9 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-*/
-
+ */
 package org.centrale.objet.woe.projettp1;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.reflect.Array;
@@ -11,45 +11,49 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des différentes entités
+ * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des
+ * différentes entités
+ *
  * @author Augusto ARROJO et Fernando ROJAS
-*/
+ */
 public class World {
+
     /**
      * Array pour des Creatures
-    */
+     */
     public ArrayList<Creature> crea;
     /**
      * Array pour des objets
-    */
+     */
     public ArrayList<Objet> obj;
     /**
      * Taille du monde
-    */
-    public final static int TAILLE_WORLD = 50; 
-    
+     */
+    public final static int TAILLE_WORLD = 50;
+
     /**
      * Constructeur par défaut de World
-    */
-    public World(){
+     */
+    public World() {
         crea = new ArrayList<>();
         obj = new ArrayList<>();
     }
-    
+
     /**
      * Constructeur de World
+     *
      * @param crea creature
      * @param obj objet
-    */
+     */
     public World(ArrayList<Creature> crea, ArrayList<Objet> obj) {
         this.crea = crea;
         this.obj = obj;
     }
-    
+
     /**
      * Méthode permettant d'initialiser les positions des objets dans le monde
-    */
-    public void creerMondeAlea(){        
+     */
+    public void creerMondeAlea() {
         Random generateurAleatoire = new Random();
         int nombre_min_crea = 50;
         int RandG, RandL, RandA, RandLo, RandP;
@@ -61,14 +65,14 @@ public class World {
             RandLo = generateurAleatoire.nextInt(10) + 50;
             RandP = generateurAleatoire.nextInt(10) + 50;
         } while (RandG + RandL + RandA + RandLo + RandP < nombre_min_crea);
-        
+
         for (int i = 0; i < RandG; i++) {
             crea.add(new Guerrier());
         }
         for (int i = 0; i < RandA; i++) {
             crea.add(new Archer());
         }
-        for (int i = 0; i <RandL; i++) {
+        for (int i = 0; i < RandL; i++) {
             crea.add(new Lapin());
         }
         for (int i = 0; i < RandP; i++) {
@@ -78,27 +82,25 @@ public class World {
             crea.add(new Loup());
         }
         //Définir la position des creatures
-   	int nombre_crea = crea.size();
-    	ArrayList<Point2D> vu = new ArrayList<>();
-    	for (int i = 0; i < nombre_crea; i++){
-        	do {
-                    crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD),generateurAleatoire.nextInt(TAILLE_WORLD));
-        	} while (vu.contains(crea.get(i).getPos()));
-        	vu.add(crea.get(i).getPos());
-    	}
-        
-        //Création des objets aleatoires (minimum 50)
+        int nombre_crea = crea.size();
+        ArrayList<Point2D> vu = new ArrayList<>();
+        for (int i = 0; i < nombre_crea; i++) {
+            do {
+                crea.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu.contains(crea.get(i).getPos()));
+            vu.add(crea.get(i).getPos());
+        }
 
+        //Création des objets aleatoires (minimum 50)
         int nombre_min_obj = 50;
         int RandPS, RandN, RandNT, RandEp;
-        //Création des creatures aleatoires (minimum 50)
         do {
             RandPS = generateurAleatoire.nextInt(10) + 50;
             RandN = generateurAleatoire.nextInt(10) + 50;
             RandNT = generateurAleatoire.nextInt(10) + 50;
             RandEp = generateurAleatoire.nextInt(10) + 50;
         } while (RandPS + RandN + RandNT + RandEp < nombre_min_obj);
-        
+
         for (int i = 0; i < RandPS; i++) {
             obj.add(new PotionSoin());
         }
@@ -111,47 +113,47 @@ public class World {
         for (int i = 0; i < RandNT; i++) {
             obj.add(new NuageToxique());
         }
-        
+        //Définir la position des objets
         int nombre_obj = obj.size();
         ArrayList<Point2D> vu_obj = new ArrayList<>();
         for (int i = 0; i < nombre_obj; i++) {
-                do {
-                    obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
-                } while (vu_obj.contains(obj.get(i).getPos()));
+            do {
+                obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu_obj.contains(obj.get(i).getPos()));
         }
     }
-    
+
     /**
      * Methode pour afficher des creatures et des objets
-    */
+     */
     public void affiche() {
         System.out.println("Creatures : ");
         int nombre_crea = crea.size();
-        for (int i = 0 ; i < nombre_crea ; i++){
+        for (int i = 0; i < nombre_crea; i++) {
             crea.get(i).affiche();
         }
-        
+
         System.out.println("Objets : ");
         int nombre_obj = obj.size();
-        for (int i = 0 ; i < nombre_obj ; i++){
+        for (int i = 0; i < nombre_obj; i++) {
             obj.get(i).affiche();
         }
-        
+
     }
+
     /**
      * Methode pour afficher les nombres de creatures et des objets
-    */
+     */
     public void quantite_elements() {
         int nombre_crea = crea.size();
         int nombre_obj = obj.size();
-        
+
         System.out.println("Il y a " + nombre_crea + " creatures et " + nombre_obj + " objets présent dans le monde !");
     }
-    
-    
+
     /**
      * Methode pour afficher des différentes creatures
-    */
+     */
     public void affiche_protagoniste() {
         int p = 0;
         int g = 0;
@@ -175,17 +177,17 @@ public class World {
                 l += 1;
             }
         }
-            System.out.println("Le monde contient " + g + " Guerriers");
-            System.out.println("Le monde contient " + a + " Archers");
-            System.out.println("Le monde contient " + p + " Paysans");
-            System.out.println("Le monde contient " + l + " Lapins");
-            System.out.println("Le monde contient " + lo + " Loups");
-        
+        System.out.println("Le monde contient " + g + " Guerriers");
+        System.out.println("Le monde contient " + a + " Archers");
+        System.out.println("Le monde contient " + p + " Paysans");
+        System.out.println("Le monde contient " + l + " Lapins");
+        System.out.println("Le monde contient " + lo + " Loups");
+
     }
-    
+
     /**
-     * Méthode pour soigner 
-    */
+     * Méthode pour soigner
+     */
     public void soigne() {
         ArrayList<Integer> a_supprimer = new ArrayList<>();
 
@@ -215,21 +217,12 @@ public class World {
             }
         }
     }
-    
-    public boolean check_deplacement(Point2D pos) {
-        int nombre_crea = crea.size();
-        for(int i = 0; i < nombre_crea; i++) {
-            if (crea.get(i).getPos() == pos || Math.abs(crea.get(i).getPos().getX()) > 50 || Math.abs(crea.get(i).getPos().getY()) > 50) {
-                return false;
-            }
-        }
-        return true;       
-    }
-    
+
     /**
      * Getter de l'attribut crea
+     *
      * @return La liste des créatures
-    */
+     */
     public ArrayList<Creature> getCrea() {
         return crea;
     }

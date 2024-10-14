@@ -4,11 +4,13 @@
  */
 package org.centrale.objet.woe.projettp1;
 
+import java.util.ArrayList;
 import java.util.Random;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 
 /**
  * Classe qui gére les créatures
+ *
  * @author Augusto ARROJO et Fernando ROJAS
  */
 public abstract class Creature extends ElementDeJeu implements Deplacable {
@@ -22,6 +24,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
 
     /**
      * Constructeur de creature
+     *
      * @param pV Point de vie du creature
      * @param dA Dégâts d'attaque du creature
      * @param pPar Points de parade du creature
@@ -40,8 +43,9 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
 
     /**
      * Constructeur de copie de creature
+     *
      * @param c à copier
-    */
+     */
     public Creature(Creature c) {
         this.ptVie = c.getPtVie();
         this.degAtt = c.getDegAtt();
@@ -53,7 +57,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
 
     /**
      * Constructeur par défaut de creature
-    */
+     */
     public Creature() {
         this.ptVie = 100;  // Valeur par défaut
         this.degAtt = 10;
@@ -65,103 +69,115 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
 
     /**
      * Méthode pour obtenir la vie de creature
+     *
      * @return Le nombre de point de vie de la créature
-    */
+     */
     public int getPtVie() {
         return ptVie;
     }
 
     /**
      * Méthode pour définir la vie de creature
+     *
      * @param pv Le nombre de point de vie de la créature
-    */
+     */
     public void setPtVie(int pv) {
         this.ptVie = pv;
     }
 
     /**
      * Méthode pour obtenir les dégâts infligés par une attque
+     *
      * @return Le nombre de dégâts infligés par une attque
-    */
+     */
     public int getDegAtt() {
         return degAtt;
     }
 
     /**
      * Méthode pour définir les dégâts infligés par une attque
+     *
      * @param degAtt Le nombre de dégâts infligés par une attaque
-    */
+     */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
     }
 
     /**
      * Méthode pour obtenir les dégâts évités par une parade
+     *
      * @return Le nombre de dégâts évités par une parade
-    */
+     */
     public int getPtPar() {
         return ptPar;
     }
 
     /**
      * Méthode pour définir les dégâts évités par une parade
+     *
      * @param ptPar Le nombre de dégâts évités par une parade
-    */
+     */
     public void setPtPar(int ptPar) {
         this.ptPar = ptPar;
     }
 
     /**
      * Méthode pour obtenir le pourcentage de chance de toucher avec une attaque
+     *
      * @return la pourcentage de chance de toucher avec une attaque
-    */
+     */
     public int getPageAtt() {
         return pageAtt;
     }
 
     /**
      * Méthode pour définir le pourcentage de chance de toucher avec une attaque
+     *
      * @param pageAtt la pourcentage de chance de toucher avec une attaque
-    */
+     */
     public void setPageAtt(int pageAtt) {
         this.pageAtt = pageAtt;
     }
 
     /**
      * Méthode pour obtenir le pourcentage de chance de parer une attaque
+     *
      * @return Le pourcentage de chance de parer une attaque
-    */
+     */
     public int getPagePar() {
         return pagePar;
     }
 
     /**
      * Méthode pour définir le pourcentage de chance de parer une attaqu
+     *
      * @param pagePar Le pourcentage de chance de parer une attaque
-    */
+     */
     public void setPagePar(int pagePar) {
         this.pagePar = pagePar;
     }
 
     /**
      * Méthode pour obtenir la position de la créature
+     *
      * @return la position de la créature
-    */
+     */
     public Point2D getPos() {
         return pos;
     }
 
     /**
      * Méthode pour définir la position de la créature
+     *
      * @param pos la position de la créature
-    */
+     */
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
 
     /**
      * Méthode qui permet deplacer la créature
-    */
+     */
     public void deplace() {
         Random rand = new Random();
         int dx = 0;
@@ -178,36 +194,55 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
 
     /**
      * Méthode pour afficher les attributs correspondant à la créature
-    */
+     */
     public void affiche() {
         System.out.println(this.getClass().getName() + " | " + this.getPtVie() + " point(s) de vie");
         this.pos.affiche();
     }
 
+    public boolean check_deplacement(World world) {
+        ArrayList<Creature> crea = world.getCrea();
+        int nombre_crea = crea.size();
+        for (int i = 0; i < nombre_crea; i++) {
+            if (crea.get(i).getPos() == pos || Math.abs(crea.get(i).getPos().getX()) > 50 || Math.abs(crea.get(i).getPos().getY()) > 50) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Méthode pour déplacer une créature
+     *
      * @return true si la créature peut se déplacer | false sinon
-    */
+     */
     @Override
     public boolean deplace(World monde) {
         Random Alea = new Random();
-        Point2D testPosition = new Point2D(this.getPos());
-        int r1 = Alea.nextInt(3) - 1;
-        int r2 = Alea.nextInt(3) - 1;
-        while ((r1 == 0) && (r2 == 0)) {
-            r1 = Alea.nextInt(3) - 1;
-            r2 = Alea.nextInt(3) - 1;
-        }
-        testPosition.translate(r1, r2);
-        for (Creature c : monde.getCrea()) {
-            if (c.getPos().equals(testPosition) || Math.abs(testPosition.getX()) > TAILLE_WORLD || Math.abs(testPosition.getY()) > TAILLE_WORLD) {
-                return false;
-            } else {
-                this.getPos().translate(r1, r2);
-                return true;
-            }
+        Point2D testPosition;
 
+        // Geração de uma posição válida aleatória
+        do {
+            int r1 = Alea.nextInt(3) - 1;
+            int r2 = Alea.nextInt(3) - 1;
+            testPosition = new Point2D(this.getPos());
+            testPosition.translate(r1, r2);
+        } while (testPosition.equals(this.getPos())); // Garante que a posição gerada não seja a mesma
+
+        // Verifica se a nova posição está dentro dos limites do mundo
+        if (Math.abs(testPosition.getX()) >= TAILLE_WORLD || Math.abs(testPosition.getY()) >= TAILLE_WORLD) {
+            return false;
         }
-        return false;
+
+        // Verifica se outra criatura já está na nova posição
+        for (Creature c : monde.getCrea()) {
+            if (c.getPos().equals(testPosition)) {
+                return false;
+            }
+        }
+
+        // Se passou pelas verificações, move a criatura para a nova posição
+        this.getPos().setPosition(testPosition.getX(), testPosition.getY());
+        return true;
     }
 }
