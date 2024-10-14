@@ -108,4 +108,8 @@ public final class Joueur {
         Random alea = new Random();
         return alea.nextInt(max - min + 1) + min;
     }
+    
+    public int getPtVie () {
+        return perso_joueur.getPtVie();
+    };
 }

@@ -51,13 +51,13 @@ public class World {
     }
 
     /**
-     * Méthode permettant d'initialiser les positions des objets dans le monde
+     * Méthode permettant d'initialiser des creatures et des objets dans le monde
      */
     public void creerMondeAlea() {
         Random generateurAleatoire = new Random();
         int nombre_min_crea = 50;
         int RandG, RandL, RandA, RandLo, RandP;
-        //Création des creatures aleatoires (minimum 50)
+        //Creation des creatures aleatoires (minimum 50)
         do {
             RandG = generateurAleatoire.nextInt(10) + 50;
             RandL = generateurAleatoire.nextInt(10) + 50;
