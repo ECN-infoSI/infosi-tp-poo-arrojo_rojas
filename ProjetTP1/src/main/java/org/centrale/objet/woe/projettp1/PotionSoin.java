@@ -17,13 +17,11 @@ public class PotionSoin extends Objet{
      * Constructeur de PotionSoin
      * @param valeur_soin Points de vie regagné après l'utilisation d'une potion de soin
      * @param nom Nom de l'objet
-     * @param prix_achat Prix à l'achat de l'objet
-     * @param prix_vente Prix à la vente de l'objet
      * @param description Description de l'objet
      * @param pos Position
     */
-    public PotionSoin(int valeur_soin, String nom, int prix_achat, int prix_vente, String description, Point2D pos) {
-        super(nom, prix_achat, prix_vente, description, pos);
+    public PotionSoin(int valeur_soin, String nom, String description, Point2D pos) {
+        super(nom, description, pos);
         this.valeur_soin = valeur_soin;
     }
 

@@ -81,5 +81,4 @@ public abstract class Personnage extends Creature {
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
     }
-   
 }

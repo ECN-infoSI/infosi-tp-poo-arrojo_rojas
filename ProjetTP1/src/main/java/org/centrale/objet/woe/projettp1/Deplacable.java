@@ -10,7 +10,12 @@ import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
  * @author Augusto ARROJO et Fernando ROJAS
 */
 public interface Deplacable {
-    /*public Deplacer(){
-        if ()
-    }*/   
+    
+    /**
+     * Méthode de déplacement
+     * @param monde Le monde dans lequel l'entité se déplace
+     * @return true si la créature peut se déplacer | false sinon
+    */
+    public abstract boolean deplace(World monde);
+    
 }

@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
 package org.centrale.objet.woe.projettp1;
-import java.util.Random;
 
 /**
  * Sous-classe de Créature qui gére les monstres

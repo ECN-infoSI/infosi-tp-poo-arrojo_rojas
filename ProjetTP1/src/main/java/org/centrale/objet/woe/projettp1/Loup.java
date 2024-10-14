@@ -50,7 +50,7 @@ public class Loup extends Monstre implements Combattant {
         int ouch;
         System.out.println("Le loup utilise Coup de Croc");
         double d = this.getPos().distance(c.getPos());
-        if (d !=1) {
+        if (d != 1) {
             System.out.println("La créature est trop loin pour être attaquée"); 
         } else {
             int patt = alea.nextInt(101);
@@ -62,7 +62,6 @@ public class Loup extends Monstre implements Combattant {
                 if (ppar > c.getPagePar()) {
                     System.out.println("La parade échoue");
                     ouch = this.getDegAtt();
-                    
                 } else {
                     System.out.println("La parade réussi");
                     ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());

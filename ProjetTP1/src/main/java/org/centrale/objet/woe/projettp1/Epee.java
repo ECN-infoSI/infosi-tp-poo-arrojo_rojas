@@ -14,13 +14,11 @@ public class Epee extends Objet {
      * Constructeur de la classe Epee
      * @param bonus_att Points d'attaque bonus apporté par l'objet
      * @param nom Nom de l'objet
-     * @param prix_achat Prix d'achat de l'objet
-     * @param prix_vente Prix de vente de l'objet
      * @param description Description de l'objet
      * @param pos position
     */ 
-    public Epee(int bonus_att, String nom, int prix_achat, int prix_vente, String description, Point2D pos) {
-        super(nom, prix_achat, prix_vente, description, pos);
+    public Epee(int bonus_att, String nom, String description, Point2D pos) {
+        super(nom, description, pos);
         this.bonus_att = bonus_att;
     }
 
