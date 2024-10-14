@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 /**
  * Classe chargée d'établir une connexion avec la base de données
@@ -23,12 +23,11 @@ import java.sql.ResultSet;
  * Interface d'exception qui détecte les erreurs liées aux opérations de base de données.
 */
 import java.sql.SQLException;
-/**
 
 /**
  * Classe qui gére des requêtes et la connexion avec la base de données
  * @author Augusto ARROJO et Fernando ROJAS
- */
+*/
 public class DatabaseTools {
 
     private DatabaseConfig dbConfig;

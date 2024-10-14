@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 
 import java.util.Random;
@@ -9,8 +9,8 @@ import java.util.Random;
 /**
  * Sous-classe de personnage qui gére les archers
  * @author Augusto ARROJO et Fernando ROJAS
- */
-public class Archer extends Personnage {
+*/
+public class Archer extends Personnage implements Combattant {
     private int nbFleches;
     
     /**
@@ -41,7 +41,7 @@ public class Archer extends Personnage {
     }
     
     /**
-    * Constructeur par défaut de l'archer
+     * Constructeur par défaut de l'archer
     */
     public Archer(){
         super();
@@ -65,7 +65,7 @@ public class Archer extends Personnage {
     }
     
     /**
-    * Méthode d'affichage de nombre de flèches de l'archer
+     * Méthode d'affichage de nombre de flèches de l'archer
     */
     @Override
     public void affiche() {
@@ -77,6 +77,7 @@ public class Archer extends Personnage {
      * Méthode pour gérer le combat
      * @param c Créature à combattre
     */
+    @Override
     public void combattre(Creature c) {
         Random alea = new Random();
         int ouch = 0;
@@ -85,22 +86,21 @@ public class Archer extends Personnage {
             System.out.println("La créature est trop loin pour être attaquée"); 
         } else {
             if (d == 1) {
-            int patt = alea.nextInt(101);
-            System.out.println(this.getNom() + " utilise Coup de dague");
-            if (patt > this.getPageAtt()) {
-                System.out.println("L'attaque échoue");
-            } else {
-                System.out.println("L'attaque réussi");
-                int ppar = alea.nextInt(101);
-                if (ppar > c.getPagePar()) {
-                    System.out.println("La parade échoue");
-                    ouch = this.getDegAtt();
-                    
+                int patt = alea.nextInt(101);
+                System.out.println(this.getNom() + " utilise Coup de dague");
+                if (patt > this.getPageAtt()) {
+                    System.out.println("L'attaque échoue");
                 } else {
-                    System.out.println("La parade réussi");
-                    ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());
+                    System.out.println("L'attaque réussi");
+                    int ppar = alea.nextInt(101);
+                    if (ppar > c.getPagePar()) {
+                        System.out.println("La parade échoue");
+                        ouch = this.getDegAtt();
+                    } else {
+                        System.out.println("La parade réussi");
+                        ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());
+                    }
                 }
-            }
             } else {
                int patt = alea.nextInt(101);
                System.out.println(this.getNom() + " utilise Tir à l'arc");
@@ -122,5 +122,5 @@ public class Archer extends Personnage {
         }
         c.setPtVie(c.getPtVie()-ouch);
         System.out.println("Il reste " + c.getPtVie() + " points de vie");     
-    }  
+    }
 }

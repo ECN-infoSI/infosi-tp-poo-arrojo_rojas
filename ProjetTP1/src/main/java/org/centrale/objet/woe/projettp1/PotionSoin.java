@@ -7,8 +7,8 @@ package org.centrale.objet.woe.projettp1;
 import java.util.Arrays;
 
 /**
-* Sous-classe d'objet qui gére les potions de soins
-* @author Augusto ARROJO et Fernando ROJAS
+ * Sous-classe d'objet qui gére les potions de soins
+ * @author Augusto ARROJO et Fernando ROJAS
 */
 public class PotionSoin extends Objet{
     private int valeur_soin;
@@ -17,13 +17,11 @@ public class PotionSoin extends Objet{
      * Constructeur de PotionSoin
      * @param valeur_soin Points de vie regagné après l'utilisation d'une potion de soin
      * @param nom Nom de l'objet
-     * @param prix_achat Prix à l'achat de l'objet
-     * @param prix_vente Prix à la vente de l'objet
      * @param description Description de l'objet
      * @param pos Position
-     */
-    public PotionSoin(int valeur_soin, String nom, int prix_achat, int prix_vente, String description, Point2D pos) {
-        super(nom, prix_achat, prix_vente, description, pos);
+    */
+    public PotionSoin(int valeur_soin, String nom, String description, Point2D pos) {
+        super(nom, description, pos);
         this.valeur_soin = valeur_soin;
     }
 
@@ -47,7 +45,7 @@ public class PotionSoin extends Objet{
     /**
      * Méthode pour obtenir la valeur du soin
      * @return la valeur du soin
-     */
+    */
     public int getValeur_soin() {
         return valeur_soin;
     }
@@ -55,7 +53,7 @@ public class PotionSoin extends Objet{
     /**
      * Méthode pour définir la valeur du soin
      * @param valeur_soin valeur du soin
-     */
+    */
     public void setValeur_soin(int valeur_soin) {
         this.valeur_soin = valeur_soin;
     }
@@ -68,6 +66,4 @@ public class PotionSoin extends Objet{
         super.affiche();
         System.out.println("La potion rend " + valeur_soin + " points de vie");
     }
-
-
 }

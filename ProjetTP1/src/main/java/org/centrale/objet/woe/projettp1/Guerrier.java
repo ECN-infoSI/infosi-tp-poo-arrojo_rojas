@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+*/
 package org.centrale.objet.woe.projettp1;
 
 import java.util.HashSet;
@@ -11,8 +11,8 @@ import java.util.Set;
 /**
  * Sous-classe de personnage gérant les guerriers
  * @author Augusto ARROJO et Fernando ROJAS
- */
-public class Guerrier extends Personnage {
+*/
+public class Guerrier extends Personnage implements Combattant {
 
     /**
      * Constructeur de Guerrier
@@ -32,7 +32,7 @@ public class Guerrier extends Personnage {
     /**
      * Constructeur de recopie 
      * @param perso Guerrier à recopier
-     */
+    */
     public Guerrier(Guerrier perso) {
         
         super((Personnage)perso);
@@ -40,15 +40,12 @@ public class Guerrier extends Personnage {
 
     /**
      * Constructeur par défaut de guerrier
-     */
+    */
     public Guerrier() {
         super();
     }
     
-    /**
-     * Méthode de combat
-     * @param c Créature à combattre
-     */
+    @Override
     public void combattre(Creature c) {
         Random alea = new Random();
         int ouch;
@@ -72,17 +69,15 @@ public class Guerrier extends Personnage {
                     ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());
                 }
                 System.out.println("L'attaque inflige " + ouch + " points de dégâts");
-            if (ouch >= 0.5*c.getPtVie()) {
-                System.out.println("C'est super efficace");
-            }
-            if (ouch <= 0.1*c.getPtVie()) {
-                System.out.println("Ce n'est pas très efficace");
-            }
-            c.setPtVie(c.getPtVie()-ouch);
-            System.out.println("Il reste " + c.getPtVie() + " points de vie");
-            }
-            
-            
-            }   
-}
+                if (ouch >= 0.5*c.getPtVie()) {
+                    System.out.println("C'est super efficace");
+                }
+                if (ouch <= 0.1*c.getPtVie()) {
+                    System.out.println("Ce n'est pas très efficace");
+                }
+                c.setPtVie(c.getPtVie()-ouch);
+                System.out.println("Il reste " + c.getPtVie() + " points de vie");
+            } 
+        }   
+    }
 }
