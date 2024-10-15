@@ -22,23 +22,21 @@ public class TestWoE {
 
         World monde = new World();
         monde.creerMondeAlea();
-
-        Joueur player = new Joueur();
-        player.choisir();
-        int action = 1; // Inicialize com um valor fora do intervalo desejado
-        while (player.getPtVie() > 0) {
+        monde.createJoueur();
+        int action = 1;
+        while (monde.getJoueur().getPtVie() > 0) {
+            monde.afficheDisplay();
             do {
-                if (action < 1 || action > 3) { // Verifica se o valor está fora do intervalo
+                if (action < 1 || action > 3) { // Vérifie si la valeur est hors plage
                     System.out.println("Commande invalide. Il faut essayer à nouveau !");
                 } else {
-                    System.out.println("Quelle option vous voulez choisir ? ");
-                    System.out.println("De se déplacer (1) \t Combattre (2) \t Inventaire (3)");
+                    System.out.println("Quelle option vous voulez choisir ? \t De se déplacer (1) \t Combattre (2) \t Inventaire (3)");
                 }
 
                 Scanner scanner = new Scanner(System.in);
                 action = scanner.nextInt();
 
-            } while (action < 1 || action > 3); // Repete enquanto o valor estiver fora do intervalo
+            } while (action < 1 || action > 3); // Répéter lorsque la valeur est hors plage
         }
         System.out.println("Le jeu a fini parce que vous êtes mort");
     }

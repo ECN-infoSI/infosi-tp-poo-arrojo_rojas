@@ -27,16 +27,31 @@ public class World {
      */
     public ArrayList<Objet> obj;
     /**
+     * Array pour des nourriture
+     */
+    public ArrayList<Nourriture> consommable;
+
+    /**
+     * Array pour des nuages toxiques
+     */
+    public ArrayList<NuageToxique> nuage_toxique;
+    /**
      * Taille du monde
      */
     public final static int TAILLE_WORLD = 50;
+    /**
+     * Joueur
+     */
+    private Joueur player;
 
     /**
      * Constructeur par défaut de World
      */
     public World() {
-        crea = new ArrayList<>();
-        obj = new ArrayList<>();
+        this.crea = new ArrayList<>();
+        this.obj = new ArrayList<>();
+        this.nuage_toxique = new ArrayList<>();
+        this.consommable = new ArrayList<>();
     }
 
     /**
@@ -44,14 +59,19 @@ public class World {
      *
      * @param crea creature
      * @param obj objet
+     * @param nuage nuage toxique
+     * @param consom consommables
      */
-    public World(ArrayList<Creature> crea, ArrayList<Objet> obj) {
+    public World(ArrayList<Creature> crea, ArrayList<Objet> obj, ArrayList<NuageToxique> nuage, ArrayList<Nourriture> consom) {
         this.crea = crea;
         this.obj = obj;
+        this.nuage_toxique = nuage;
+        this.consommable = consom;
     }
 
     /**
-     * Méthode permettant d'initialiser des creatures et des objets dans le monde
+     * Méthode permettant d'initialiser des creatures et des objets dans le
+     * monde
      */
     public void creerMondeAlea() {
         Random generateurAleatoire = new Random();
@@ -219,11 +239,136 @@ public class World {
     }
 
     /**
+     * Méthode poue créer du joueur
+     */
+    public void createJoueur() {
+        player = new Joueur();
+        Point2D pos = new Point2D();
+        player.choisir();
+    }
+
+    /**
+     * Getter de l'attribut player
+     *
+     * @return Le joueur
+     */
+    public Joueur getJoueur() {
+        return player;
+    }
+
+    /**
      * Getter de l'attribut crea
      *
      * @return La liste des créatures
      */
     public ArrayList<Creature> getCrea() {
         return crea;
+    }
+
+    /**
+     * Affiche les différents types de protagonistes présents dans le monde
+     */
+    private static final int CASE_VIDE = 0;
+    private static final int GUERRIER = 1;
+    private static final int ARCHER = 2;
+    private static final int PAYSAN = 3;
+    private static final int LAPIN = 4;
+    private static final int LOUP = 5;
+    private static final int OBJET = 6;
+
+    /**
+     * Méthode testant si une créature ou un objet est présent sur une position
+     *
+     * @param testPosition Position à tester
+     * @return un code correspondant au type de présence (CASE_VIDE, GUERRIER,
+     * etc.)
+     */
+    public int testPos(Point2D testPosition) {
+        for (Creature c : crea) {
+            if (c.getPos().equals(testPosition)) {
+                switch (c.getClass().getSimpleName()) {
+                    case "Guerrier":
+                        return GUERRIER;
+                    case "Archer":
+                        return ARCHER;
+                    case "Paysan":
+                        return PAYSAN;
+                    case "Lapin":
+                        return LAPIN;
+                    case "Loup":
+                        return LOUP;
+                }
+            }
+        }
+
+        for (Nourriture o : consommable) {
+            if (o.getPos().equals(testPosition)) {
+                return OBJET;
+            }
+        }
+
+        return CASE_VIDE;
+    }
+
+    /**
+     * Méthode d'affichage du display
+     */
+    public void afficheDisplay() {
+        int x = TAILLE_WORLD;
+        int y = TAILLE_WORLD;
+        Point2D joueur = player.getPersonnage().getPos();
+        String delimit = "";
+        String nv_ligne = "";
+
+        // Crée la ligne de séparation
+        for (int i = -x; i < x; i++) {
+            delimit += "____";
+        }
+
+        // Affiche chaque ligne du monde
+        for (int j = -y; j < y; j++) {
+            nv_ligne = "";
+            System.out.println(delimit);
+            for (int i = -x; i < x; i++) {
+                nv_ligne += " ";
+                Point2D pos = new Point2D(i, j);
+
+                if (pos.equals(joueur)) {
+                    nv_ligne += "|J|";  // Joueur
+                } else {
+                    switch (testPos(pos)) {
+                        case CASE_VIDE:
+                            nv_ligne += "| |";
+                            break;
+                        case GUERRIER:
+                            nv_ligne += "|G|";
+                            break;
+                        case ARCHER:
+                            nv_ligne += "|A|";
+                            break;
+                        case PAYSAN:
+                            nv_ligne += "|P|";
+                            break;
+                        case LAPIN:
+                            nv_ligne += "|R|";
+                            break;
+                        case LOUP:
+                            nv_ligne += "|L|";
+                            break;
+                        case OBJET:
+                            nv_ligne += "|O|";
+                            break;
+                    }
+                }
+            }
+            System.out.println(nv_ligne);
+        }
+
+        // Légende
+        System.out.println("Légende : ");
+        System.out.println("J: Vous     G: Guerrier");
+        System.out.println("A: Archer   P: Paysan");
+        System.out.println("R: Lapin    L: Loup");
+        System.out.println("O: Objet");
     }
 }

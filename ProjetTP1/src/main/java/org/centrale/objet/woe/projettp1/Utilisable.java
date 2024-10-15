@@ -5,9 +5,9 @@
 package org.centrale.objet.woe.projettp1;
 
 /**
- *
- * @author augustoarrojo
- */
+ * Interface d'objet qui gére les objets utilisables
+ * @author Augusto ARROJO et Fernando ROJAS
+*/
 public interface Utilisable {
-    
+    public void est_utilise(Personnage p);
 }
