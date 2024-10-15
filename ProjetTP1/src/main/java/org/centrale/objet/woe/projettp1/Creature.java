@@ -12,8 +12,9 @@ import java.util.Map;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 
 /**
- * Classe qui gére les créatures
- *
+ * Classe qui gère les créatures du jeu.
+ * Cette classe est abstraite et doit être étendue par des classes spécifiques représentant différents types de créatures.
+ * 
  * @author Augusto ARROJO et Fernando ROJAS
  */
 public abstract class Creature extends ElementDeJeu implements Deplacable {
@@ -27,15 +28,15 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     private Map<String, Nourriture> effets;
 
     /**
-     * Constructeur de creature
-     *
-     * @param pV Point de vie du creature
-     * @param dA Dégâts d'attaque du creature
-     * @param pPar Points de parade du creature
-     * @param paAtt Pourcentage de chance de toucher avec une creature
-     * @param paPar Pourcentage de chance de parer une creature
-     * @param p Position du creature
-     * @param effets Liste des effets subis par la créature
+     * Constructeur de la créature.
+     * 
+     * @param pV   Points de vie de la créature.
+     * @param dA   Dégâts d'attaque de la créature.
+     * @param pPar Points de parade de la créature.
+     * @param paAtt Pourcentage de chance de toucher avec une attaque.
+     * @param paPar Pourcentage de chance de parer une attaque.
+     * @param p    Position de la créature.
+     * @param effets Liste des effets subis par la créature.
      */
     public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p, Map<String, Nourriture> effets) {
         this.ptVie = pV;
@@ -48,9 +49,9 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     }
 
     /**
-     * Constructeur de copie de creature
-     *
-     * @param c à copier
+     * Constructeur de copie de la créature.
+     * 
+     * @param c La créature à copier.
      */
     public Creature(Creature c) {
         this.ptVie = c.getPtVie();
@@ -63,7 +64,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     }
 
     /**
-     * Constructeur par défaut de creature
+     * Constructeur par défaut de la créature.
      */
     public Creature() {
         this.ptVie = 100;  // Valeur par défaut
@@ -76,139 +77,122 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     }
 
     /**
-     * Méthode pour obtenir la vie de creature
-     *
-     * @return Le nombre de point de vie de la créature
+     * Obtient les points de vie de la créature.
+     * 
+     * @return Le nombre de points de vie de la créature.
      */
     public int getPtVie() {
         return ptVie;
     }
 
     /**
-     * Méthode pour définir la vie de creature
-     *
-     * @param pv Le nombre de point de vie de la créature
+     * Définit les points de vie de la créature.
+     * 
+     * @param pv Le nombre de points de vie de la créature.
      */
     public void setPtVie(int pv) {
         this.ptVie = pv;
     }
 
     /**
-     * Méthode pour obtenir les dégâts infligés par une attque
-     *
-     * @return Le nombre de dégâts infligés par une attque
+     * Obtient les dégâts infligés par une attaque.
+     * 
+     * @return Le nombre de dégâts infligés par une attaque.
      */
     public int getDegAtt() {
         return degAtt;
     }
 
     /**
-     * Méthode pour définir les dégâts infligés par une attque
-     *
-     * @param degAtt Le nombre de dégâts infligés par une attaque
+     * Définit les dégâts infligés par une attaque.
+     * 
+     * @param degAtt Le nombre de dégâts infligés par une attaque.
      */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
     }
 
     /**
-     * Méthode pour obtenir les dégâts évités par une parade
-     *
-     * @return Le nombre de dégâts évités par une parade
+     * Obtient les points de parade de la créature.
+     * 
+     * @return Le nombre de points de parade de la créature.
      */
     public int getPtPar() {
         return ptPar;
     }
 
     /**
-     * Méthode pour définir les dégâts évités par une parade
-     *
-     * @param ptPar Le nombre de dégâts évités par une parade
+     * Définit les points de parade de la créature.
+     * 
+     * @param ptPar Le nombre de points de parade de la créature.
      */
     public void setPtPar(int ptPar) {
         this.ptPar = ptPar;
     }
 
     /**
-     * Méthode pour obtenir le pourcentage de chance de toucher avec une attaque
-     *
-     * @return la pourcentage de chance de toucher avec une attaque
+     * Obtient le pourcentage de chance de toucher avec une attaque.
+     * 
+     * @return Le pourcentage de chance de toucher avec une attaque.
      */
     public int getPageAtt() {
         return pageAtt;
     }
 
     /**
-     * Méthode pour définir le pourcentage de chance de toucher avec une attaque
-     *
-     * @param pageAtt la pourcentage de chance de toucher avec une attaque
+     * Définit le pourcentage de chance de toucher avec une attaque.
+     * 
+     * @param pageAtt Le pourcentage de chance de toucher avec une attaque.
      */
     public void setPageAtt(int pageAtt) {
         this.pageAtt = pageAtt;
     }
 
     /**
-     * Méthode pour obtenir le pourcentage de chance de parer une attaque
-     *
-     * @return Le pourcentage de chance de parer une attaque
+     * Obtient le pourcentage de chance de parer une attaque.
+     * 
+     * @return Le pourcentage de chance de parer une attaque.
      */
     public int getPagePar() {
         return pagePar;
     }
     
     /**
-     * Getter de l'attribut effets
-     * @return La liste des effets affectant la créature
+     * Obtient la liste des effets affectant la créature.
+     * 
+     * @return La liste des effets affectant la créature.
      */
     public Map<String, Nourriture> getEffets() {
         return effets;
     }
 
     /**
-     * Setter de l'attribut effets
-     * @param effets Liste des effets affectant la créature
+     * Définit la liste des effets affectant la créature.
+     * 
+     * @param effets Liste des effets affectant la créature.
      */
     public void setEffets(Map<String, Nourriture> effets) {
         this.effets = effets;
     }
     
- 
     /**
-     * Méthode pour définir le pourcentage de chance de parer une attaqu
-     *
-     * @param pagePar Le pourcentage de chance de parer une attaque
+     * Définit le pourcentage de chance de parer une attaque.
+     * 
+     * @param pagePar Le pourcentage de chance de parer une attaque.
      */
     public void setPagePar(int pagePar) {
         this.pagePar = pagePar;
     }
 
     /**
-     * Méthode pour obtenir la position de la créature
-     *
-     * @return la position de la créature
+     * Déplace la créature de manière aléatoire dans le monde.
      */
-    public Point2D getPos() {
-        return pos;
-    }
-
-    /**
-     * Méthode pour définir la position de la créature
-     *
-     * @param pos la position de la créature
-     */
-    public void setPos(Point2D pos) {
-        this.pos = pos;
-    }
-
-    /**
-     * Méthode qui permet deplacer la créature
-     */
-    public void deplace() {
+    public void deplacer() {
         Random rand = new Random();
         int dx = 0;
         int dy = 0;
 
-        // Assurez que dx et dy sont simultanément non différent de zero
+        // Assurez-vous que dx et dy sont simultanément non différents de zéro
         do {
             dx = rand.nextInt(2) - 1;
             dy = rand.nextInt(2) - 1;
@@ -218,45 +202,37 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     }
 
     /**
-     * Méthode pour afficher les attributs correspondant à la créature
+     * Affiche les attributs de la créature.
      */
     public void affiche() {
-        System.out.println(this.getClass().getSimpleName() + ": " + Arrays.toString(this.getPos().GetPosition()) +  " | " + this.getPtVie() + " point(s) de vie");
+        System.out.println(this.getClass().getSimpleName() + ": " + Arrays.toString(this.getPos().getPosition()) + " | " + this.getPtVie() + " point(s) de vie");
     }
 
-
-    /**
-     * Méthode pour déplacer une créature
-     *
-     * @return true si la créature peut se déplacer | false sinon
-     */
     @Override
-    public boolean deplace(World monde) {
+    /**
+     * Déplace la créature dans le monde en effectuant un mouvement aléatoire.
+     * Le déplacement est effectué tant que la nouvelle position est valide.
+     * 
+     * @param monde Le monde dans lequel la créature se déplace.
+     */
+    public void deplacer(World monde) {
         Random Alea = new Random();
-        Point2D testPosition;
+        Point2D nouvellePos = new Point2D(this.getPos()); // Copie de la position actuelle
 
-        // Geração de uma posição válida aleatória
+        int r1 = 0, r2 = 0;
         do {
-            int r1 = Alea.nextInt(3) - 1;
-            int r2 = Alea.nextInt(3) - 1;
-            testPosition = new Point2D(this.getPos());
-            testPosition.translate(r1, r2);
-        } while (testPosition.equals(this.getPos())); // Garante que a posição gerada não seja a mesma
+            // Génère un déplacement aléatoire entre -1 et 1 pour x et y
+            r1 = Alea.nextInt(3) - 1;
+            r2 = Alea.nextInt(3) - 1;
 
-        // Verifica se a nova posição está dentro dos limites do mundo
-        if (Math.abs(testPosition.getX()) >= TAILLE_WORLD || Math.abs(testPosition.getY()) >= TAILLE_WORLD) {
-            return false;
-        }
+            // Applique temporairement la translation sur la nouvelle position
+            nouvellePos.setPosition(this.getPos().getX(), this.getPos().getY()); // Copie de la position actuelle
+            nouvellePos.translate(r1, r2); // Applique la translation
 
-        // Verifica se outra criatura já está na nova posição
-        for (Creature c : monde.getCrea()) {
-            if (c.getPos().equals(testPosition)) {
-                return false;
-            }
-        }
+            // Continue tant que le déplacement n'est pas nul (r1 == 0 et r2 == 0) ou que la position est invalide
+        } while ((r1 == 0 && r2 == 0) || !nouvellePos.check_deplacement(monde));
 
-        // Se passou pelas verificações, move a criatura para a nova posição
-        this.getPos().setPosition(testPosition.getX(), testPosition.getY());
-        return true;
+        // Met à jour la position de l'objet si la nouvelle position est valide
+        this.getPos().translate(r1, r2);
     }
 }

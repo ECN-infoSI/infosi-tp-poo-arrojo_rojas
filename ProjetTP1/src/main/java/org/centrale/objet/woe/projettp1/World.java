@@ -396,19 +396,6 @@ public class World {
         System.out.println("Légende : \t J: Vous \t E: Épée \t O: Potion \t C: Consommable \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
     }
 
-    public boolean check_deplacement(Point2D pos) {
-        if (pos.getX() > TAILLE_WORLD || pos.getY() > TAILLE_WORLD || pos.getX() < 0 || pos.getY() < 0) {
-            return false;
-        }
-        int nombre_crea = crea.size();
-        for (int i = 0; i < nombre_crea; i++) {
-            if (crea.get(i).getPos().equals(pos)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Méthode de déplacement du joueur
      *
@@ -465,7 +452,7 @@ public class World {
 
             Point2D newPos = new Point2D(pos.getX() + x, pos.getY() + y); // Nouvelle position
 
-            if (!check_deplacement(newPos)) {
+            if (!newPos.check_deplacement(this)) {
                 System.out.println("Position invalide ou case déjà occupée");
             } else {
                 player.getPersonnage().getPos().translate(x, y); // met à jour la position du joueur
@@ -483,10 +470,10 @@ public class World {
         Scanner sc = new Scanner(System.in); // Créez le scanner une fois
         int PtVieBonus;
 
-        for (int i = 0; i < tourJeu;i++) { // Remover o incremento de i aqui
+        for (int i = 0; i < tourJeu; i++) { // Remover o incremento de i aqui
             PtVieBonus = 0;
             this.afficheDisplay();
-            System.out.println("Tour " + (i+1));
+            System.out.println("Tour " + (i + 1));
             // Traiter les effets du joueur
             for (String s : player.getPersonnage().getEffets().keySet()) {
                 PtVieBonus += player.getPersonnage().getEffets().get(s).getModifPtVie();
@@ -565,13 +552,15 @@ public class World {
                         break;
                 }
             } while (!(actionValide));
+
             for (Creature c : crea) {
-                c.deplace(this); // Déplace les créatures
+                c.deplacer(this); // Déplace les créatures
             }
             for (NuageToxique n : nuage_toxique) {
-                n.deplace(this);
-            }            
+                //n.combattre(player.getPersonnage());
+                //n.deplacer(this);
+                n.combattre(player.getPersonnage());
+            }
         }
     }
-
 }

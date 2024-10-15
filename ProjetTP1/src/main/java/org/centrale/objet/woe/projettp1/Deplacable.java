@@ -16,6 +16,6 @@ public interface Deplacable {
      * @param monde Le monde dans lequel l'entité se déplace
      * @return true si la créature peut se déplacer | false sinon
     */
-    public abstract boolean deplace(World monde);
+    public abstract void deplacer(World monde);
     
 }

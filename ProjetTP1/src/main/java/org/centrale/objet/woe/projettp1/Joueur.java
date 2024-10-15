@@ -122,7 +122,7 @@ public final class Joueur {
             perso_joueur = (Archer) archer;
         } else if (classe_p == Guerrier.class) {
             // Générer des valeurs aléatoires spécifiques pour Guerrier
-            int ptVie = genererAleatoire(80, 120);  // Vie plus élevée pour Guerrier
+            int ptVie = genererAleatoire(80, 100);  // Vie plus élevée pour Guerrier
             int degAtt = genererAleatoire(30, 50);  // Dégâts d'attaque plus élevés pour Guerrier
             int ptPar = genererAleatoire(20, 40);   // Points de défense plus élevés
             int pageAtt = genererAleatoire(5, 15);  // Points d'attaque dans une gamme moyenne
