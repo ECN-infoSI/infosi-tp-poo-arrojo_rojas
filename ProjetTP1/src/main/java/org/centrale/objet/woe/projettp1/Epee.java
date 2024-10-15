@@ -54,8 +54,4 @@ public class Epee extends Objet {
     public void setBonus_att(int bonus_att) {
         this.bonus_att = bonus_att;
     }
-
-
-
-
 }

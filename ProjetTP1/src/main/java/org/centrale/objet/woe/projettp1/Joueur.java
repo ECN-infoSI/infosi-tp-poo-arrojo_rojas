@@ -200,5 +200,19 @@ public final class Joueur {
             System.out.println("Objet" + k + ": " + obj.getNom());
         }
     }
+    
+    /**
+     * Méthode de ramassage d'un objet par le joueur
+     * @param monde Le monde dans lequel évolue le joueur
+     */
+    public void ramasser(World monde) {
+        for (Nourriture n: monde.getConsommable()) {
+            if (this.getPersonnage().getPos().equals(n.getPos())) {
+                n.setPos(null);
+                this.getInventaire().add(n);
+                monde.getConsommable().remove(n);
+            }
+        } 
+    }
 }
         
