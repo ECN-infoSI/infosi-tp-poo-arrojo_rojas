@@ -90,16 +90,16 @@ public class NuageToxique extends Objet implements Deplacable, Combattant {
     @Override
     public boolean deplace(World monde) {
         Random Alea = new Random();
-        Point2D pos = new Point2D(this.getPos());
+        Point2D testPosition = new Point2D(this.getPos());
         int r1 = Alea.nextInt(3) - 1;
         int r2 = Alea.nextInt(3) - 1;
         while ((r1 == 0) && (r2 == 0)) {
             r1 = Alea.nextInt(3) - 1;
             r2 = Alea.nextInt(3) - 1;
         }
-        pos.translate(r1, r2);
+        testPosition.translate(r1, r2);
         for (Creature c : monde.getCrea()) {
-            if (c.getPos().equals(pos) || pos.getX() > TAILLE_WORLD || pos.getY() > TAILLE_WORLD || pos.getX() < 0 || pos.getY() < 0) {
+            if (c.getPos().equals(testPosition) || Math.abs(testPosition.getX()) > TAILLE_WORLD || Math.abs(testPosition.getY()) > TAILLE_WORLD) {
                 return false;
             } else {
                 this.getPos().translate(r1, r2);

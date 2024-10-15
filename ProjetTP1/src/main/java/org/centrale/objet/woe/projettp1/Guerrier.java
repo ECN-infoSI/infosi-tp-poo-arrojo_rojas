@@ -5,7 +5,6 @@
 package org.centrale.objet.woe.projettp1;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -25,10 +24,9 @@ public class Guerrier extends Personnage implements Combattant {
      * @param pagePar Pourcentage de chance de parer une attaque
      * @param distAttMax Distance d'attaque maximale
      * @param pos Position du guerrier
-     * @param effets  Liste des effets affectant le guerrier
      */
-    public Guerrier(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, Map<String, Nourriture> effets) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets);
+    public Guerrier(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
+        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
     }
 
     /**
