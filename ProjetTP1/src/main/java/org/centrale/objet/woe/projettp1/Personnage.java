@@ -4,6 +4,8 @@
 */
 package org.centrale.objet.woe.projettp1;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Sous-classe de la classe Créature qui gére les personnages
@@ -23,9 +25,10 @@ public abstract class Personnage extends Creature {
      * @param paPar Pourcentage de chance de parer une attque
      * @param dMax Distance d'attaque maximale
      * @param p Position du personnage
+     * @param effets Liste des effets affectant le personnage
     */
-    public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p){
-        super(pV, dA, pPar, paAtt, paPar, p);
+    public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, Map<String, Nourriture> effets){
+        super(pV, dA, pPar, paAtt, paPar, p, effets);
         this.nom = N;
         this.distAttMax = dA;
     }

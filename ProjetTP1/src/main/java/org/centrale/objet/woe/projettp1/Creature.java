@@ -5,6 +5,7 @@
 package org.centrale.objet.woe.projettp1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +34,10 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      * @param pPar Points de parade du creature
      * @param paAtt Pourcentage de chance de toucher avec une creature
      * @param paPar Pourcentage de chance de parer une creature
-     * @param pos Position du creature
+     * @param p Position du creature
      * @param effets Liste des effets subis par la créature
      */
-    public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
+    public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p, Map<String, Nourriture> effets) {
         this.ptVie = pV;
         this.degAtt = dA;
         this.ptPar = pPar;
@@ -220,20 +221,9 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      * Méthode pour afficher les attributs correspondant à la créature
      */
     public void affiche() {
-        System.out.println(this.getClass().getName() + " | " + this.getPtVie() + " point(s) de vie");
-        this.pos.affiche();
+        System.out.println(this.getClass().getSimpleName() + ": " + Arrays.toString(this.getPos().GetPosition()) +  " | " + this.getPtVie() + " point(s) de vie");
     }
 
-    public boolean check_deplacement(World world) {
-        ArrayList<Creature> crea = world.getCrea();
-        int nombre_crea = crea.size();
-        for (int i = 0; i < nombre_crea; i++) {
-            if (crea.get(i).getPos() == pos || Math.abs(crea.get(i).getPos().getX()) > 50 || Math.abs(crea.get(i).getPos().getY()) > 50) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Méthode pour déplacer une créature

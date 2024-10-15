@@ -4,6 +4,7 @@
 */
 package org.centrale.objet.woe.projettp1;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,10 +24,11 @@ public class Archer extends Personnage implements Combattant {
      * @param paPar Pourcentage de chance de parer une attaque
      * @param dMax Distance d'attaque maximale
      * @param p Position de l'archer
+     * @param effets Liste des effets affectant le archer
      * @param nbFleches Nombre de flèche possédées par l'archer
     */
-    public Archer (String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, int nbFleches) {
-        super(n, pV, dA, pPar, paAtt, paPar, dMax, p);
+    public Archer (String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, Map<String, Nourriture> effets, int nbFleches) {
+        super(n, pV, dA, pPar, paAtt, paPar, dMax, p, effets);
         this.nbFleches = nbFleches;
     }
     

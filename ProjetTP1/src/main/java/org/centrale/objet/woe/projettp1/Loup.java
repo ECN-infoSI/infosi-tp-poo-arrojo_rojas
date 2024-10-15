@@ -4,6 +4,7 @@
 */
 package org.centrale.objet.woe.projettp1;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -21,8 +22,8 @@ public class Loup extends Monstre implements Combattant {
      * @param pagePar Pourcentage de chance de parer une attaque
      * @param pos Position du loup
     */
-    public Loup(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos) {
-        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos);
+    public Loup(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos, Map<String, Nourriture> effets) {
+        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos,effets);
     }
 
     /**
