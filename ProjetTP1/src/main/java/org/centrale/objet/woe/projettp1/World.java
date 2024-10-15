@@ -64,7 +64,6 @@ public class World {
      */
     public World(ArrayList<Creature> crea, ArrayList<Objet> obj, ArrayList<NuageToxique> nuage, ArrayList<Nourriture> consom) {
         this.crea = crea;
-        this.obj = obj;
         this.nuage_toxique = nuage;
         this.consommable = consom;
     }
@@ -128,10 +127,10 @@ public class World {
             obj.add(new Epee());
         }
         for (int i = 0; i < RandN; i++) {
-            obj.add(new Nourriture());
+            consommable.add(new Nourriture());
         }
         for (int i = 0; i < RandNT; i++) {
-            obj.add(new NuageToxique());
+            nuage_toxique.add(new NuageToxique());
         }
         //Définir la position des objets
         int nombre_obj = obj.size();
@@ -140,6 +139,23 @@ public class World {
             do {
                 obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
             } while (vu_obj.contains(obj.get(i).getPos()));
+        }
+        //Définir la position des consommables
+        int nombre_con = consommable.size();
+        ArrayList<Point2D> vu_con = new ArrayList<>();
+        for (int i = 0; i < nombre_con; i++) {
+            do {
+                consommable.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu_con.contains(consommable.get(i).getPos()));
+        }
+
+        //Définir la position des nuages toxiques
+        int nombre_nua = nuage_toxique.size();
+        ArrayList<Point2D> vu_nua = new ArrayList<>();
+        for (int i = 0; i < nombre_nua; i++) {
+            do {
+                nuage_toxique.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu_nua.contains(nuage_toxique.get(i).getPos()));
         }
     }
 
@@ -259,10 +275,37 @@ public class World {
     /**
      * Getter de l'attribut crea
      *
-     * @return La liste des créatures
+     * @return Les creatures
      */
     public ArrayList<Creature> getCrea() {
         return crea;
+    }
+
+    /**
+     * Getter de l'attribut Objet
+     *
+     * @return Les objets
+     */
+    public ArrayList<Objet> getObjet() {
+        return obj;
+    }
+
+    /**
+     * Getter de l'attribut nuage
+     *
+     * @return La liste des nuage toxiques
+     */
+    public ArrayList<NuageToxique> getNuage() {
+        return nuage_toxique;
+    }
+
+    /**
+     * Getter de l'attribut consommables
+     *
+     * @return La liste des consommables
+     */
+    public ArrayList<Nourriture> getConsommable() {
+        return consommable;
     }
 
     /**
@@ -275,71 +318,73 @@ public class World {
         String delimit = "";
         String nv_ligne = "";
 
-        // Crée la ligne de séparation
-        for (int i = -x; i < x; i++) {
-            delimit += "____";
+// Crée la ligne de séparation
+        for (int i = 0; i < 1.5 * x; i++) {
+            delimit += "____"; // A linha de separação agora é padronizada para 4 underscores
         }
 
-        // Affiche chaque ligne du monde
+// Affiche chaque ligne du monde
         for (int j = -y; j < y; j++) {
-            nv_ligne = "";
-            System.out.println(delimit);
+            nv_ligne = ""; // Réinitialise la ligne pour chaque nouvelle ligne
+            System.out.println(delimit); // Affiche la ligne de séparation
             for (int i = -x; i < x; i++) {
-                nv_ligne += " ";
+                String disp_char = "| |"; // Par défaut, c'est une case vide avec longueur 3
                 Point2D pos = new Point2D(i, j);
 
                 // Vérifie si c'est la position du joueur
                 if (pos.equals(joueur)) {
-                    nv_ligne += "|J|";  // Joueur
+                    disp_char = "|J|";  // Joueur, toujours 3 caractères
                 } else {
-                    boolean creatureTrouvee = false;
+                    // Vérifie si des consommables sont présents
+                    for (Nourriture c : consommable) {
+                        if (c.getPos().equals(pos)) {
+                            disp_char = "|C|";  // Consommable, 3 caractères
+                            break;
+                        }
+                    }
+
+                    // Vérifie si des objets sont présents
+                    for (Objet o : obj) {
+                        if (o.getPos().equals(pos)) {
+                            disp_char = "|O|";  // Objet, 3 caractères
+                            break;
+                        }
+                    }
+
+                    // Vérifie si un nuage toxique est présent
+                    for (NuageToxique n : nuage_toxique) {
+                        if (n.getPos().equals(pos)) {
+                            disp_char = "|N|";  // Nuage toxique, 3 caractères
+                            break;
+                        }
+                    }
 
                     // Vérifie si une créature est présente à cette position
                     for (Creature c : crea) {
                         if (c.getPos().equals(pos)) {
                             switch (c.getClass().getSimpleName()) {
-                                case "Guerrier":
-                                    nv_ligne += "|G|";
-                                    break;
-                                case "Archer":
-                                    nv_ligne += "|A|";
-                                    break;
-                                case "Paysan":
-                                    nv_ligne += "|P|";
-                                    break;
-                                case "Lapin":
-                                    nv_ligne += "|R|";
-                                    break;
-                                case "Loup":
-                                    nv_ligne += "|L|";
-                                    break;
+                                case "Guerrier" ->
+                                    disp_char = "|G|";
+                                case "Archer" ->
+                                    disp_char = "|A|";
+                                case "Paysan" ->
+                                    disp_char = "|P|";
+                                case "Lapin" ->
+                                    disp_char = "|R|";
+                                case "Loup" ->
+                                    disp_char = "|L|";
                             }
-                            creatureTrouvee = true;
                             break;  // Sortir de la boucle si une créature est trouvée
                         }
                     }
-
-                    // Si aucune créature n'a été trouvée, vérifie pour un objet
-                    if (!creatureTrouvee) {
-                        boolean objetTrouve = false;
-                        for (Nourriture o : consommable) {
-                            if (o.getPos().equals(pos)) {
-                                nv_ligne += "|O|";  // Objet
-                                objetTrouve = true;
-                                break;
-                            }
-                        }
-                        // Si aucune créature ni objet n'a été trouvé, affiche un espace vide
-                        if (!objetTrouve) {
-                            nv_ligne += "| |";
-                        }
-                    }
                 }
+
+                nv_ligne += disp_char;  // Concatène le caractère à la ligne actuelle, toujours 3 caractères
             }
-            System.out.println(nv_ligne);
+            System.out.println(nv_ligne); // Affiche la ligne complète
         }
 
         // Légende
-        System.out.println("Légende : \tJ: Vous \t O: Objet \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
-    } 
+        System.out.println("Légende : \tJ: Vous \tO: Objet \tC: Consommable \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
+    }
 }

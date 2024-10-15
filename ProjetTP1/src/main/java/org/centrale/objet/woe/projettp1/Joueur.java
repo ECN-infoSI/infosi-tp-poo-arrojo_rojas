@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Random;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
@@ -24,16 +25,33 @@ public final class Joueur {
     HashMap<String, Class> perso_dispos;
     public Personnage perso_joueur;
     private Class classe_p;
+    private ArrayList<Nourriture> inventaire;
 
     /**
-     * Constructeur de la classe joueur
+     * Constructeur  par default de la classe joueur
      */
     public Joueur() {
         perso_dispos = new HashMap<>(); //On crée une liste des classes qui sont disponibles pour choisir
         perso_dispos.put("archer", Archer.class);
         perso_dispos.put("guerrier", Guerrier.class);
+        this.inventaire = new ArrayList<>();
     }
 
+    /**
+     * Constructeur par copie de la classe joueur
+     * @param perso_d
+     * @param class_p
+     * @param personnage
+     * @param inventaire
+     */
+    public Joueur(HashMap<String, Class> perso_d, Class class_p, Personnage personnage, ArrayList<Nourriture> inventaire) {
+        this.classe_p = class_p;
+        this.perso_dispos = perso_d;
+        this.perso_joueur = personnage;
+        this.inventaire = inventaire;
+    }
+
+    
     /**
      * Méthode qui permet de choisir le personnage qui va gérer le joueur
      */
@@ -86,9 +104,8 @@ public final class Joueur {
             }
         }
 
-        //Création personnage aléatoire
-        System.out.println("Création du personnage en cours ... ");
-
+        Map<String,Nourriture> effets = new HashMap<>();
+        
         if (classe_p == Archer.class) {
             // Générer des valeurs aléatoires spécifiques pour Archer
             int ptVie = genererAleatoire(50, 80);    // Vie moins élevée pour Archer
@@ -101,7 +118,7 @@ public final class Joueur {
             Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD), genererAleatoire(0, TAILLE_WORLD));
 
             // Création de l'archer
-            Archer archer = new Archer(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, nbFleches);
+            Archer archer = new Archer(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets, nbFleches);
             perso_joueur = (Archer) archer;
         } else if (classe_p == Guerrier.class) {
             // Générer des valeurs aléatoires spécifiques pour Guerrier
@@ -114,7 +131,7 @@ public final class Joueur {
             Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD), genererAleatoire(0, TAILLE_WORLD));
 
             // Création du Guerrier
-            Guerrier guerrier = new Guerrier(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
+            Guerrier guerrier = new Guerrier(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets);
             perso_joueur = (Guerrier) guerrier;
         }
         perso_joueur.setNom(nomPerso);
@@ -155,4 +172,33 @@ public final class Joueur {
     public void setPersonnage(Personnage perso) {
         perso_joueur = perso;
     }
+    
+    /**
+     * Getter de l'attribut inventaire
+     * @return L'inventaire du joueur
+    */
+    public ArrayList<Nourriture> getInventaire() {
+        return inventaire;
+    }
+    
+    /**
+     * Setter de l'attribut inventaire
+     * @param inventaire Le nouveau inventaire du joueur
+     */
+    public void setInventaire(ArrayList<Nourriture> inventaire) {
+        this.inventaire = inventaire;
+    }
+    
+    /**
+     * Méthode d'affichage de l'inventaire du joueur
+     */
+    public void affiche_inventaire() {
+        System.out.println("L'inventaire du joueur contient :");
+        int k = 0;
+        for (Nourriture obj: this.inventaire) {
+            k+=1;
+            System.out.println("Objet" + k + ": " + obj.getNom());
+        }
+    }
 }
+        
