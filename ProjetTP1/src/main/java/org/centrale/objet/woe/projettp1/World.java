@@ -27,16 +27,31 @@ public class World {
      */
     public ArrayList<Objet> obj;
     /**
+     * Array pour des nourriture
+     */
+    public ArrayList<Nourriture> consommable;
+
+    /**
+     * Array pour des nuages toxiques
+     */
+    public ArrayList<NuageToxique> nuage_toxique;
+    /**
      * Taille du monde
      */
     public final static int TAILLE_WORLD = 50;
+    /**
+     * Joueur
+     */
+    private Joueur player;
 
     /**
      * Constructeur par défaut de World
      */
     public World() {
-        crea = new ArrayList<>();
-        obj = new ArrayList<>();
+        this.crea = new ArrayList<>();
+        this.obj = new ArrayList<>();
+        this.nuage_toxique = new ArrayList<>();
+        this.consommable = new ArrayList<>();
     }
 
     /**
@@ -44,20 +59,25 @@ public class World {
      *
      * @param crea creature
      * @param obj objet
+     * @param nuage nuage toxique
+     * @param consom consommables
      */
-    public World(ArrayList<Creature> crea, ArrayList<Objet> obj) {
+    public World(ArrayList<Creature> crea, ArrayList<Objet> obj, ArrayList<NuageToxique> nuage, ArrayList<Nourriture> consom) {
         this.crea = crea;
         this.obj = obj;
+        this.nuage_toxique = nuage;
+        this.consommable = consom;
     }
 
     /**
-     * Méthode permettant d'initialiser les positions des objets dans le monde
+     * Méthode permettant d'initialiser des creatures et des objets dans le
+     * monde
      */
     public void creerMondeAlea() {
         Random generateurAleatoire = new Random();
         int nombre_min_crea = 50;
         int RandG, RandL, RandA, RandLo, RandP;
-        //Création des creatures aleatoires (minimum 50)
+        //Creation des creatures aleatoires (minimum 50)
         do {
             RandG = generateurAleatoire.nextInt(10) + 50;
             RandL = generateurAleatoire.nextInt(10) + 50;
@@ -219,6 +239,24 @@ public class World {
     }
 
     /**
+     * Méthode poue créer du joueur
+     */
+    public void createJoueur() {
+        player = new Joueur();
+        Point2D pos = new Point2D();
+        player.choisir();
+    }
+
+    /**
+     * Getter de l'attribut player
+     *
+     * @return Le joueur
+     */
+    public Joueur getJoueur() {
+        return player;
+    }
+
+    /**
      * Getter de l'attribut crea
      *
      * @return La liste des créatures
@@ -226,4 +264,82 @@ public class World {
     public ArrayList<Creature> getCrea() {
         return crea;
     }
+
+    /**
+     * Méthode d'affichage du display avec la logique de test intégrée
+     */
+    public void afficheDisplay() {
+        int x = TAILLE_WORLD;
+        int y = TAILLE_WORLD;
+        Point2D joueur = player.getPersonnage().getPos();
+        String delimit = "";
+        String nv_ligne = "";
+
+        // Crée la ligne de séparation
+        for (int i = -x; i < x; i++) {
+            delimit += "____";
+        }
+
+        // Affiche chaque ligne du monde
+        for (int j = -y; j < y; j++) {
+            nv_ligne = "";
+            System.out.println(delimit);
+            for (int i = -x; i < x; i++) {
+                nv_ligne += " ";
+                Point2D pos = new Point2D(i, j);
+
+                // Vérifie si c'est la position du joueur
+                if (pos.equals(joueur)) {
+                    nv_ligne += "|J|";  // Joueur
+                } else {
+                    boolean creatureTrouvee = false;
+
+                    // Vérifie si une créature est présente à cette position
+                    for (Creature c : crea) {
+                        if (c.getPos().equals(pos)) {
+                            switch (c.getClass().getSimpleName()) {
+                                case "Guerrier":
+                                    nv_ligne += "|G|";
+                                    break;
+                                case "Archer":
+                                    nv_ligne += "|A|";
+                                    break;
+                                case "Paysan":
+                                    nv_ligne += "|P|";
+                                    break;
+                                case "Lapin":
+                                    nv_ligne += "|R|";
+                                    break;
+                                case "Loup":
+                                    nv_ligne += "|L|";
+                                    break;
+                            }
+                            creatureTrouvee = true;
+                            break;  // Sortir de la boucle si une créature est trouvée
+                        }
+                    }
+
+                    // Si aucune créature n'a été trouvée, vérifie pour un objet
+                    if (!creatureTrouvee) {
+                        boolean objetTrouve = false;
+                        for (Nourriture o : consommable) {
+                            if (o.getPos().equals(pos)) {
+                                nv_ligne += "|O|";  // Objet
+                                objetTrouve = true;
+                                break;
+                            }
+                        }
+                        // Si aucune créature ni objet n'a été trouvé, affiche un espace vide
+                        if (!objetTrouve) {
+                            nv_ligne += "| |";
+                        }
+                    }
+                }
+            }
+            System.out.println(nv_ligne);
+        }
+
+        // Légende
+        System.out.println("Légende : \tJ: Vous \t O: Objet \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
+    } 
 }

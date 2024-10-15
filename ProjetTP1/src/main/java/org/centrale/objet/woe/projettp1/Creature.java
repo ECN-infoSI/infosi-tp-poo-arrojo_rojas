@@ -6,6 +6,8 @@ package org.centrale.objet.woe.projettp1;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 
 /**
@@ -21,6 +23,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     private int pageAtt;
     private int pagePar;
     private Point2D pos;
+    private Map<String, Nourriture> effets;
 
     /**
      * Constructeur de creature
@@ -30,7 +33,8 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      * @param pPar Points de parade du creature
      * @param paAtt Pourcentage de chance de toucher avec une creature
      * @param paPar Pourcentage de chance de parer une creature
-     * @param p Position du creature
+     * @param pos Position du creature
+     * @param effets Liste des effets subis par la créature
      */
     public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
         this.ptVie = pV;
@@ -39,6 +43,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.pageAtt = paAtt;
         this.pagePar = paPar;
         this.pos = new Point2D(p);
+        this.effets = new HashMap<>();
     }
 
     /**
@@ -53,6 +58,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.pageAtt = c.getPageAtt();
         this.pagePar = c.getPagePar();
         this.pos = new Point2D(c.pos);
+        this.effets = new HashMap<>();
     }
 
     /**
@@ -65,6 +71,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.pageAtt = 1;
         this.pagePar = 1;
         this.pos = new Point2D();  // Position par défaut (0, 0) 
+        this.effets = new HashMap<>();
     }
 
     /**
@@ -147,7 +154,24 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
     public int getPagePar() {
         return pagePar;
     }
+    
+    /**
+     * Getter de l'attribut effets
+     * @return La liste des effets affectant la créature
+     */
+    public Map<String, Nourriture> getEffets() {
+        return effets;
+    }
 
+    /**
+     * Setter de l'attribut effets
+     * @param effets Liste des effets affectant la créature
+     */
+    public void setEffets(Map<String, Nourriture> effets) {
+        this.effets = effets;
+    }
+    
+ 
     /**
      * Méthode pour définir le pourcentage de chance de parer une attaqu
      *

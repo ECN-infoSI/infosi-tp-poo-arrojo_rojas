@@ -44,6 +44,7 @@ class Point2D{
     public int getX(){
         return this.PosX;
     }
+    
     /**
      * Méthode pour obtenir la position y
      * @return la position y
@@ -115,6 +116,10 @@ class Point2D{
     public float distance(Point2D p){
         float distance = (float) Math.sqrt(p.getX() << 2 + p.getY() << 2);
         return distance;
+    }
+    
+    public boolean equals(Point2D p) {
+        return (this.PosX == p.PosX && this.PosY == p.PosY);
     }
 }
 

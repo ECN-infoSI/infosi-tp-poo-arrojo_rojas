@@ -112,23 +112,23 @@ public class Nourriture extends Objet implements Utilisable {
         this.modifPtVie = modifPtVie;
     }
   
-    // Poulet configuration
-    public static final String POULET = "Poulet";
-    public static final int POULET_MODIF_PTVIE = 0;
-    public static final int POULET_MODIF_DEGATT = 2;
-    public static final int POULET_MODIF_PAGEATT = 0;
-    public static final int POULET_MODIF_PAGEPAR = 0;
-    public static final int POULET_MODIF_PTPAR = 0;
-    public static final int POULET_NBTOURS = 3;
+    // Baguette configuration
+    public static final String BAGUETTE = "Baguette";
+    public static final int BAGUETTE_MODIF_PTVIE = 0;
+    public static final int BAGUETTE_MODIF_DEGATT = 2;
+    public static final int BAGUETTE_MODIF_PAGEATT = 0;
+    public static final int BAGUETTE_MODIF_PAGEPAR = 0;
+    public static final int BAGUETTE_MODIF_PTPAR = 0;
+    public static final int BAGUETTE_NBTOURS = 3;
     
-    // Champignon configuration
-    public static final String CHAMPIGNON_VENENEUX = "Champignon vénéneux";
-    public static final int CHAMPIGNON_VENENEUX_PTVIE = 0;
-    public static final int CHAMPIGNON_VENENEUX_DEGATT = 0;
-    public static final int CHAMPIGNON_VENENEUX_PAGEATT = 0;
-    public static final int CHAMPIGNON_VENENEUX_PAGEPAR = 0;
-    public static final int CHAMPIGNON_VENENEUX_PTPAR = -2;
-    public static final int CHAMPIGNON_VENENEUX_NBTOURS = 5;
+    // Fromage configuration
+    public static final String FROMAGE_VENENEUX = "Fromage vénéneux";
+    public static final int FROMAGE_VENENEUX_PTVIE = 0;
+    public static final int FROMAGE_VENENEUX_DEGATT = 0;
+    public static final int FROMAGE_VENENEUX_PAGEATT = 0;
+    public static final int FROMAGE_VENENEUX_PAGEPAR = 0;
+    public static final int FROMAGE_VENENEUX_PTPAR = -2;
+    public static final int FROMAGE_VENENEUX_NBTOURS = 5;
 
     /**
      * Constructeur de Nourriture
@@ -156,31 +156,30 @@ public class Nourriture extends Objet implements Utilisable {
      * Constructeur par défaut de Nourriture
     */
     public Nourriture() {
-        super("poulet","Poulet avec sauce Alfredo",new Point2D());
-        this.modifPtVie = POULET_MODIF_PTVIE;
-        this.modifDegAtt = POULET_MODIF_DEGATT;
-        this.modifPageAtt = POULET_MODIF_PAGEATT;
-        this.modifPagePar = POULET_MODIF_PAGEPAR;
-        this.modifPtPar = POULET_MODIF_PTPAR;
-        this.nbToursEffet = POULET_NBTOURS;
+        super("Baguette","Baguette avec sauce Alfredo",new Point2D());
+        this.modifPtVie = BAGUETTE_MODIF_PTVIE;
+        this.modifDegAtt = BAGUETTE_MODIF_DEGATT;
+        this.modifPageAtt = BAGUETTE_MODIF_PAGEATT;
+        this.modifPagePar = BAGUETTE_MODIF_PAGEPAR;
+        this.modifPtPar = BAGUETTE_MODIF_PTPAR;
+        this.nbToursEffet = BAGUETTE_NBTOURS;
     }
 
     /**
-     * Constructeur d'un consommable "Poulet"
-     * @param pos Position du poulet
+     * @param pos Position du Baguette
      * @return Le consommable
     */
-    public Nourriture poulet(Point2D pos) {
-        return new Nourriture(POULET_MODIF_PTVIE, POULET_MODIF_DEGATT, POULET_MODIF_PAGEATT, POULET_MODIF_PAGEPAR, POULET_MODIF_PTPAR, POULET_NBTOURS, "Poulet", "Miam", pos);
+    public Nourriture Baguette(Point2D pos) {
+        return new Nourriture(BAGUETTE_MODIF_PTVIE, BAGUETTE_MODIF_DEGATT, BAGUETTE_MODIF_PAGEATT, BAGUETTE_MODIF_PAGEPAR, BAGUETTE_MODIF_PTPAR, BAGUETTE_NBTOURS, "Baguette", "Super !", pos);
     };
     
     /**
-     * Constructeur d'un consommable "Champignon Veneneux"
-     * @param pos Position du champignon
+     * Constructeur d'un consommable "Fromage Veneneux"
+     * @param pos Position du fromage
      * @return Le consommable
     */
-    public Nourriture champignonVeneneux(Point2D pos) {
-        return new Nourriture(CHAMPIGNON_VENENEUX_PTVIE, CHAMPIGNON_VENENEUX_DEGATT, CHAMPIGNON_VENENEUX_PAGEATT, CHAMPIGNON_VENENEUX_PAGEPAR, CHAMPIGNON_VENENEUX_PTPAR, CHAMPIGNON_VENENEUX_NBTOURS,"Champignon vénéneux","Manger ceci était une mauvaise idée",pos);
+    public Nourriture fromageVeneneux(Point2D pos) {
+        return new Nourriture(FROMAGE_VENENEUX_PTVIE, FROMAGE_VENENEUX_DEGATT, FROMAGE_VENENEUX_PAGEATT, FROMAGE_VENENEUX_PAGEPAR, FROMAGE_VENENEUX_PTPAR, FROMAGE_VENENEUX_NBTOURS,"Fromage vénéneux","Manger ceci était une mauvaise idée",pos);
     };
     
     /**
@@ -188,11 +187,9 @@ public class Nourriture extends Objet implements Utilisable {
      * @param p Personnage utilisant le consommable
     */
     
-    
-    /*
     @Override
     public void est_utilise(Personnage p){
         p.getEffets().put(this.getNom(),this);
-    }*/
+    }
 }
 
