@@ -266,52 +266,7 @@ public class World {
     }
 
     /**
-     * Affiche les différents types de protagonistes présents dans le monde
-     */
-    private static final int CASE_VIDE = 0;
-    private static final int GUERRIER = 1;
-    private static final int ARCHER = 2;
-    private static final int PAYSAN = 3;
-    private static final int LAPIN = 4;
-    private static final int LOUP = 5;
-    private static final int OBJET = 6;
-
-    /**
-     * Méthode testant si une créature ou un objet est présent sur une position
-     *
-     * @param testPosition Position à tester
-     * @return un code correspondant au type de présence (CASE_VIDE, GUERRIER,
-     * etc.)
-     */
-    public int testPos(Point2D testPosition) {
-        for (Creature c : crea) {
-            if (c.getPos().equals(testPosition)) {
-                switch (c.getClass().getSimpleName()) {
-                    case "Guerrier":
-                        return GUERRIER;
-                    case "Archer":
-                        return ARCHER;
-                    case "Paysan":
-                        return PAYSAN;
-                    case "Lapin":
-                        return LAPIN;
-                    case "Loup":
-                        return LOUP;
-                }
-            }
-        }
-
-        for (Nourriture o : consommable) {
-            if (o.getPos().equals(testPosition)) {
-                return OBJET;
-            }
-        }
-
-        return CASE_VIDE;
-    }
-
-    /**
-     * Méthode d'affichage du display
+     * Méthode d'affichage du display avec la logique de test intégrée
      */
     public void afficheDisplay() {
         int x = TAILLE_WORLD;
@@ -333,31 +288,51 @@ public class World {
                 nv_ligne += " ";
                 Point2D pos = new Point2D(i, j);
 
+                // Vérifie si c'est la position du joueur
                 if (pos.equals(joueur)) {
                     nv_ligne += "|J|";  // Joueur
                 } else {
-                    switch (testPos(pos)) {
-                        case CASE_VIDE:
+                    boolean creatureTrouvee = false;
+
+                    // Vérifie si une créature est présente à cette position
+                    for (Creature c : crea) {
+                        if (c.getPos().equals(pos)) {
+                            switch (c.getClass().getSimpleName()) {
+                                case "Guerrier":
+                                    nv_ligne += "|G|";
+                                    break;
+                                case "Archer":
+                                    nv_ligne += "|A|";
+                                    break;
+                                case "Paysan":
+                                    nv_ligne += "|P|";
+                                    break;
+                                case "Lapin":
+                                    nv_ligne += "|R|";
+                                    break;
+                                case "Loup":
+                                    nv_ligne += "|L|";
+                                    break;
+                            }
+                            creatureTrouvee = true;
+                            break;  // Sortir de la boucle si une créature est trouvée
+                        }
+                    }
+
+                    // Si aucune créature n'a été trouvée, vérifie pour un objet
+                    if (!creatureTrouvee) {
+                        boolean objetTrouve = false;
+                        for (Nourriture o : consommable) {
+                            if (o.getPos().equals(pos)) {
+                                nv_ligne += "|O|";  // Objet
+                                objetTrouve = true;
+                                break;
+                            }
+                        }
+                        // Si aucune créature ni objet n'a été trouvé, affiche un espace vide
+                        if (!objetTrouve) {
                             nv_ligne += "| |";
-                            break;
-                        case GUERRIER:
-                            nv_ligne += "|G|";
-                            break;
-                        case ARCHER:
-                            nv_ligne += "|A|";
-                            break;
-                        case PAYSAN:
-                            nv_ligne += "|P|";
-                            break;
-                        case LAPIN:
-                            nv_ligne += "|R|";
-                            break;
-                        case LOUP:
-                            nv_ligne += "|L|";
-                            break;
-                        case OBJET:
-                            nv_ligne += "|O|";
-                            break;
+                        }
                     }
                 }
             }
@@ -365,10 +340,6 @@ public class World {
         }
 
         // Légende
-        System.out.println("Légende : ");
-        System.out.println("J: Vous     G: Guerrier");
-        System.out.println("A: Archer   P: Paysan");
-        System.out.println("R: Lapin    L: Loup");
-        System.out.println("O: Objet");
-    }
+        System.out.println("Légende : \tJ: Vous \t O: Objet \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
+    } 
 }
