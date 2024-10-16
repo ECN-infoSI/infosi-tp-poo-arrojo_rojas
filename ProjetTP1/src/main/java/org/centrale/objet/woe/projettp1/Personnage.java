@@ -30,7 +30,7 @@ public abstract class Personnage extends Creature {
     public Personnage (String N, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, Map<String, Nourriture> effets){
         super(pV, dA, pPar, paAtt, paPar, p, effets);
         this.nom = N;
-        this.distAttMax = dA;
+        this.distAttMax = dMax;
     }
     
     /**

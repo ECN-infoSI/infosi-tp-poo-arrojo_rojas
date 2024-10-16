@@ -120,7 +120,6 @@ public final class Joueur {
 
             // Création de l'archer
             perso_joueur = new Archer(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets, nbFleches);
-            perso_joueur.getPos().setPosition(pos.getX(), pos.getY());
             perso_joueur.setNom(nomPerso);
         } else if (classe_p == Guerrier.class) {
             // Générer des valeurs aléatoires spécifiques pour Guerrier
@@ -133,7 +132,6 @@ public final class Joueur {
             Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD-1), genererAleatoire(0, TAILLE_WORLD-1));
             // Création du Guerrier
             perso_joueur = new Guerrier(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets);
-            perso_joueur.getPos().setPosition(pos.getX(), pos.getY());
             perso_joueur.setNom(nomPerso);
         }
         System.out.println("Le personnage " + perso_joueur.getNom() + " pertinent à classe " + perso_joueur.getClass().getSimpleName() + " a été crée");

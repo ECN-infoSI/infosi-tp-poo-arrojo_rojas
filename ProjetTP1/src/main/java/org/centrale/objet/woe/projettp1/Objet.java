@@ -5,7 +5,6 @@
 package org.centrale.objet.woe.projettp1;
 
 import java.util.Arrays;
-
 /**
  * Classe qui gère les objets
  * @author Augusto ARROJO et Fernando ROJAS
@@ -19,9 +18,9 @@ public abstract class Objet extends ElementDeJeu {
      * Constructeur par défaut d'objet
      */
     public Objet() {
+        super(new Point2D());
         this.nom = "Objet Random";
         this.description = "Ceci est un objet random, et par conséquent, possède une utilité nulle";
-        this.pos = new Point2D(0, 0);
     }
 
     /**
@@ -31,9 +30,9 @@ public abstract class Objet extends ElementDeJeu {
      * @param pos Position de l'objet
      */
     public Objet(String nom, String description, Point2D pos) {
+        super(pos);
         this.nom = nom;
         this.description = description;
-        this.pos = new Point2D(pos);
     }
 
     /**
@@ -41,9 +40,9 @@ public abstract class Objet extends ElementDeJeu {
      * @param o Objet à copier
      */
     public Objet(Objet o) {
+        super(o.pos);
         this.nom = o.nom;
         this.description = o.description;
-        this.pos = new Point2D(o.pos);
     }
 
     /**
@@ -76,22 +75,6 @@ public abstract class Objet extends ElementDeJeu {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Méthode pour obtenir la position
-     * @return Position
-     */
-    public Point2D getPos() {
-        return pos;
-    }
-
-    /**
-     * Méthode pour définir la position
-     * @param pos Position de l'objet
-     */
-    public void setPos(Point2D pos) {
-        this.pos = new Point2D(pos);
     }
 
     /**

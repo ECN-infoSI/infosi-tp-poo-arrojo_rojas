@@ -605,6 +605,7 @@ public class World {
                         int j = -1; // Indice de la créature
                         ArrayList<Integer> indiceCrea = new ArrayList<>(); // Liste des indices de créatures
                         System.out.println("Les créatures à portée d'attaque sont :");
+                        System.out.println(player.getPersonnage().getDistAttMax());
                         for (Creature c : crea) {
                             j++;
                             if (c.getPos().distance(player.getPersonnage().getPos()) <= player.getPersonnage().getDistAttMax()) {

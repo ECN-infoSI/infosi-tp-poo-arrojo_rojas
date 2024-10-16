@@ -3,9 +3,9 @@ package org.centrale.objet.woe.projettp1;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 
 /**
- * Classe qui gère les ensembles de deux entiers représentant les
- * coordonnées (x, y) d'une entité dans le jeu.
- * 
+ * Classe qui gère les ensembles de deux entiers représentant les coordonnées
+ * (x, y) d'une entité dans le jeu.
+ *
  * @author Augusto ARROJO et Fernando ROJAS
  */
 class Point2D {
@@ -138,11 +138,13 @@ class Point2D {
     }
 
     /**
-     * Méthode vérifiant si une position donnée est valide pour un déplacement dans le monde.
-     * Cette méthode vérifie d'abord si la position est hors des limites du monde, puis si elle est déjà occupée par une autre créature.
+     * Méthode vérifiant si une position donnée est valide pour un déplacement
+     * dans le monde. Cette méthode vérifie d'abord si la position est hors des
+     * limites du monde, puis si elle est déjà occupée par une autre créature.
      *
      * @param monde Le monde dans lequel se fait le déplacement
-     * @return true si la position est valide et libre, false si elle est hors des limites ou occupée
+     * @return true si la position est valide et libre, false si elle est hors
+     * des limites ou occupée
      */
     public boolean check_deplacement(World monde) {
         // Vérifie si la position est en dehors des limites du monde

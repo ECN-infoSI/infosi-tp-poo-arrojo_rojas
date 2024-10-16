@@ -39,13 +39,13 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      * @param effets Liste des effets subis par la créature.
      */
     public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p, Map<String, Nourriture> effets) {
+        super(p);
         this.ptVie = pV;
         this.degAtt = dA;
         this.ptPar = pPar;
         this.pageAtt = paAtt;
         this.pagePar = paPar;
-        this.pos = new Point2D(p);
-        this.effets = new HashMap<>();
+        this.effets = effets;
     }
 
     /**
@@ -54,12 +54,12 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      * @param c La créature à copier.
      */
     public Creature(Creature c) {
+        super(c.pos);
         this.ptVie = c.getPtVie();
         this.degAtt = c.getDegAtt();
         this.ptPar = c.getPtPar();
         this.pageAtt = c.getPageAtt();
         this.pagePar = c.getPagePar();
-        this.pos = new Point2D(c.pos);
         this.effets = new HashMap<>();
     }
 
@@ -72,7 +72,6 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.ptPar = 5;
         this.pageAtt = 1;
         this.pagePar = 1;
-        this.pos = new Point2D();  // Position par défaut (0, 0) 
         this.effets = new HashMap<>();
     }
 
