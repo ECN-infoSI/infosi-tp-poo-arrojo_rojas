@@ -20,6 +20,7 @@ public class Lapin extends Monstre {
      * @param paAtt Pourcentage de chance de toucher avec une attaque
      * @param paPar Pourcentage de chance de parer une attaque
      * @param p Position du lapin
+     * @param effets Liste des effets subis par le lapin
     */
     public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p, Map<String, Nourriture> effets) {
         super (pV, dA, pPar, paAtt, paPar, p, effets);

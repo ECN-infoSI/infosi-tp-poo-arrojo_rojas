@@ -68,10 +68,10 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      */
     public Creature() {
         this.ptVie = 100;  // Valeur par défaut
-        this.degAtt = 10;
-        this.ptPar = 5;
-        this.pageAtt = 1;
-        this.pagePar = 1;
+        this.degAtt = 30;
+        this.ptPar = 15;
+        this.pageAtt = 30;
+        this.pagePar = 10;
         this.effets = new HashMap<>();
     }
 
@@ -174,7 +174,10 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.effets = effets;
     }
     
-    // Méthode pour supprimer un effet
+    /**
+     * Méthode pour supprimer un effet
+     * @param nomEffet nom effet
+    */
     public void removeEffet(String nomEffet) {
         if (effets.containsKey(nomEffet)) {
             effets.remove(nomEffet); // Supprime l'effet du mapa
