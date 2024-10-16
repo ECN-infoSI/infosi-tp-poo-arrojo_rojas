@@ -319,93 +319,11 @@ public class World {
     public ArrayList<Nourriture> getConsommable() {
         return consommable;
     }
-
-    public void utiliser(Scanner sc) {
-        if (player.getInventaire().isEmpty()) {
-            System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
-        } else {
-            System.out.println("Choisissez un objet à utiliser :");
-            player.affiche_inventaire();
-
-            System.out.println("Choisissez 0 pour ne rien faire");
-            boolean choixValide = false;
-
-            while (!choixValide) {
-                int objetChoisi = sc.nextInt();
-                sc.nextLine(); // Effacer le buffer
-
-                if (objetChoisi == 0) {
-                    System.out.println("Aucune action n'a été réalisée.");
-                    choixValide = true;
-                } else if (objetChoisi > 0 && objetChoisi <= player.getInventaire().size()) {
-                    Map<String, List<Nourriture>> mapInventaireGroup = new HashMap<>();
-                    for (Nourriture obj : player.getInventaire()) {
-                        mapInventaireGroup.computeIfAbsent(obj.getNom(), k -> new ArrayList<>()).add(obj);
-                    }
-
-                    int index = 1;
-                    for (Map.Entry<String, List<Nourriture>> entry : mapInventaireGroup.entrySet()) {
-                        if (index == objetChoisi) {
-                            List<Nourriture> objetsDisponibles = entry.getValue();
-                            int quantiteAUtiliser = -1;
-
-                            while (quantiteAUtiliser < 0 || quantiteAUtiliser > objetsDisponibles.size()) {
-                                System.out.println("Combien de " + entry.getKey() + " voulez-vous utiliser ? (maximum : " + objetsDisponibles.size() + ")");
-                                quantiteAUtiliser = sc.nextInt();
-                                sc.nextLine();
-                                if (quantiteAUtiliser <= 0 || quantiteAUtiliser > objetsDisponibles.size()) {
-                                    System.out.println("Quantité invalide. Veuillez choisir une quantité correcte.");
-                                }
-                            }
-
-                            Nourriture objetAUtiliser = objetsDisponibles.get(0);
-
-                            // Applique l'effet au personnage en utilisant la quantité choisie
-                            objetAUtiliser.est_utilise(player.getPersonnage(), quantiteAUtiliser);
-
-                            // Imprime la durée du effet
-                            int duree = objetAUtiliser.getNbToursEffet(); // Assurez-vous que cette méthode existe
-                            System.out.println("L'effet durera pour " + duree + " tour(s).");
-
-                            // Supprime les objets utilisés de l'inventaire
-                            for (int h = 0; h < quantiteAUtiliser; h++) {
-                                player.getInventaire().remove(objetsDisponibles.remove(0));
-                            }
-
-                            System.out.println("Vous avez utilisé " + quantiteAUtiliser + " " + entry.getKey() + "(s)");
-                            afficherEffets(objetAUtiliser);
-
-                            choixValide = true;
-                            break;
-                        }
-                        index++;
-                    }
-                } else {
-                    System.out.println("Choix invalide. Veuillez choisir un numéro correct.");
-                }
-            }
-        }
-    }
-
-    private void afficherEffets(Nourriture objetAUtiliser) {
-        System.out.println("Effets :");
-        if (objetAUtiliser.getModifPtVie() != 0) {
-            System.out.println("Points de vie : " + objetAUtiliser.getModifPtVie());
-        }
-        if (objetAUtiliser.getModifDegAtt() != 0) {
-            System.out.println("Dégâts d'attaque : " + objetAUtiliser.getModifDegAtt());
-        }
-        if (objetAUtiliser.getModifPageAtt() != 0) {
-            System.out.println("Pourcentage d'attaque : " + objetAUtiliser.getModifPageAtt());
-        }
-        if (objetAUtiliser.getModifPagePar() != 0) {
-            System.out.println("Pourcentage de parade : " + objetAUtiliser.getModifPagePar());
-        }
-        if (objetAUtiliser.getModifPtPar() != 0) {
-            System.out.println("Points de parade : " + objetAUtiliser.getModifPtPar());
-        }
-    }
-
+    
+    /**
+     * Méthode de gestion de l'option de combat lorsque le jeu l'a choisie au tour en cours
+     * @param sc Scanner
+    */
     public void combattre(Scanner sc) {
         int k = 0;
         int j = -1;
@@ -427,24 +345,177 @@ public class World {
             boolean combatValide = false;
 
             while (!combatValide) {
-                int creaCombattu = sc.nextInt();
-                sc.nextLine(); // Effacer le buffer
+                try {
+                    System.out.print("Numéro de la créature : ");
+                    int creaCombattu = sc.nextInt();
+                    sc.nextLine(); // Effacer le buffer
 
-                if (creaCombattu > 0 && creaCombattu <= indiceCrea.size()) {
-                    Personnage perso = player.getPersonnage();
-                    Creature cible = crea.get(indiceCrea.get(creaCombattu - 1));
+                    if (creaCombattu > 0 && creaCombattu <= indiceCrea.size()) {
+                        Personnage perso = player.getPersonnage();
+                        Creature cible = crea.get(indiceCrea.get(creaCombattu - 1));
 
-                    // Combattre
-                    ((Combattant) perso).combattre(cible);
+                        // Combattre
+                        ((Combattant) perso).combattre(cible);
 
-                    combatValide = true; // Termine la validation du combat après une seule action
-                } else {
-                    System.out.println("Choix invalide. Veuillez choisir un numéro de créature valide.");
+                        combatValide = true; // Termine la validation du combat après une seule action
+                    } else {
+                        System.out.println("Choix invalide. Veuillez choisir un numéro de créature valide.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Erreur: Entrée non valide. Veuillez entrer un numéro.");
+                    sc.nextLine(); // Effacer l'entrée invalide
+                } catch (Exception e) {
+                    System.out.println("Une erreur s'est produite: " + e.getMessage());
                 }
             }
         } else {
             System.out.println("Pas de créature à portée");
         }
+    }
+
+    /**
+      * Méthode de gestion de l'option de utiliser le inventaire lorsque le jeu l'a choisie au tour en cours
+      * @param sc Scanner
+    */
+    public void utiliser_inventaire(Scanner sc) {
+        if (player.getInventaire().isEmpty()) {
+            System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
+        } else {
+            System.out.println("Choisissez un objet à utiliser :");
+            player.affiche_inventaire();
+
+            System.out.println("Choisissez 0 pour ne rien faire");
+            boolean choixValide = false;
+
+            while (!choixValide) {
+                try {
+                    int objetChoisi = sc.nextInt();
+                    sc.nextLine(); // Effacer le buffer
+
+                    if (objetChoisi == 0) {
+                        System.out.println("Aucune action n'a été réalisée.");
+                        choixValide = true;
+                    } else if (objetChoisi > 0 && objetChoisi <= player.getInventaire().size()) {
+                        Map<String, List<Nourriture>> mapInventaireGroup = new HashMap<>();
+                        for (Nourriture obj : player.getInventaire()) {
+                            mapInventaireGroup.computeIfAbsent(obj.getNom(), k -> new ArrayList<>()).add(obj);
+                        }
+
+                        int index = 1;
+                        for (Map.Entry<String, List<Nourriture>> entry : mapInventaireGroup.entrySet()) {
+                            if (index == objetChoisi) {
+                                List<Nourriture> objetsDisponibles = entry.getValue();
+                                int quantiteAUtiliser = -1;
+
+                                while (quantiteAUtiliser < 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                    System.out.println("Combien de " + entry.getKey() + " voulez-vous utiliser ? (maximum : " + objetsDisponibles.size() + ")");
+                                    try {
+                                        quantiteAUtiliser = sc.nextInt();
+                                        sc.nextLine(); // Effacer le buffer
+
+                                        if (quantiteAUtiliser <= 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                            System.out.println("Quantité invalide. Veuillez choisir une quantité correcte.");
+                                        }
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Erreur: entrée non valide. Veuillez entrer un nombre.");
+                                        sc.nextLine(); // Effacer l'entrée invalide
+                                    }
+                                }
+
+                                Nourriture objetAUtiliser = objetsDisponibles.get(0);
+
+                                // Applique l'effet au personnage en utilisant la quantité choisie
+                                objetAUtiliser.est_utilise(player.getPersonnage(), quantiteAUtiliser);
+
+                                // Imprime la durée de l'effet
+                                int duree = objetAUtiliser.getNbToursEffet(); // Assurez-vous que cette méthode existe
+                                System.out.println("L'effet durera pour " + duree + " tour(s).");
+
+                                // Supprime les objets utilisés de l'inventaire
+                                for (int h = 0; h < quantiteAUtiliser; h++) {
+                                    player.getInventaire().remove(objetsDisponibles.remove(0));
+                                }
+
+                                System.out.println("Vous avez utilisé " + quantiteAUtiliser + " " + entry.getKey() + "(s)");
+                                afficherEffets(objetAUtiliser);
+
+                                choixValide = true;
+                                break;
+                            }
+                            index++;
+                        }
+                    } else {
+                        System.out.println("Choix invalide. Veuillez choisir un numéro correct.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Erreur: entrée non valide. Veuillez entrer un nombre.");
+                    sc.nextLine(); // Effacer l'entrée invalide
+                } catch (Exception e) {
+                    System.out.println("Une erreur s'est produite: " + e.getMessage());
+                }
+            }
+        }
+    }
+    
+    /*+
+        Méthode pour afficher les effets de la nourriture
+        @param objetAUtiliser objet qui il veut utiliser
+    */
+    private void afficherEffets(Nourriture objetAUtiliser) {
+        System.out.println("Effets :");
+        if (objetAUtiliser.getModifPtVie() != 0) {
+            System.out.println("Points de vie : " + objetAUtiliser.getModifPtVie());
+        }
+        if (objetAUtiliser.getModifDegAtt() != 0) {
+            System.out.println("Dégâts d'attaque : " + objetAUtiliser.getModifDegAtt());
+        }
+        if (objetAUtiliser.getModifPageAtt() != 0) {
+            System.out.println("Pourcentage d'attaque : " + objetAUtiliser.getModifPageAtt());
+        }
+        if (objetAUtiliser.getModifPagePar() != 0) {
+            System.out.println("Pourcentage de parade : " + objetAUtiliser.getModifPagePar());
+        }
+        if (objetAUtiliser.getModifPtPar() != 0) {
+            System.out.println("Points de parade : " + objetAUtiliser.getModifPtPar());
+        }
+    }
+    /**
+      * Méthode de gestion des effets de la nourriture au tour en cours
+    */
+    public void gerer_effet() {
+        int PtVieBonus = 0;
+        int DegAttBonus = 0;
+        int PageAttBonus = 0;
+        int PageParBonus = 0;
+        int PtParBonus = 0;
+        // Traiter les effets du joueur
+        for (Map.Entry<String, Nourriture> entry : player.getPersonnage().getEffets().entrySet()) {
+            String key = entry.getKey();
+            Nourriture effet = entry.getValue();
+            // Ajouter les bonus des effets en cours
+            PtVieBonus += effet.getModifPtVie();     // Bonus de points de vie
+            DegAttBonus += effet.getModifDegAtt();   // Bonus de dégats d'attaque
+            PageAttBonus += effet.getModifPageAtt(); // Bonus de pourcentage d'attaque
+            PageParBonus += effet.getModifPagePar(); // Bonus de pourcentage de parade
+            PtParBonus += effet.getModifPtPar();     // Bonus de points de parade
+
+            // Gérer la durée restante de l'effet
+            int t = effet.getNbToursEffet();
+            if ((t - 1) > 0) {
+                effet.setNbToursEffet(t - 1); // Décrémenter le nombre de tours restants
+            } else {
+                System.out.println("Le effet du/de" + effet.getNom() + "a fini");
+                player.getPersonnage().removeEffet(key); // Supprimer l'effet a fini
+            }
+        }
+
+        // Mettre à jour les attributs du personnage avec les bonus
+        player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + PtVieBonus);          // Appliquer le bonus de points de vie
+        player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + DegAttBonus);       // Appliquer le bonus de dégats d'attaque
+        player.getPersonnage().setPageAtt(player.getPersonnage().getPageAtt() + PageAttBonus);    // Appliquer le bonus de pourcentage d'attaque
+        player.getPersonnage().setPagePar(player.getPersonnage().getPagePar() + PageParBonus);    // Appliquer o bônus de pourcentage de parade
+        player.getPersonnage().setPtPar(player.getPersonnage().getPtPar() + PtParBonus);          // Appliquer o bônus de points de parade
+
     }
 
     /**
@@ -533,42 +604,6 @@ public class World {
         System.out.println("Légende : \t J: Vous \t E: Épée \t O: Potion \t C: Nourriture \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
     }
 
-    public void gerer_effet() {
-        int PtVieBonus = 0;
-        int DegAttBonus = 0;
-        int PageAttBonus = 0;
-        int PageParBonus = 0;
-        int PtParBonus = 0;
-        // Traiter les effets du joueur
-        for (Map.Entry<String, Nourriture> entry : player.getPersonnage().getEffets().entrySet()) {
-            String key = entry.getKey();
-            Nourriture effet = entry.getValue();
-            // Ajouter les bonus des effets en cours
-            PtVieBonus += effet.getModifPtVie();     // Bonus de points de vie
-            DegAttBonus += effet.getModifDegAtt();   // Bonus de dégats d'attaque
-            PageAttBonus += effet.getModifPageAtt(); // Bonus de pourcentage d'attaque
-            PageParBonus += effet.getModifPagePar(); // Bonus de pourcentage de parade
-            PtParBonus += effet.getModifPtPar();     // Bonus de points de parade
-
-            // Gérer la durée restante de l'effet
-            int t = effet.getNbToursEffet();
-            if ((t - 1) > 0) {
-                effet.setNbToursEffet(t - 1); // Décrémenter le nombre de tours restants
-            } else {
-                System.out.println("Le effet du/de" + effet.getNom() + "a fini");
-                player.getPersonnage().removeEffet(key); // Supprimer l'effet a fini
-            }
-        }
-
-        // Mettre à jour les attributs du personnage avec les bonus
-        player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + PtVieBonus);          // Appliquer le bonus de points de vie
-        player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + DegAttBonus);       // Appliquer le bonus de dégats d'attaque
-        player.getPersonnage().setPageAtt(player.getPersonnage().getPageAtt() + PageAttBonus);    // Appliquer le bonus de pourcentage d'attaque
-        player.getPersonnage().setPagePar(player.getPersonnage().getPagePar() + PageParBonus);    // Appliquer o bônus de pourcentage de parade
-        player.getPersonnage().setPtPar(player.getPersonnage().getPtPar() + PtParBonus);          // Appliquer o bônus de points de parade
-
-    }
-
     /**
      * Méthode effectuant les tours de jeu
      *
@@ -594,23 +629,23 @@ public class World {
                     iterator.remove(); // Utilisez l'itérateur pour supprimer l'élément
                 }
             }
-            
+
             for (NuageToxique n : nuage_toxique) {
                 n.combattre(player.getPersonnage()); // Gère les combats avec les nuages toxiques
             }
             player.ramasser(this); // Permet au joueur de ramasser des objets
             soigne_obj();
-                        
+
             System.out.println("Le joueur (" + player.getPersonnage().getClass().getSimpleName() + ") est en position : X = " + player.getPersonnage().getPos().getX()
                     + " et Y = " + player.getPersonnage().getPos().getY()
                     + " avec " + player.getPersonnage().getPtVie() + " point(s) de vie"); // Affiche l'état du joueur
             gerer_effet();
-            
+
             // Permettre uniquement une action par tour
             boolean actionValide = false; // Initialise la flag d'action valide
 
             while (!actionValide) {
-                System.out.println("Choisissez une action : deplace | combattre | utiliser | sortie");
+                System.out.println("Choisissez une action : deplace | combattre | inventaire | sortie");
                 String action = sc.nextLine();
 
                 switch (action) {
@@ -618,8 +653,8 @@ public class World {
                         player.deplaceJoueur(this);
                         actionValide = true;
                         break;
-                    case "utiliser":
-                        utiliser(sc);
+                    case "inventaire":
+                        utiliser_inventaire(sc);
                         actionValide = true;
                         break;
                     case "combattre":

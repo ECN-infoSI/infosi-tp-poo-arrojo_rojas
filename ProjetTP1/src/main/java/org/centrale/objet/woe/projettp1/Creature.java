@@ -174,7 +174,10 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.effets = effets;
     }
     
-    // Méthode pour supprimer un effet
+    /**
+     * Méthode pour supprimer un effet
+     * @param nomEffet nom effet
+    */
     public void removeEffet(String nomEffet) {
         if (effets.containsKey(nomEffet)) {
             effets.remove(nomEffet); // Supprime l'effet du mapa

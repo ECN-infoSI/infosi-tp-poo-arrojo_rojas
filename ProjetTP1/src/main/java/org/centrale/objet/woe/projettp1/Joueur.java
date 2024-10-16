@@ -24,6 +24,9 @@ import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 public final class Joueur {
 
     HashMap<String, Class> perso_dispos;
+    /**
+     * attribut pour enregistrer la classe Personnage
+     */
     public Personnage perso_joueur;
     private Class classe_p;
     private ArrayList<Nourriture> inventaire;
@@ -164,7 +167,10 @@ public final class Joueur {
     public Personnage getPersonnage() {
         return perso_joueur;
     }
-
+    /**
+     * Setter de l'attribut personnage 
+     * @param perso Personnage
+     */
     public void setPersonnage(Personnage perso) {
         perso_joueur = perso;
     }

@@ -132,24 +132,6 @@ public class Nourriture extends Objet implements Utilisable {
         this.modifPtVie = modifPtVie;
     }
 
-    // Baguette configuration
-    public static final String BAGUETTE = "Baguette";
-    public static final int BAGUETTE_MODIF_PTVIE = 5;
-    public static final int BAGUETTE_MODIF_DEGATT = -8;
-    public static final int BAGUETTE_MODIF_PAGEATT = 0;
-    public static final int BAGUETTE_MODIF_PAGEPAR = 0;
-    public static final int BAGUETTE_MODIF_PTPAR = 0;
-    public static final int BAGUETTE_NBTOURS = 2;
-
-    // Fromage configuration
-    public static final String FROMAGE_VENENEUX = "Fromage magique";
-    public static final int FROMAGE_PTVIE = 2;
-    public static final int FROMAGE_DEGATT = 0;
-    public static final int FROMAGE_PAGEATT = -5;
-    public static final int FROMAGE_PAGEPAR = 0;
-    public static final int FROMAGE_PTPAR = 0;
-    public static final int FROMAGE_NBTOURS = 3;
-
     /**
      * Constructeur de Nourriture
      *
@@ -180,13 +162,13 @@ public class Nourriture extends Objet implements Utilisable {
      * Constructeur par défaut de Nourriture
      */
     public Nourriture() {
-        super("Baguette", "Baguette avec sauce Alfredo", new Point2D());
-        this.modifPtVie = BAGUETTE_MODIF_PTVIE;
-        this.modifDegAtt = BAGUETTE_MODIF_DEGATT;
-        this.modifPageAtt = BAGUETTE_MODIF_PAGEATT;
-        this.modifPagePar = BAGUETTE_MODIF_PAGEPAR;
-        this.modifPtPar = BAGUETTE_MODIF_PTPAR;
-        this.nbToursEffet = BAGUETTE_NBTOURS;
+        super("Inconnu", "Inconnu", new Point2D());
+        this.modifPtVie = 0;
+        this.modifDegAtt = 0;
+        this.modifPageAtt = 0;
+        this.modifPagePar = 0;
+        this.modifPtPar = 0;
+        this.nbToursEffet = 0;
     }
 
     /**
@@ -198,10 +180,28 @@ public class Nourriture extends Objet implements Utilisable {
      */
     public static Nourriture creerNourriture(String type) {
         Point2D pos = new Point2D();
-        if (type.equalsIgnoreCase("Fromage magique")) {
-            return new Nourriture(FROMAGE_PTVIE, FROMAGE_DEGATT, FROMAGE_PAGEATT, FROMAGE_PAGEPAR, FROMAGE_PTPAR, FROMAGE_NBTOURS, "Fromage vénéneux", "Manger ceci était une mauvaise idée", pos);
-        } else if (type.equalsIgnoreCase("Baguette")) {
-            return new Nourriture(BAGUETTE_MODIF_PTVIE, BAGUETTE_MODIF_DEGATT, BAGUETTE_MODIF_PAGEATT, BAGUETTE_MODIF_PAGEPAR, BAGUETTE_MODIF_PTPAR, BAGUETTE_NBTOURS, "Baguette", "Super !", pos);
+        // Baguette
+        String baguette_nom = "Baguette";
+        int baguette_modif_ptvie = 5;
+        int baguette_modif_degatt = -8;
+        int baguette_modif_pageatt = 0;
+        int baguette_modif_pagepar = 0;
+        int baguette_modif_ptpar = 0;
+        int baguette_nbtours = 2;
+
+        //Fromage
+        String fromage_veneneux_nom = "Fromage magique";
+        int fromage_ptvie = 2;
+        int fromage_degatt = 0;
+        int fromage_pageatt = -5;
+        int fromage_pagepar = 0;
+        int fromage_ptpar = 0;
+        int fromage_nbtours = 3;
+
+        if (type.equalsIgnoreCase(fromage_veneneux_nom)) {
+            return new Nourriture(fromage_ptvie, fromage_degatt, fromage_pageatt, fromage_pagepar, fromage_ptpar, fromage_nbtours, fromage_veneneux_nom, fromage_veneneux_nom, pos);
+        } else if (type.equalsIgnoreCase(baguette_nom)) {
+            return new Nourriture(baguette_modif_ptvie, baguette_modif_degatt, baguette_modif_pageatt, baguette_modif_pagepar, baguette_modif_ptpar, baguette_nbtours, baguette_nom, baguette_nom, pos);
         } else {
             throw new IllegalArgumentException("Type de nourriture non reconnu: " + type);
         }
@@ -211,8 +211,9 @@ public class Nourriture extends Objet implements Utilisable {
      * Méthode d'utilisation d'un consommable
      *
      * @param personnage Personnage utilisant le consommable
+     * @param nbTour Nombre de tours que le effet va durer
      */
-    public void est_utilise(Personnage personnage,int nbTour) {
+    public void est_utilise(Personnage personnage, int nbTour) {
         personnage.getEffets().put(this.getNom(), this); // Registra o efeito com a duração
         this.setNbToursEffet(nbTour * this.getNbToursEffet()); // Supondo que o efeito dure 3 turnos
     }
