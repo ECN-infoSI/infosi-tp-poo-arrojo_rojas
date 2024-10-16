@@ -227,17 +227,37 @@ public class World {
     }
 
     /**
-     * Méthode pour soigner
+     * Méthode pour soigner des espée et potions
      */
-    public void soigne() {
+    public void soigne_obj() {
         ArrayList<Objet> toRemove = new ArrayList<>();
         for (Objet object : obj) {
             if (object instanceof PotionSoin) {
                 PotionSoin potion = (PotionSoin) object;
-                for (Creature creature : crea) {
-                    if (creature.getPos().equals(potion.getPos())) {
-                        creature.setPtVie(creature.getPtVie() + potion.getValeur_soin());
-                        toRemove.add(object);
+                if (player.getPersonnage().getPos().equals(potion.getPos())) {
+                    player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + potion.getValeur_soin());
+                    System.out.println("Vous avez ramassé un potion qui a vous donné " + potion.getValeur_soin() + " point(s) de vie");
+                    toRemove.add(object);
+                } else {
+                    for (Creature creature : crea) {
+                        if (creature.getPos().equals(potion.getPos())) {
+                            creature.setPtVie(creature.getPtVie() + potion.getValeur_soin());
+                            toRemove.add(object);
+                        }
+                    }
+                }
+            } else if (object instanceof Epee) {
+                Epee epee = (Epee) object;
+                if (player.getPersonnage().getPos().equals(epee.getPos())) {
+                    player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + epee.getBonus_att());
+                    System.out.println("Vous avez ramassé une epée qui a vous donné " + epee.getBonus_att() + " point(s) de attaque");
+                    toRemove.add(object);
+                } else {
+                    for (Creature creature : crea) {
+                        if (creature.getPos().equals(epee.getPos())) {
+                            creature.setDegAtt(creature.getDegAtt() + epee.getBonus_att());
+                            toRemove.add(object);
+                        }
                     }
                 }
             }
@@ -648,6 +668,7 @@ public class World {
                 n.combattre(player.getPersonnage()); // Gère les combats avec les nuages toxiques
             }
             player.ramasser(this); // Permet au joueur de ramasser des objets
+            soigne_obj();
         }
     }
 

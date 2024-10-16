@@ -30,7 +30,7 @@ public class PotionSoin extends Objet{
     */
     public PotionSoin() {
         super();
-        this.valeur_soin = 100;
+        this.valeur_soin = 5;
     }
 
     /**
