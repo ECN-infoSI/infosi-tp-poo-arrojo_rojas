@@ -23,6 +23,6 @@ public class TestWoE {
         World monde = new World();
         monde.creerMondeAlea();
         monde.createJoueur();
-        monde.tour_de_jeu(30);
+        monde.tour_de_jeu(0);
     }
 }

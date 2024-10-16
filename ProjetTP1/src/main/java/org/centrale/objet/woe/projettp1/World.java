@@ -12,6 +12,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Iterator;
 
 /**
  * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des
@@ -83,11 +84,11 @@ public class World {
         int RandG = 0, RandL = 0, RandA = 0, RandLo = 0, RandP = 0;
         //Creation des creatures aleatoires (minimum 50)
         do {
-            RandG = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
-            RandL = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
-            RandA = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
-            RandLo = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
-            RandP = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            //RandG = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandL = generateurAleatoire.nextInt(nombre_min_crea);
+            //RandA = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandLo = generateurAleatoire.nextInt(nombre_min_crea);
+            RandP = generateurAleatoire.nextInt(nombre_min_crea);
         } while (RandG + RandL + RandA + RandLo + RandP < nombre_min_crea);
         for (int i = 0; i < RandG; i++) {
             crea.add(new Guerrier());
@@ -119,7 +120,7 @@ public class World {
         int RandPS, RandN, RandNT, RandEp;
         do {
             RandPS = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
-            RandN = 10 * generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
+            RandN = 5 * generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
             RandNT = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
             RandEp = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
         } while (RandPS + RandN + RandNT + RandEp < nombre_min_obj);
@@ -130,8 +131,9 @@ public class World {
         for (int i = 0; i < RandEp; i++) {
             obj.add(new Epee());
         }
-        for (int i = 0; i < RandN; i++) {
-            consommable.add(new Nourriture());
+        for (int i = 0; i < RandN / 2; i++) {
+            consommable.add(Nourriture.creerNourriture("Fromage magique"));
+            consommable.add(Nourriture.creerNourriture("Baguette"));
         }
         for (int i = 0; i < RandNT; i++) {
             nuage_toxique.add(new NuageToxique());
@@ -318,6 +320,133 @@ public class World {
         return consommable;
     }
 
+    public void utiliser(Scanner sc) {
+        if (player.getInventaire().isEmpty()) {
+            System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
+        } else {
+            System.out.println("Choisissez un objet à utiliser :");
+            player.affiche_inventaire();
+
+            System.out.println("Choisissez 0 pour ne rien faire");
+            boolean choixValide = false;
+
+            while (!choixValide) {
+                int objetChoisi = sc.nextInt();
+                sc.nextLine(); // Effacer le buffer
+
+                if (objetChoisi == 0) {
+                    System.out.println("Aucune action n'a été réalisée.");
+                    choixValide = true;
+                } else if (objetChoisi > 0 && objetChoisi <= player.getInventaire().size()) {
+                    Map<String, List<Nourriture>> mapInventaireGroup = new HashMap<>();
+                    for (Nourriture obj : player.getInventaire()) {
+                        mapInventaireGroup.computeIfAbsent(obj.getNom(), k -> new ArrayList<>()).add(obj);
+                    }
+
+                    int index = 1;
+                    for (Map.Entry<String, List<Nourriture>> entry : mapInventaireGroup.entrySet()) {
+                        if (index == objetChoisi) {
+                            List<Nourriture> objetsDisponibles = entry.getValue();
+                            int quantiteAUtiliser = -1;
+
+                            while (quantiteAUtiliser < 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                System.out.println("Combien de " + entry.getKey() + " voulez-vous utiliser ? (maximum : " + objetsDisponibles.size() + ")");
+                                quantiteAUtiliser = sc.nextInt();
+                                sc.nextLine();
+                                if (quantiteAUtiliser <= 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                    System.out.println("Quantité invalide. Veuillez choisir une quantité correcte.");
+                                }
+                            }
+
+                            Nourriture objetAUtiliser = objetsDisponibles.get(0);
+
+                            // Applique l'effet au personnage en utilisant la quantité choisie
+                            objetAUtiliser.est_utilise(player.getPersonnage(), quantiteAUtiliser);
+
+                            // Imprime la durée du effet
+                            int duree = objetAUtiliser.getNbToursEffet(); // Assurez-vous que cette méthode existe
+                            System.out.println("L'effet durera pour " + duree + " tour(s).");
+
+                            // Supprime les objets utilisés de l'inventaire
+                            for (int h = 0; h < quantiteAUtiliser; h++) {
+                                player.getInventaire().remove(objetsDisponibles.remove(0));
+                            }
+
+                            System.out.println("Vous avez utilisé " + quantiteAUtiliser + " " + entry.getKey() + "(s)");
+                            afficherEffets(objetAUtiliser);
+
+                            choixValide = true;
+                            break;
+                        }
+                        index++;
+                    }
+                } else {
+                    System.out.println("Choix invalide. Veuillez choisir un numéro correct.");
+                }
+            }
+        }
+    }
+
+    private void afficherEffets(Nourriture objetAUtiliser) {
+        System.out.println("Effets :");
+        if (objetAUtiliser.getModifPtVie() != 0) {
+            System.out.println("Points de vie : " + objetAUtiliser.getModifPtVie());
+        }
+        if (objetAUtiliser.getModifDegAtt() != 0) {
+            System.out.println("Dégâts d'attaque : " + objetAUtiliser.getModifDegAtt());
+        }
+        if (objetAUtiliser.getModifPageAtt() != 0) {
+            System.out.println("Pourcentage d'attaque : " + objetAUtiliser.getModifPageAtt());
+        }
+        if (objetAUtiliser.getModifPagePar() != 0) {
+            System.out.println("Pourcentage de parade : " + objetAUtiliser.getModifPagePar());
+        }
+        if (objetAUtiliser.getModifPtPar() != 0) {
+            System.out.println("Points de parade : " + objetAUtiliser.getModifPtPar());
+        }
+    }
+
+    public void combattre(Scanner sc) {
+        int k = 0;
+        int j = -1;
+        ArrayList<Integer> indiceCrea = new ArrayList<>();
+        System.out.println(player.getPersonnage().getDistAttMax());
+
+        for (Creature c : crea) {
+            j++;
+            if (c.getPos().distance(player.getPersonnage().getPos()) <= player.getPersonnage().getDistAttMax()) {
+                k++;
+                System.out.println("Créature " + k);
+                c.affiche();
+                indiceCrea.add(j);
+            }
+        }
+
+        if (k != 0) {
+            System.out.println("Choisissez une créature à combattre");
+            boolean combatValide = false;
+
+            while (!combatValide) {
+                int creaCombattu = sc.nextInt();
+                sc.nextLine(); // Effacer le buffer
+
+                if (creaCombattu > 0 && creaCombattu <= indiceCrea.size()) {
+                    Personnage perso = player.getPersonnage();
+                    Creature cible = crea.get(indiceCrea.get(creaCombattu - 1));
+
+                    // Combattre
+                    ((Combattant) perso).combattre(cible);
+
+                    combatValide = true; // Termine la validation du combat après une seule action
+                } else {
+                    System.out.println("Choix invalide. Veuillez choisir un numéro de créature valide.");
+                }
+            }
+        } else {
+            System.out.println("Pas de créature à portée");
+        }
+    }
+
     /**
      * Méthode d'affichage du display avec la logique de test intégrée
      */
@@ -404,69 +533,40 @@ public class World {
         System.out.println("Légende : \t J: Vous \t E: Épée \t O: Potion \t C: Nourriture \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
     }
 
-    /**
-     * Méthode de déplacement du joueur
-     *
-     * @return true si le jouer a deplacé
-     */
-    public void deplaceJoueur() {
-        Scanner sc = new Scanner(System.in);
-        Point2D pos = player.getPersonnage().getPos(); // position initial du jouer
-        int x, y;
+    public void gerer_effet() {
+        int PtVieBonus = 0;
+        int DegAttBonus = 0;
+        int PageAttBonus = 0;
+        int PageParBonus = 0;
+        int PtParBonus = 0;
+        // Traiter les effets du joueur
+        for (Map.Entry<String, Nourriture> entry : player.getPersonnage().getEffets().entrySet()) {
+            String key = entry.getKey();
+            Nourriture effet = entry.getValue();
+            // Ajouter les bonus des effets en cours
+            PtVieBonus += effet.getModifPtVie();     // Bonus de points de vie
+            DegAttBonus += effet.getModifDegAtt();   // Bonus de dégats d'attaque
+            PageAttBonus += effet.getModifPageAtt(); // Bonus de pourcentage d'attaque
+            PageParBonus += effet.getModifPagePar(); // Bonus de pourcentage de parade
+            PtParBonus += effet.getModifPtPar();     // Bonus de points de parade
 
-        System.out.println("Rentrez une direction: ");
-        System.out.println("N | NE | E | SE | S | SO | O | NO");
-
-        while (true) {
-            String direction = sc.nextLine().toUpperCase();
-
-            // Réinitialiser les variables x et y pour chaque nouvelle entrée
-            x = 0;
-            y = 0;
-
-            switch (direction) {
-                case "N":
-                    y = -1;
-                    break;
-                case "NE":
-                    x = 1;
-                    y = -1;
-                    break;
-                case "E":
-                    x = 1;
-                    break;
-                case "SE":
-                    x = 1;
-                    y = 1;
-                    break;
-                case "S":
-                    y = 1;
-                    break;
-                case "SO":
-                    x = -1;
-                    y = 1;
-                    break;
-                case "O":
-                    x = -1;
-                    break;
-                case "NO":
-                    x = -1;
-                    y = -1;
-                    break;
-                default:
-                    System.out.println("Direction invalide");
-                    continue; // Retour au début de la boucle
-            }
-
-            Point2D newPos = new Point2D(pos.getX() + x, pos.getY() + y); // Nouvelle position
-
-            if (!newPos.check_deplacement(this)) {
-                System.out.println("Position invalide ou case déjà occupée");
+            // Gérer la durée restante de l'effet
+            int t = effet.getNbToursEffet();
+            if ((t - 1) > 0) {
+                effet.setNbToursEffet(t - 1); // Décrémenter le nombre de tours restants
             } else {
-                player.getPersonnage().getPos().translate(x, y); // met à jour la position du joueur
-                break;
+                System.out.println("Le effet du/de" + effet.getNom() + "a fini");
+                player.getPersonnage().removeEffet(key); // Supprimer l'effet a fini
             }
         }
+
+        // Mettre à jour les attributs du personnage avec les bonus
+        player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + PtVieBonus);          // Appliquer le bonus de points de vie
+        player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + DegAttBonus);       // Appliquer le bonus de dégats d'attaque
+        player.getPersonnage().setPageAtt(player.getPersonnage().getPageAtt() + PageAttBonus);    // Appliquer le bonus de pourcentage d'attaque
+        player.getPersonnage().setPagePar(player.getPersonnage().getPagePar() + PageParBonus);    // Appliquer o bônus de pourcentage de parade
+        player.getPersonnage().setPtPar(player.getPersonnage().getPtPar() + PtParBonus);          // Appliquer o bônus de points de parade
+
     }
 
     /**
@@ -476,199 +576,75 @@ public class World {
      */
     public void tour_de_jeu(int tourJeu) {
         Scanner sc = new Scanner(System.in); // Créez le scanner une fois
-        int PtVieBonus = 0;
-        int DegAttBonus = 0;
-        int PageAttBonus = 0;
-        int PageParBonus = 0;
-        int PtParBonus = 0;
-
-        for (int i = 0; i < tourJeu; i++) {
+        while (true) {
             this.afficheDisplay(); // Affiche l'état actuel du jeu
-            System.out.println("Tour " + (i + 1)); // Affiche le numéro du tour
+            System.out.println("Tour : " + (tourJeu + 1)); // Affiche le numéro du tour
 
-            // Traiter les effets du joueur
-            for (Map.Entry<String, Nourriture> entry : player.getPersonnage().getEffets().entrySet()) {
-                String key = entry.getKey();
-                Nourriture effet = entry.getValue();
-                // Ajouter les bonus des effets en cours
-                PtVieBonus += effet.getModifPtVie();     // Bonus de points de vie
-                DegAttBonus += effet.getModifDegAtt();   // Bonus de dégats d'attaque
-                PageAttBonus += effet.getModifPageAtt(); // Bonus de pourcentage d'attaque
-                PageParBonus += effet.getModifPagePar(); // Bonus de pourcentage de parade
-                PtParBonus += effet.getModifPtPar();     // Bonus de points de parade
+            Iterator<Creature> iterator = crea.iterator();
+            while (iterator.hasNext()) {
+                Creature c = iterator.next();
 
-                // Gérer la durée restante de l'effet
-                int t = effet.getNbToursEffet();
-                if ((t - 1) > 0) {
-                    effet.setNbToursEffet(t - 1); // Décrémenter le nombre de tours restants
+                if (c instanceof Loup && c.getPos().distance(player.getPersonnage().getPos()) <= 1 && c.getPtVie() > 0) {
+                    ((Loup) c).combattre(player.getPersonnage());
                 } else {
-                    player.getPersonnage().removeEffet(key); // Supprimer l'effet se o tour é terminado
+                    c.deplacer(this); // Déplace les créatures
+                }
+
+                if (c.getPtVie() <= 0) {
+                    iterator.remove(); // Utilisez l'itérateur pour supprimer l'élément
                 }
             }
-
-            // Mettre à jour les attributs du personnage avec les bonus
-            player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + PtVieBonus);          // Appliquer le bonus de points de vie
-            player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + DegAttBonus);       // Appliquer le bonus de dégats d'attaque
-            player.getPersonnage().setPageAtt(player.getPersonnage().getPageAtt() + PageAttBonus);    // Appliquer le bonus de pourcentage d'attaque
-            player.getPersonnage().setPagePar(player.getPersonnage().getPagePar() + PageParBonus);    // Appliquer o bônus de percentual de paradas
-            player.getPersonnage().setPtPar(player.getPersonnage().getPtPar() + PtParBonus);          // Appliquer o bônus de pontos de paradas
-
-            System.out.println("Le joueur (" + player.getPersonnage().getClass().getSimpleName() + ") est en position : X = " + player.getPersonnage().getPos().getX()
-                    + " et Y = " + player.getPersonnage().getPos().getY()
-                    + " avec " + player.getPersonnage().getPtVie() + " point(s) de vie"); // Affiche l'état du joueur
-
-            // Permettre uniquement une action par tour
-            boolean actionValide = false; // Initialise la flag d'action valide
-
-            while (!actionValide) { // Boucle jusqu'à ce qu'une action valide soit effectuée
-                System.out.println("Choisissez une action");
-                System.out.println("deplace | combattre | utiliser"); // Affiche les options d'action
-                String action = sc.nextLine(); // Récupère l'action choisie
-
-                switch (action) {
-                    case "deplace":
-                        deplaceJoueur(); // Appelle la méthode pour déplacer le joueur
-                        actionValide = true; // Action valide si le joueur se déplace
-                        break;
-                    case "utiliser":
-                        if (player.getInventaire().isEmpty()) {
-                            // Message si l'inventaire est vide
-                            System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
-                        } else {
-                            // Demande au joueur de choisir un objet à utiliser
-                            System.out.println("Choisissez un objet à utiliser :");
-                            player.affiche_inventaire(); // Affiche l'inventaire regroupé
-
-                            System.out.println("Choisissez 0 pour ne rien faire"); // Option pour ne rien faire
-                            boolean choixValide = false; // Flag pour contrôler la validité du choix d'objet
-                            while (!choixValide) {
-                                int objetChoisi = sc.nextInt(); // Récupère le numéro de l'objet choisi
-                                sc.nextLine(); // Nettoyer le buffer après la lecture du numéro
-
-                                if (objetChoisi == 0) {
-                                    // Message si aucune action n'est réalisée
-                                    System.out.println("Aucune action n'a été réalisée.");
-                                    actionValide = true; // Action valide pour ne rien faire
-                                    choixValide = true; // Terminer la boucle de choix d'objet
-                                } else if (objetChoisi > 0 && objetChoisi <= player.getInventaire().size()) {
-                                    // Créer une map pour regrouper les objets par nom et leur quantité
-                                    Map<String, List<Nourriture>> mapInventaireGroup = new HashMap<>();
-                                    for (Nourriture obj : player.getInventaire()) {
-                                        // Regroupe les objets du même nom dans une liste
-                                        mapInventaireGroup.computeIfAbsent(obj.getNom(), k -> new ArrayList<>()).add(obj);
-                                    }
-
-                                    // Obtenir l'objet correspondant au numéro sélectionné
-                                    int index = 1; // Initialiser l'index pour le choix d'objet
-                                    for (Map.Entry<String, List<Nourriture>> entry : mapInventaireGroup.entrySet()) {
-                                        if (index == objetChoisi) {
-                                            List<Nourriture> objetsDisponibles = entry.getValue(); // Liste des objets de ce type
-
-                                            // Obtenir une quantité valide à utiliser
-                                            int quantiteAUtiliser = -1; // Initialiser avec une valeur invalide
-                                            while (quantiteAUtiliser < 0 || quantiteAUtiliser > objetsDisponibles.size()) {
-                                                // Demande au joueur combien d'objets il souhaite utiliser, en précisant la quantité maximale disponible
-                                                System.out.println("Combien de " + entry.getKey() + " voulez-vous utiliser ? (maximum : " + objetsDisponibles.size() + ")");
-                                                quantiteAUtiliser = sc.nextInt();
-                                                sc.nextLine(); // Nettoyer le buffer après la lecture du nombre
-                                                if (quantiteAUtiliser <= 0 || quantiteAUtiliser > objetsDisponibles.size()) {
-                                                    // Afficher un message si la quantité choisie est invalide
-                                                    System.out.println("Quantité invalide. Veuillez choisir une quantité correcte.");
-                                                }
-                                            }
-                                            Nourriture objetAUtiliser = objetsDisponibles.get(0); // Prendre la première occurrence
-
-                                            // Utiliser la quantité d'objets demandée
-                                            for (int h = 0; h < quantiteAUtiliser; h++) {
-                                                // Application des effets de la nourriture
-                                                objetAUtiliser.est_utilise(player.getPersonnage());
-
-                                                player.getInventaire().remove(objetAUtiliser); // Retirer l'objet de l'inventaire
-                                                objetsDisponibles.remove(0); // Retirer l'objet de la liste temporaire
-                                            }
-                                            System.out.println("Vous avez utilisé " + quantiteAUtiliser + " " + entry.getKey() + "(s)");
-
-                                            // Affichage des effets
-                                            System.out.println("Effets :");
-                                            if (objetAUtiliser.getModifPtVie() != 0) {
-                                                System.out.println("Points de vie : " + quantiteAUtiliser * objetAUtiliser.getModifPtVie());
-                                            }
-                                            if (objetAUtiliser.getModifDegAtt() != 0) {
-                                                System.out.println("Dégâts d'attaque : " + quantiteAUtiliser * objetAUtiliser.getModifDegAtt());
-                                            }
-                                            if (objetAUtiliser.getModifPageAtt() != 0) {
-                                                System.out.println("Pourcentage d'attaque : " + quantiteAUtiliser * objetAUtiliser.getModifPageAtt());
-                                            }
-                                            if (objetAUtiliser.getModifPagePar() != 0) {
-                                                System.out.println("Pourcentage de parade : " + quantiteAUtiliser * objetAUtiliser.getModifPagePar());
-                                            }
-                                            if (objetAUtiliser.getModifPtPar() != 0) {
-                                                System.out.println("Points de parade : " + quantiteAUtiliser * objetAUtiliser.getModifPtPar());
-                                            }
-                                            // Afficher le message avec la quantité d'objets utilisés
-                                            actionValide = true; // Action valide
-                                            choixValide = true; // Terminer la boucle de choix d'objet
-                                            break; // Sortir de la boucle après utilisation de l'objet
-                                        }
-                                        index++; // Incrémenter l'index pour le choix suivant
-                                    }
-                                } else {
-                                    // Message pour choix invalide
-                                    System.out.println("Choix invalide. Veuillez choisir un numéro correct.");
-                                }
-                            }
-                        }
-                        break;
-
-                    case "combattre":
-                        int k = 0; // Compteur de créatures à portée
-                        int j = -1; // Indice de la créature
-                        ArrayList<Integer> indiceCrea = new ArrayList<>(); // Liste des indices de créatures
-                        System.out.println("Les créatures à portée d'attaque sont :");
-                        System.out.println(player.getPersonnage().getDistAttMax());
-                        for (Creature c : crea) {
-                            j++;
-                            if (c.getPos().distance(player.getPersonnage().getPos()) <= player.getPersonnage().getDistAttMax()) {
-                                k++; // Incrémente le compteur si la créature est à portée
-                                System.out.println("Créature " + k); // Affiche la créature à portée
-                                c.affiche(); // Affiche les détails de la créature
-                                indiceCrea.add(j); // Ajoute l'indice à la liste
-                            }
-                        }
-                        if (k != 0) { // Si des créatures sont à portée
-                            System.out.println("Choisissez une créature à combattre"); // Invite le joueur à choisir une créature
-                            boolean combatValide = false; // Flag pour controlar o loop de combate
-                            while (!combatValide) {
-                                int creaCombattu = sc.nextInt(); // Récupère le choix du joueur
-                                sc.nextLine(); // Limpa o buffer do scanner após a leitura do numéro
-                                if (creaCombattu > 0 && creaCombattu <= indiceCrea.size()) { // Vérifie si l'indice est valide
-                                    Personnage perso = player.getPersonnage();
-                                    ((Combattant) perso).combattre(crea.get(indiceCrea.get(creaCombattu - 1))); // Engage le combat avec la créature
-                                    actionValide = true; // Action valide
-                                    combatValide = true; // Fecha o loop de combate
-                                } else {
-                                    System.out.println("Choix invalide. Veuillez choisir un numéro de créature valide."); // Message pour choix invalide
-                                }
-                            }
-                        } else {
-                            System.out.println("Pas de créature à portée"); // Message si pas de créatures à attaquer
-                        }
-                        break;
-                    default:
-                        System.out.println("Commande invalide !"); // Message pour commande invalide
-                        break;
-                }
-            }
-
-            // Déplace les créatures après l'action du joueur
-            for (Creature c : crea) {
-                c.deplacer(this); // Déplace les créatures
-            }
+            
             for (NuageToxique n : nuage_toxique) {
                 n.combattre(player.getPersonnage()); // Gère les combats avec les nuages toxiques
             }
             player.ramasser(this); // Permet au joueur de ramasser des objets
             soigne_obj();
+                        
+            System.out.println("Le joueur (" + player.getPersonnage().getClass().getSimpleName() + ") est en position : X = " + player.getPersonnage().getPos().getX()
+                    + " et Y = " + player.getPersonnage().getPos().getY()
+                    + " avec " + player.getPersonnage().getPtVie() + " point(s) de vie"); // Affiche l'état du joueur
+            gerer_effet();
+            
+            // Permettre uniquement une action par tour
+            boolean actionValide = false; // Initialise la flag d'action valide
+
+            while (!actionValide) {
+                System.out.println("Choisissez une action : deplace | combattre | utiliser | sortie");
+                String action = sc.nextLine();
+
+                switch (action) {
+                    case "deplace":
+                        player.deplaceJoueur(this);
+                        actionValide = true;
+                        break;
+                    case "utiliser":
+                        utiliser(sc);
+                        actionValide = true;
+                        break;
+                    case "combattre":
+                        combattre(sc);
+                        actionValide = true;
+                        break;
+                    case "sortie":
+                        System.exit(0); // Termine le programme avec succès
+                    default:
+                        System.out.println("Commande invalide !");
+                        break;
+                }
+            }
+
+            // Vérifie si la liste des créatures est vide après le combat
+            if (crea.isEmpty()) {
+                System.out.println("Vous avez vaincu toutes les créatures ! Vous êtes victorieux !");
+                System.exit(0); // Termine le programme avec succès
+            }
+
+            if (player.getPersonnage().getPtVie() <= 0) {
+                System.out.println("Vous êtes mort ! C'est dommage");
+                System.exit(0); // Termine le programme avec succès
+            }
+            tourJeu += 1;
         }
     }
 

@@ -64,12 +64,12 @@ public class Guerrier extends Personnage implements Combattant {
             System.out.println("La créature est trop loin pour être attaquée");
         } else {
             // Tenter l'attaque
-            int patt = alea.nextInt(101); // Tirage aléatoire pour déterminer si l'attaque touche
+            int patt = alea.nextInt(15); // Tirage aléatoire pour déterminer si l'attaque touche
             if (patt > this.getPageAtt()) {
                 System.out.println("L'attaque échoue");
             } else {
                 System.out.println("L'attaque réussit");
-                int ppar = alea.nextInt(101); // Tirage aléatoire pour déterminer si la créature parera l'attaque
+                int ppar = alea.nextInt(15); // Tirage aléatoire pour déterminer si la créature parera l'attaque
                 if (ppar > c.getPagePar()) {
                     System.out.println("La parade échoue");
                     ouch = this.getDegAtt(); // Dégâts directs si la parade échoue
@@ -90,7 +90,11 @@ public class Guerrier extends Personnage implements Combattant {
 
                 // Mettre à jour les points de vie de la créature
                 c.setPtVie(c.getPtVie() - ouch);
-                System.out.println("Il reste " + c.getPtVie() + " points de vie");
+                if (c.getPtVie() > 0) {
+                    System.out.println("Il reste " + c.getPtVie() + " points de vie");
+                } else {
+                    System.out.println("La créature est vaincue !");
+                }
             }
         }
     }

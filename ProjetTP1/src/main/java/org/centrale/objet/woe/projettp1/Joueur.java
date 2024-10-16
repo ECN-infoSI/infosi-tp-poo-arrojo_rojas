@@ -111,10 +111,10 @@ public final class Joueur {
             // Générer des valeurs aléatoires spécifiques pour Archer
             int ptVie = genererAleatoire(50, 80);    // Vie moins élevée pour Archer
             int degAtt = genererAleatoire(20, 40);   // Dégâts d'attaque moins élevés
-            int ptPar = genererAleatoire(10, 30);    // Points de défense plus faibles
+            int ptPar = genererAleatoire(5, 15);    // Points de défense plus faibles
             int pageAtt = genererAleatoire(10, 20);  // Points d'attaque plus élevés
             int pagePar = genererAleatoire(5, 15);   // Points de parade plus faibles
-            int distAttMax = genererAleatoire(0, 5); // Distance d'attaque plus élevée
+            int distAttMax = genererAleatoire(0, 2)+1; // Distance d'attaque plus élevée
             int nbFleches = genererAleatoire(10, 30); // Nombre de flèches
             Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD-1), genererAleatoire(0, TAILLE_WORLD-1));
 
@@ -125,7 +125,7 @@ public final class Joueur {
             // Générer des valeurs aléatoires spécifiques pour Guerrier
             int ptVie = genererAleatoire(80, 100);  // Vie plus élevée pour Guerrier
             int degAtt = genererAleatoire(30, 50);  // Dégâts d'attaque plus élevés pour Guerrier
-            int ptPar = genererAleatoire(20, 40);   // Points de défense plus élevés
+            int ptPar = genererAleatoire(10, 25);   // Points de défense plus élevés
             int pageAtt = genererAleatoire(5, 15);  // Points d'attaque dans une gamme moyenne
             int pagePar = genererAleatoire(10, 20); // Points de parade dans une gamme moyenne
             int distAttMax = 1; // Distance d'attaque faible
@@ -229,6 +229,71 @@ public final class Joueur {
                 this.getInventaire().add(n);
                 System.out.println("Vous avez ramassé un(e) " + n.getNom());
                 iterator_n.remove(); // Remove o item de forma segura
+            }
+        }
+    }
+    
+    /**
+     * Méthode de déplacement du joueur
+     *
+     * @param monde monde
+     */
+    public void deplaceJoueur(World monde) {
+        Scanner sc = new Scanner(System.in);
+        Point2D pos = this.getPersonnage().getPos(); // position initial du jouer
+        int x, y;
+
+        System.out.println("Rentrez une direction: ");
+        System.out.println("N | NE | E | SE | S | SO | O | NO");
+
+        while (true) {
+            String direction = sc.nextLine().toUpperCase();
+
+            // Réinitialiser les variables x et y pour chaque nouvelle entrée
+            x = 0;
+            y = 0;
+
+            switch (direction) {
+                case "N":
+                    y = -1;
+                    break;
+                case "NE":
+                    x = 1;
+                    y = -1;
+                    break;
+                case "E":
+                    x = 1;
+                    break;
+                case "SE":
+                    x = 1;
+                    y = 1;
+                    break;
+                case "S":
+                    y = 1;
+                    break;
+                case "SO":
+                    x = -1;
+                    y = 1;
+                    break;
+                case "O":
+                    x = -1;
+                    break;
+                case "NO":
+                    x = -1;
+                    y = -1;
+                    break;
+                default:
+                    System.out.println("Direction invalide");
+                    continue; // Retour au début de la boucle
+            }
+
+            Point2D newPos = new Point2D(pos.getX() + x, pos.getY() + y); // Nouvelle position
+
+            if (!newPos.check_deplacement(monde)) {
+                System.out.println("Position invalide ou case déjà occupée");
+            } else {
+                this.getPersonnage().getPos().translate(x, y); // met à jour la position du joueur
+                break;
             }
         }
     }

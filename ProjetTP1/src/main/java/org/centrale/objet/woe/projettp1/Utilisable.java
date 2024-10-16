@@ -9,5 +9,5 @@ package org.centrale.objet.woe.projettp1;
  * @author Augusto ARROJO et Fernando ROJAS
 */
 public interface Utilisable {
-    public void est_utilise(Personnage p);
+    public void est_utilise(Personnage p, int nbTour);
 }

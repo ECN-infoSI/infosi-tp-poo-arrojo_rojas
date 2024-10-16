@@ -68,10 +68,10 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
      */
     public Creature() {
         this.ptVie = 100;  // Valeur par défaut
-        this.degAtt = 10;
-        this.ptPar = 5;
-        this.pageAtt = 1;
-        this.pagePar = 1;
+        this.degAtt = 30;
+        this.ptPar = 15;
+        this.pageAtt = 30;
+        this.pagePar = 10;
         this.effets = new HashMap<>();
     }
 

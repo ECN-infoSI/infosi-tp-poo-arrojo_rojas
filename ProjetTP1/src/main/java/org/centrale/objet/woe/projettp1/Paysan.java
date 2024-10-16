@@ -22,6 +22,7 @@ public class Paysan extends Personnage {
      * @param paPar Pourcentage de chance de parer une attaque
      * @param dMax Distance d'attaque maximale
      * @param p Position du paysan
+     * @param effets Liste des effets subis par le paysan
     */
     public Paysan (String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p,Map<String, Nourriture> effets) {
         super(n, pV, dA, pPar, paAtt, paPar, dMax, p, effets);
