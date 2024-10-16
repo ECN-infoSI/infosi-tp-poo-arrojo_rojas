@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Random;
+import java.util.Iterator;
 import static org.centrale.objet.woe.projettp1.World.TAILLE_WORLD;
 
 /**
@@ -24,14 +26,31 @@ public final class Joueur {
     HashMap<String, Class> perso_dispos;
     public Personnage perso_joueur;
     private Class classe_p;
+    private ArrayList<Nourriture> inventaire;
 
     /**
-     * Constructeur de la classe joueur
+     * Constructeur par default de la classe joueur
      */
     public Joueur() {
         perso_dispos = new HashMap<>(); //On crée une liste des classes qui sont disponibles pour choisir
         perso_dispos.put("archer", Archer.class);
         perso_dispos.put("guerrier", Guerrier.class);
+        this.inventaire = new ArrayList<>();
+    }
+
+    /**
+     * Constructeur par copie de la classe joueur
+     *
+     * @param perso_d
+     * @param class_p
+     * @param personnage
+     * @param inventaire
+     */
+    public Joueur(HashMap<String, Class> perso_d, Class class_p, Personnage personnage, ArrayList<Nourriture> inventaire) {
+        this.classe_p = class_p;
+        this.perso_dispos = perso_d;
+        this.perso_joueur = personnage;
+        this.inventaire = inventaire;
     }
 
     /**
@@ -86,8 +105,7 @@ public final class Joueur {
             }
         }
 
-        //Création personnage aléatoire
-        System.out.println("Création du personnage en cours ... ");
+        Map<String, Nourriture> effets = new HashMap<>();
 
         if (classe_p == Archer.class) {
             // Générer des valeurs aléatoires spécifiques pour Archer
@@ -96,28 +114,26 @@ public final class Joueur {
             int ptPar = genererAleatoire(10, 30);    // Points de défense plus faibles
             int pageAtt = genererAleatoire(10, 20);  // Points d'attaque plus élevés
             int pagePar = genererAleatoire(5, 15);   // Points de parade plus faibles
-            int distAttMax = genererAleatoire(5, 10); // Distance d'attaque plus élevée
+            int distAttMax = genererAleatoire(0, 5); // Distance d'attaque plus élevée
             int nbFleches = genererAleatoire(10, 30); // Nombre de flèches
-            Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD), genererAleatoire(0, TAILLE_WORLD));
+            Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD-1), genererAleatoire(0, TAILLE_WORLD-1));
 
             // Création de l'archer
-            Archer archer = new Archer(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, nbFleches);
-            perso_joueur = (Archer) archer;
+            perso_joueur = new Archer(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets, nbFleches);
+            perso_joueur.setNom(nomPerso);
         } else if (classe_p == Guerrier.class) {
             // Générer des valeurs aléatoires spécifiques pour Guerrier
-            int ptVie = genererAleatoire(80, 120);  // Vie plus élevée pour Guerrier
+            int ptVie = genererAleatoire(80, 100);  // Vie plus élevée pour Guerrier
             int degAtt = genererAleatoire(30, 50);  // Dégâts d'attaque plus élevés pour Guerrier
             int ptPar = genererAleatoire(20, 40);   // Points de défense plus élevés
             int pageAtt = genererAleatoire(5, 15);  // Points d'attaque dans une gamme moyenne
             int pagePar = genererAleatoire(10, 20); // Points de parade dans une gamme moyenne
-            int distAttMax = genererAleatoire(1, 3); // Distance d'attaque faible
-            Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD), genererAleatoire(0, TAILLE_WORLD));
-
+            int distAttMax = 1; // Distance d'attaque faible
+            Point2D pos = new Point2D(genererAleatoire(0, TAILLE_WORLD-1), genererAleatoire(0, TAILLE_WORLD-1));
             // Création du Guerrier
-            Guerrier guerrier = new Guerrier(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
-            perso_joueur = (Guerrier) guerrier;
+            perso_joueur = new Guerrier(nomPerso, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, effets);
+            perso_joueur.setNom(nomPerso);
         }
-        perso_joueur.setNom(nomPerso);
         System.out.println("Le personnage " + perso_joueur.getNom() + " pertinent à classe " + perso_joueur.getClass().getSimpleName() + " a été crée");
     }
 
@@ -140,10 +156,7 @@ public final class Joueur {
      */
     public int getPtVie() {
         return perso_joueur.getPtVie();
-    }
-
-    ;
-    
+    }    
     /**
      * Getter de l'attribut personnage 
      * @return Le personnage du joueur
@@ -154,5 +167,69 @@ public final class Joueur {
 
     public void setPersonnage(Personnage perso) {
         perso_joueur = perso;
+    }
+
+    /**
+     * Getter de l'attribut inventaire
+     *
+     * @return L'inventaire du joueur
+     */
+    public ArrayList<Nourriture> getInventaire() {
+        return inventaire;
+    }
+
+    /**
+     * Setter de l'attribut inventaire
+     *
+     * @param inventaire Le nouveau inventaire du joueur
+     */
+    public void setInventaire(ArrayList<Nourriture> inventaire) {
+        this.inventaire = inventaire;
+    }
+
+    /**
+     * Méthode d'affichage de l'inventaire du joueur
+     */
+    public void affiche_inventaire() {
+        System.out.println("L'inventaire du joueur contient :");
+
+        if (this.inventaire.isEmpty()) {
+            System.out.println("L'inventaire est vide.");
+        } else {
+            // Utilisez un HashMap pour compter les occurrences de chaque objet
+            Map<String, Integer> compteurObjets = new HashMap<>();
+
+            // Compter les occurrences de chaque élément
+            for (Nourriture obj : this.inventaire) {
+                String nom = obj.getNom();
+                compteurObjets.put(nom, compteurObjets.getOrDefault(nom, 0) + 1);
+            }
+
+            // Afficher les éléments avec leur nombre
+            int numero = 1;
+            for (Map.Entry<String, Integer> entry : compteurObjets.entrySet()) {
+                System.out.println("Numéro " + numero + " : " + entry.getKey() + " (x" + entry.getValue() + ")");
+                numero++;
+            }
+        }
+    }
+
+    /**
+     * Méthode de ramassage d'un objet par le joueur
+     *
+     * @param monde Le monde dans lequel évolue le joueur
+     */
+    public void ramasser(World monde) {
+        Iterator<Nourriture> iterator_n = monde.getConsommable().iterator();
+
+        while (iterator_n.hasNext()) {
+            Nourriture n = iterator_n.next();
+            if (this.getPersonnage().getPos().equals(n.getPos())) {
+                n.getPos().setPosition(-1, -1);
+                this.getInventaire().add(n);
+                System.out.println("Vous avez ramassé un(e) " + n.getNom());
+                iterator_n.remove(); // Remove o item de forma segura
+            }
+        }
     }
 }

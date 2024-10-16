@@ -8,7 +8,10 @@ import java.util.Map;
 import java.util.HashMap;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des
@@ -38,7 +41,7 @@ public class World {
     /**
      * Taille du monde
      */
-    public final static int TAILLE_WORLD = 50;
+    public final static int TAILLE_WORLD = 10;
     /**
      * Joueur
      */
@@ -67,6 +70,7 @@ public class World {
         this.obj = obj;
         this.nuage_toxique = nuage;
         this.consommable = consom;
+
     }
 
     /**
@@ -75,17 +79,16 @@ public class World {
      */
     public void creerMondeAlea() {
         Random generateurAleatoire = new Random();
-        int nombre_min_crea = 50;
-        int RandG, RandL, RandA, RandLo, RandP;
+        int nombre_min_crea = TAILLE_WORLD;
+        int RandG = 0, RandL = 0, RandA = 0, RandLo = 0, RandP = 0;
         //Creation des creatures aleatoires (minimum 50)
         do {
-            RandG = generateurAleatoire.nextInt(10) + 50;
-            RandL = generateurAleatoire.nextInt(10) + 50;
-            RandA = generateurAleatoire.nextInt(10) + 50;
-            RandLo = generateurAleatoire.nextInt(10) + 50;
-            RandP = generateurAleatoire.nextInt(10) + 50;
+            RandG = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandL = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandA = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandLo = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
+            RandP = generateurAleatoire.nextInt(2 * nombre_min_crea / 5);
         } while (RandG + RandL + RandA + RandLo + RandP < nombre_min_crea);
-
         for (int i = 0; i < RandG; i++) {
             crea.add(new Guerrier());
         }
@@ -112,13 +115,13 @@ public class World {
         }
 
         //Création des objets aleatoires (minimum 50)
-        int nombre_min_obj = 50;
+        int nombre_min_obj = TAILLE_WORLD;
         int RandPS, RandN, RandNT, RandEp;
         do {
-            RandPS = generateurAleatoire.nextInt(10) + 50;
-            RandN = generateurAleatoire.nextInt(10) + 50;
-            RandNT = generateurAleatoire.nextInt(10) + 50;
-            RandEp = generateurAleatoire.nextInt(10) + 50;
+            RandPS = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
+            RandN = 10 * generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
+            RandNT = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
+            RandEp = generateurAleatoire.nextInt(2 * nombre_min_obj / 4);
         } while (RandPS + RandN + RandNT + RandEp < nombre_min_obj);
 
         for (int i = 0; i < RandPS; i++) {
@@ -128,10 +131,10 @@ public class World {
             obj.add(new Epee());
         }
         for (int i = 0; i < RandN; i++) {
-            obj.add(new Nourriture());
+            consommable.add(new Nourriture());
         }
         for (int i = 0; i < RandNT; i++) {
-            obj.add(new NuageToxique());
+            nuage_toxique.add(new NuageToxique());
         }
         //Définir la position des objets
         int nombre_obj = obj.size();
@@ -140,6 +143,23 @@ public class World {
             do {
                 obj.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
             } while (vu_obj.contains(obj.get(i).getPos()));
+        }
+        //Définir la position des consommables
+        int nombre_con = consommable.size();
+        ArrayList<Point2D> vu_con = new ArrayList<>();
+        for (int i = 0; i < nombre_con; i++) {
+            do {
+                consommable.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu_con.contains(consommable.get(i).getPos()));
+        }
+
+        //Définir la position des nuages toxiques
+        int nombre_nua = nuage_toxique.size();
+        ArrayList<Point2D> vu_nua = new ArrayList<>();
+        for (int i = 0; i < nombre_nua; i++) {
+            do {
+                nuage_toxique.get(i).getPos().setPosition(generateurAleatoire.nextInt(TAILLE_WORLD), generateurAleatoire.nextInt(TAILLE_WORLD));
+            } while (vu_nua.contains(nuage_toxique.get(i).getPos()));
         }
     }
 
@@ -159,16 +179,17 @@ public class World {
             obj.get(i).affiche();
         }
 
-    }
+        System.out.println("Consommables : ");
+        int nombre_con = consommable.size();
+        for (int i = 0; i < nombre_con; i++) {
+            consommable.get(i).affiche();
+        }
 
-    /**
-     * Methode pour afficher les nombres de creatures et des objets
-     */
-    public void quantite_elements() {
-        int nombre_crea = crea.size();
-        int nombre_obj = obj.size();
-
-        System.out.println("Il y a " + nombre_crea + " creatures et " + nombre_obj + " objets présent dans le monde !");
+        System.out.println("Nuage Toxique : ");
+        int nombre_nua = nuage_toxique.size();
+        for (int i = 0; i < nombre_nua; i++) {
+            nuage_toxique.get(i).affiche();
+        }
     }
 
     /**
@@ -209,33 +230,19 @@ public class World {
      * Méthode pour soigner
      */
     public void soigne() {
-        ArrayList<Integer> a_supprimer = new ArrayList<>();
-
-        // Itera sobre os objetos na lista 'obj'
-        for (int i = 0; i < obj.size(); i++) {
-            // Verifica se o objeto na posição 'i' é uma instância de 'Potion'
-            if (obj.get(i) instanceof PotionSoin) {
-                PotionSoin potion = (PotionSoin) obj.get(i);  // Downcast para 'Potion'
-
-                // Itera sobre as criaturas na lista 'crea'
-                for (int j = 0; j < crea.size(); j++) {
-                    // Verifica se a posição da criatura e da poção são iguais
-                    if (crea.get(j).getPos().equals(potion.getPos())) {
-                        // Cura a criatura com o valor de cura da poção
-                        crea.get(j).setPtVie(crea.get(j).getPtVie() + potion.getValeur_soin());
-
-                        // Adiciona o índice da poção à lista de remoção
-                        a_supprimer.add(i);
+        ArrayList<Objet> toRemove = new ArrayList<>();
+        for (Objet object : obj) {
+            if (object instanceof PotionSoin) {
+                PotionSoin potion = (PotionSoin) object;
+                for (Creature creature : crea) {
+                    if (creature.getPos().equals(potion.getPos())) {
+                        creature.setPtVie(creature.getPtVie() + potion.getValeur_soin());
+                        toRemove.add(object);
                     }
                 }
             }
         }
-        // Remove as poções utilizadas
-        for (int k = 0; k < obj.size(); k++) {
-            if (a_supprimer.contains(k)) {
-                obj.set(k, null); // Remove a poção ao definir como 'null'
-            }
-        }
+        obj.removeAll(toRemove);
     }
 
     /**
@@ -243,7 +250,6 @@ public class World {
      */
     public void createJoueur() {
         player = new Joueur();
-        Point2D pos = new Point2D();
         player.choisir();
     }
 
@@ -259,87 +265,390 @@ public class World {
     /**
      * Getter de l'attribut crea
      *
-     * @return La liste des créatures
+     * @return Les creatures
      */
     public ArrayList<Creature> getCrea() {
         return crea;
     }
 
     /**
+     * Getter de l'attribut Objet
+     *
+     * @return Les objets
+     */
+    public ArrayList<Objet> getObjet() {
+        return obj;
+    }
+
+    /**
+     * Getter de l'attribut nuage
+     *
+     * @return La liste des nuage toxiques
+     */
+    public ArrayList<NuageToxique> getNuage() {
+        return nuage_toxique;
+    }
+
+    /**
+     * Getter de l'attribut consommables
+     *
+     * @return La liste des consommables
+     */
+    public ArrayList<Nourriture> getConsommable() {
+        return consommable;
+    }
+
+    /**
      * Méthode d'affichage du display avec la logique de test intégrée
      */
     public void afficheDisplay() {
-        int x = TAILLE_WORLD;
-        int y = TAILLE_WORLD;
-        Point2D joueur = player.getPersonnage().getPos();
-        String delimit = "";
-        String nv_ligne = "";
+        int x = TAILLE_WORLD; // Taille du monde sur l'axe X
+        int y = TAILLE_WORLD; // Taille du monde sur l'axe Y
+        Point2D joueur = player.getPersonnage().getPos(); // Position du joueur
+        StringBuilder delimit = new StringBuilder();
+        StringBuilder nv_ligne;
 
         // Crée la ligne de séparation
-        for (int i = -x; i < x; i++) {
-            delimit += "____";
+        for (int i = 0; i < 1.5 * x; i++) {
+            delimit.append("____"); // Ligne de séparation
         }
 
-        // Affiche chaque ligne du monde
-        for (int j = -y; j < y; j++) {
-            nv_ligne = "";
-            System.out.println(delimit);
-            for (int i = -x; i < x; i++) {
-                nv_ligne += " ";
-                Point2D pos = new Point2D(i, j);
+        // Affiche chaque ligne du monde (de haut en bas)
+        for (int j = 0; j < y; j++) { // Itération de 0 jusqu'à la valeur maximale de y
+            nv_ligne = new StringBuilder(); // Réinitialise la ligne pour chaque nouvelle ligne
+            System.out.println(delimit); // Affiche la ligne de séparation
+
+            for (int i = 0; i < x; i++) { // Itération de 0 jusqu'à la valeur maximale de x
+                String disp_char = "| |"; // Par défaut, une cellule vide
+                Point2D pos = new Point2D(i, j); // Position actuelle sur la carte
 
                 // Vérifie si c'est la position du joueur
                 if (pos.equals(joueur)) {
-                    nv_ligne += "|J|";  // Joueur
+                    disp_char = "|J|"; // Joueur
                 } else {
-                    boolean creatureTrouvee = false;
+                    // Vérifie pour les consommables
+                    for (Nourriture c : consommable) {
+                        if (c.getPos().equals(pos)) {
+                            disp_char = "|C|"; // Consommable
+                            break;
+                        }
+                    }
 
-                    // Vérifie si une créature est présente à cette position
+                    // Vérifie pour les objets
+                    for (Objet o : obj) {
+                        if (o.getPos().equals(pos)) {
+                            switch (o.getClass().getSimpleName()) {
+                                case "Epee" ->
+                                    disp_char = "|E|"; // Épée
+                                case "PotionSoin" ->
+                                    disp_char = "|O|"; // Potion
+                            }
+                            break; // Quitte la boucle si un objet est trouvé
+                        }
+                    }
+
+                    // Vérifie pour les nuages toxiques
+                    for (NuageToxique n : nuage_toxique) {
+                        if (n.getPos().equals(pos)) {
+                            disp_char = "|N|"; // Nuage toxique
+                            break;
+                        }
+                    }
+
+                    // Vérifie pour les créatures
                     for (Creature c : crea) {
                         if (c.getPos().equals(pos)) {
                             switch (c.getClass().getSimpleName()) {
-                                case "Guerrier":
-                                    nv_ligne += "|G|";
-                                    break;
-                                case "Archer":
-                                    nv_ligne += "|A|";
-                                    break;
-                                case "Paysan":
-                                    nv_ligne += "|P|";
-                                    break;
-                                case "Lapin":
-                                    nv_ligne += "|R|";
-                                    break;
-                                case "Loup":
-                                    nv_ligne += "|L|";
-                                    break;
+                                case "Guerrier" ->
+                                    disp_char = "|G|"; // Guerrier
+                                case "Archer" ->
+                                    disp_char = "|A|"; // Archer
+                                case "Paysan" ->
+                                    disp_char = "|P|"; // Paysan
+                                case "Lapin" ->
+                                    disp_char = "|R|"; // Lapin
+                                case "Loup" ->
+                                    disp_char = "|L|"; // Loup
                             }
-                            creatureTrouvee = true;
-                            break;  // Sortir de la boucle si une créature est trouvée
-                        }
-                    }
-
-                    // Si aucune créature n'a été trouvée, vérifie pour un objet
-                    if (!creatureTrouvee) {
-                        boolean objetTrouve = false;
-                        for (Nourriture o : consommable) {
-                            if (o.getPos().equals(pos)) {
-                                nv_ligne += "|O|";  // Objet
-                                objetTrouve = true;
-                                break;
-                            }
-                        }
-                        // Si aucune créature ni objet n'a été trouvé, affiche un espace vide
-                        if (!objetTrouve) {
-                            nv_ligne += "| |";
+                            break; // Quitte la boucle si une créature est trouvée
                         }
                     }
                 }
+
+                nv_ligne.append(disp_char); // Concatène le caractère à la ligne actuelle
             }
-            System.out.println(nv_ligne);
+            System.out.println(nv_ligne); // Affiche la ligne complète
         }
 
         // Légende
-        System.out.println("Légende : \tJ: Vous \t O: Objet \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
-    } 
+        System.out.println("Légende : \t J: Vous \t E: Épée \t O: Potion \t C: Nourriture \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
+    }
+
+    /**
+     * Méthode de déplacement du joueur
+     *
+     * @return true si le jouer a deplacé
+     */
+    public void deplaceJoueur() {
+        Scanner sc = new Scanner(System.in);
+        Point2D pos = player.getPersonnage().getPos(); // position initial du jouer
+        int x, y;
+
+        System.out.println("Rentrez une direction: ");
+        System.out.println("N | NE | E | SE | S | SO | O | NO");
+
+        while (true) {
+            String direction = sc.nextLine().toUpperCase();
+
+            // Réinitialiser les variables x et y pour chaque nouvelle entrée
+            x = 0;
+            y = 0;
+
+            switch (direction) {
+                case "N":
+                    y = -1;
+                    break;
+                case "NE":
+                    x = 1;
+                    y = -1;
+                    break;
+                case "E":
+                    x = 1;
+                    break;
+                case "SE":
+                    x = 1;
+                    y = 1;
+                    break;
+                case "S":
+                    y = 1;
+                    break;
+                case "SO":
+                    x = -1;
+                    y = 1;
+                    break;
+                case "O":
+                    x = -1;
+                    break;
+                case "NO":
+                    x = -1;
+                    y = -1;
+                    break;
+                default:
+                    System.out.println("Direction invalide");
+                    continue; // Retour au début de la boucle
+            }
+
+            Point2D newPos = new Point2D(pos.getX() + x, pos.getY() + y); // Nouvelle position
+
+            if (!newPos.check_deplacement(this)) {
+                System.out.println("Position invalide ou case déjà occupée");
+            } else {
+                player.getPersonnage().getPos().translate(x, y); // met à jour la position du joueur
+                break;
+            }
+        }
+    }
+
+    /**
+     * Méthode effectuant les tours de jeu
+     *
+     * @param tourJeu Le nombre de tours de jeu max
+     */
+    public void tour_de_jeu(int tourJeu) {
+        Scanner sc = new Scanner(System.in); // Créez le scanner une fois
+        int PtVieBonus = 0;
+        int DegAttBonus = 0;
+        int PageAttBonus = 0;
+        int PageParBonus = 0;
+        int PtParBonus = 0;
+
+        for (int i = 0; i < tourJeu; i++) {
+            this.afficheDisplay(); // Affiche l'état actuel du jeu
+            System.out.println("Tour " + (i + 1)); // Affiche le numéro du tour
+
+            // Traiter les effets du joueur
+            for (Map.Entry<String, Nourriture> entry : player.getPersonnage().getEffets().entrySet()) {
+                String key = entry.getKey();
+                Nourriture effet = entry.getValue();
+                // Ajouter les bonus des effets en cours
+                PtVieBonus += effet.getModifPtVie();     // Bonus de points de vie
+                DegAttBonus += effet.getModifDegAtt();   // Bonus de dégats d'attaque
+                PageAttBonus += effet.getModifPageAtt(); // Bonus de pourcentage d'attaque
+                PageParBonus += effet.getModifPagePar(); // Bonus de pourcentage de parade
+                PtParBonus += effet.getModifPtPar();     // Bonus de points de parade
+
+                // Gérer la durée restante de l'effet
+                int t = effet.getNbToursEffet();
+                if ((t - 1) > 0) {
+                    effet.setNbToursEffet(t - 1); // Décrémenter le nombre de tours restants
+                } else {
+                    player.getPersonnage().removeEffet(key); // Supprimer l'effet se o tour é terminado
+                }
+            }
+
+            // Mettre à jour les attributs du personnage avec les bonus
+            player.getPersonnage().setPtVie(player.getPersonnage().getPtVie() + PtVieBonus);          // Appliquer le bonus de points de vie
+            player.getPersonnage().setDegAtt(player.getPersonnage().getDegAtt() + DegAttBonus);       // Appliquer le bonus de dégats d'attaque
+            player.getPersonnage().setPageAtt(player.getPersonnage().getPageAtt() + PageAttBonus);    // Appliquer le bonus de pourcentage d'attaque
+            player.getPersonnage().setPagePar(player.getPersonnage().getPagePar() + PageParBonus);    // Appliquer o bônus de percentual de paradas
+            player.getPersonnage().setPtPar(player.getPersonnage().getPtPar() + PtParBonus);          // Appliquer o bônus de pontos de paradas
+
+            System.out.println("Le joueur (" + player.getPersonnage().getClass().getSimpleName() + ") est en position : X = " + player.getPersonnage().getPos().getX()
+                    + " et Y = " + player.getPersonnage().getPos().getY()
+                    + " avec " + player.getPersonnage().getPtVie() + " point(s) de vie"); // Affiche l'état du joueur
+
+            // Permettre uniquement une action par tour
+            boolean actionValide = false; // Initialise la flag d'action valide
+
+            while (!actionValide) { // Boucle jusqu'à ce qu'une action valide soit effectuée
+                System.out.println("Choisissez une action");
+                System.out.println("deplace | combattre | utiliser"); // Affiche les options d'action
+                String action = sc.nextLine(); // Récupère l'action choisie
+
+                switch (action) {
+                    case "deplace":
+                        deplaceJoueur(); // Appelle la méthode pour déplacer le joueur
+                        actionValide = true; // Action valide si le joueur se déplace
+                        break;
+                    case "utiliser":
+                        if (player.getInventaire().isEmpty()) {
+                            // Message si l'inventaire est vide
+                            System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
+                        } else {
+                            // Demande au joueur de choisir un objet à utiliser
+                            System.out.println("Choisissez un objet à utiliser :");
+                            player.affiche_inventaire(); // Affiche l'inventaire regroupé
+
+                            System.out.println("Choisissez 0 pour ne rien faire"); // Option pour ne rien faire
+                            boolean choixValide = false; // Flag pour contrôler la validité du choix d'objet
+                            while (!choixValide) {
+                                int objetChoisi = sc.nextInt(); // Récupère le numéro de l'objet choisi
+                                sc.nextLine(); // Nettoyer le buffer après la lecture du numéro
+
+                                if (objetChoisi == 0) {
+                                    // Message si aucune action n'est réalisée
+                                    System.out.println("Aucune action n'a été réalisée.");
+                                    actionValide = true; // Action valide pour ne rien faire
+                                    choixValide = true; // Terminer la boucle de choix d'objet
+                                } else if (objetChoisi > 0 && objetChoisi <= player.getInventaire().size()) {
+                                    // Créer une map pour regrouper les objets par nom et leur quantité
+                                    Map<String, List<Nourriture>> mapInventaireGroup = new HashMap<>();
+                                    for (Nourriture obj : player.getInventaire()) {
+                                        // Regroupe les objets du même nom dans une liste
+                                        mapInventaireGroup.computeIfAbsent(obj.getNom(), k -> new ArrayList<>()).add(obj);
+                                    }
+
+                                    // Obtenir l'objet correspondant au numéro sélectionné
+                                    int index = 1; // Initialiser l'index pour le choix d'objet
+                                    for (Map.Entry<String, List<Nourriture>> entry : mapInventaireGroup.entrySet()) {
+                                        if (index == objetChoisi) {
+                                            List<Nourriture> objetsDisponibles = entry.getValue(); // Liste des objets de ce type
+
+                                            // Obtenir une quantité valide à utiliser
+                                            int quantiteAUtiliser = -1; // Initialiser avec une valeur invalide
+                                            while (quantiteAUtiliser < 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                                // Demande au joueur combien d'objets il souhaite utiliser, en précisant la quantité maximale disponible
+                                                System.out.println("Combien de " + entry.getKey() + " voulez-vous utiliser ? (maximum : " + objetsDisponibles.size() + ")");
+                                                quantiteAUtiliser = sc.nextInt();
+                                                sc.nextLine(); // Nettoyer le buffer après la lecture du nombre
+                                                if (quantiteAUtiliser <= 0 || quantiteAUtiliser > objetsDisponibles.size()) {
+                                                    // Afficher un message si la quantité choisie est invalide
+                                                    System.out.println("Quantité invalide. Veuillez choisir une quantité correcte.");
+                                                }
+                                            }
+                                            Nourriture objetAUtiliser = objetsDisponibles.get(0); // Prendre la première occurrence
+
+                                            // Utiliser la quantité d'objets demandée
+                                            for (int h = 0; h < quantiteAUtiliser; h++) {
+                                                // Application des effets de la nourriture
+                                                objetAUtiliser.est_utilise(player.getPersonnage());
+
+                                                player.getInventaire().remove(objetAUtiliser); // Retirer l'objet de l'inventaire
+                                                objetsDisponibles.remove(0); // Retirer l'objet de la liste temporaire
+                                            }
+                                            System.out.println("Vous avez utilisé " + quantiteAUtiliser + " " + entry.getKey() + "(s)");
+
+                                            // Affichage des effets
+                                            System.out.println("Effets :");
+                                            if (objetAUtiliser.getModifPtVie() != 0) {
+                                                System.out.println("Points de vie : " + quantiteAUtiliser * objetAUtiliser.getModifPtVie());
+                                            }
+                                            if (objetAUtiliser.getModifDegAtt() != 0) {
+                                                System.out.println("Dégâts d'attaque : " + quantiteAUtiliser * objetAUtiliser.getModifDegAtt());
+                                            }
+                                            if (objetAUtiliser.getModifPageAtt() != 0) {
+                                                System.out.println("Pourcentage d'attaque : " + quantiteAUtiliser * objetAUtiliser.getModifPageAtt());
+                                            }
+                                            if (objetAUtiliser.getModifPagePar() != 0) {
+                                                System.out.println("Pourcentage de parade : " + quantiteAUtiliser * objetAUtiliser.getModifPagePar());
+                                            }
+                                            if (objetAUtiliser.getModifPtPar() != 0) {
+                                                System.out.println("Points de parade : " + quantiteAUtiliser * objetAUtiliser.getModifPtPar());
+                                            }
+                                            // Afficher le message avec la quantité d'objets utilisés
+                                            actionValide = true; // Action valide
+                                            choixValide = true; // Terminer la boucle de choix d'objet
+                                            break; // Sortir de la boucle après utilisation de l'objet
+                                        }
+                                        index++; // Incrémenter l'index pour le choix suivant
+                                    }
+                                } else {
+                                    // Message pour choix invalide
+                                    System.out.println("Choix invalide. Veuillez choisir un numéro correct.");
+                                }
+                            }
+                        }
+                        break;
+
+                    case "combattre":
+                        int k = 0; // Compteur de créatures à portée
+                        int j = -1; // Indice de la créature
+                        ArrayList<Integer> indiceCrea = new ArrayList<>(); // Liste des indices de créatures
+                        System.out.println("Les créatures à portée d'attaque sont :");
+                        System.out.println(player.getPersonnage().getDistAttMax());
+                        for (Creature c : crea) {
+                            j++;
+                            if (c.getPos().distance(player.getPersonnage().getPos()) <= player.getPersonnage().getDistAttMax()) {
+                                k++; // Incrémente le compteur si la créature est à portée
+                                System.out.println("Créature " + k); // Affiche la créature à portée
+                                c.affiche(); // Affiche les détails de la créature
+                                indiceCrea.add(j); // Ajoute l'indice à la liste
+                            }
+                        }
+                        if (k != 0) { // Si des créatures sont à portée
+                            System.out.println("Choisissez une créature à combattre"); // Invite le joueur à choisir une créature
+                            boolean combatValide = false; // Flag pour controlar o loop de combate
+                            while (!combatValide) {
+                                int creaCombattu = sc.nextInt(); // Récupère le choix du joueur
+                                sc.nextLine(); // Limpa o buffer do scanner após a leitura do numéro
+                                if (creaCombattu > 0 && creaCombattu <= indiceCrea.size()) { // Vérifie si l'indice est valide
+                                    Personnage perso = player.getPersonnage();
+                                    ((Combattant) perso).combattre(crea.get(indiceCrea.get(creaCombattu - 1))); // Engage le combat avec la créature
+                                    actionValide = true; // Action valide
+                                    combatValide = true; // Fecha o loop de combate
+                                } else {
+                                    System.out.println("Choix invalide. Veuillez choisir un numéro de créature valide."); // Message pour choix invalide
+                                }
+                            }
+                        } else {
+                            System.out.println("Pas de créature à portée"); // Message si pas de créatures à attaquer
+                        }
+                        break;
+                    default:
+                        System.out.println("Commande invalide !"); // Message pour commande invalide
+                        break;
+                }
+            }
+
+            // Déplace les créatures après l'action du joueur
+            for (Creature c : crea) {
+                c.deplacer(this); // Déplace les créatures
+            }
+            for (NuageToxique n : nuage_toxique) {
+                n.combattre(player.getPersonnage()); // Gère les combats avec les nuages toxiques
+            }
+            player.ramasser(this); // Permet au joueur de ramasser des objets
+        }
+    }
+
 }

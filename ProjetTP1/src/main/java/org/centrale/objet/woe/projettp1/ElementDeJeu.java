@@ -16,14 +16,14 @@ public class ElementDeJeu {
      * @param pos Position de l'élément de jeu
     */
     public ElementDeJeu(Point2D pos) {
-        this.pos = new Point2D(pos);
+        this.pos = pos;
     }
     
     /**
      * Constructeur par défaut de la classe ElementDeJeu
      */
     public ElementDeJeu() {
-        this.pos = new Point2D(0,0);
+        this.pos = new Point2D(7,0);
     }
     
     /**

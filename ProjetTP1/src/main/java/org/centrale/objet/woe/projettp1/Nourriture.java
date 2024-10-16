@@ -114,21 +114,21 @@ public class Nourriture extends Objet implements Utilisable {
   
     // Baguette configuration
     public static final String BAGUETTE = "Baguette";
-    public static final int BAGUETTE_MODIF_PTVIE = 0;
-    public static final int BAGUETTE_MODIF_DEGATT = 2;
+    public static final int BAGUETTE_MODIF_PTVIE = 5;
+    public static final int BAGUETTE_MODIF_DEGATT = 0;
     public static final int BAGUETTE_MODIF_PAGEATT = 0;
     public static final int BAGUETTE_MODIF_PAGEPAR = 0;
     public static final int BAGUETTE_MODIF_PTPAR = 0;
-    public static final int BAGUETTE_NBTOURS = 3;
+    public static final int BAGUETTE_NBTOURS = 2;
     
     // Fromage configuration
-    public static final String FROMAGE_VENENEUX = "Fromage vénéneux";
-    public static final int FROMAGE_VENENEUX_PTVIE = 0;
-    public static final int FROMAGE_VENENEUX_DEGATT = 0;
-    public static final int FROMAGE_VENENEUX_PAGEATT = 0;
-    public static final int FROMAGE_VENENEUX_PAGEPAR = 0;
-    public static final int FROMAGE_VENENEUX_PTPAR = -2;
-    public static final int FROMAGE_VENENEUX_NBTOURS = 5;
+    public static final String FROMAGE_VENENEUX = "Fromage magique";
+    public static final int FROMAGE_PTVIE = 2;
+    public static final int FROMAGE_DEGATT = 0;
+    public static final int FROMAGE_PAGEATT = 0;
+    public static final int FROMAGE_PAGEPAR = 0;
+    public static final int FROMAGE_PTPAR = 0;
+    public static final int FROMAGE_NBTOURS = 3;
 
     /**
      * Constructeur de Nourriture
@@ -174,12 +174,12 @@ public class Nourriture extends Objet implements Utilisable {
     };
     
     /**
-     * Constructeur d'un consommable "Fromage Veneneux"
+     * Constructeur d'un consommable "Fromage "
      * @param pos Position du fromage
      * @return Le consommable
     */
-    public Nourriture fromageVeneneux(Point2D pos) {
-        return new Nourriture(FROMAGE_VENENEUX_PTVIE, FROMAGE_VENENEUX_DEGATT, FROMAGE_VENENEUX_PAGEATT, FROMAGE_VENENEUX_PAGEPAR, FROMAGE_VENENEUX_PTPAR, FROMAGE_VENENEUX_NBTOURS,"Fromage vénéneux","Manger ceci était une mauvaise idée",pos);
+    public Nourriture fromage(Point2D pos) {
+        return new Nourriture(FROMAGE_PTVIE, FROMAGE_DEGATT, FROMAGE_PAGEATT, FROMAGE_PAGEPAR, FROMAGE_PTPAR, FROMAGE_NBTOURS,"Fromage vénéneux","Manger ceci était une mauvaise idée",pos);
     };
     
     /**

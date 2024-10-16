@@ -4,14 +4,15 @@
 */
 package org.centrale.objet.woe.projettp1;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
- * Sous-classe de personnage qui gére les archers
+ * Sous-classe de personnage qui gère les archers
  * @author Augusto ARROJO et Fernando ROJAS
 */
 public class Archer extends Personnage implements Combattant {
-    private int nbFleches;
+    private int nbFleches; // Nombre de flèches possédées par l'archer
     
     /**
      * Constructeur d'Archer
@@ -23,29 +24,29 @@ public class Archer extends Personnage implements Combattant {
      * @param paPar Pourcentage de chance de parer une attaque
      * @param dMax Distance d'attaque maximale
      * @param p Position de l'archer
-     * @param nbFleches Nombre de flèche possédées par l'archer
+     * @param effets Liste des effets affectant l'archer
+     * @param nbFleches Nombre de flèches possédées par l'archer
     */
-    public Archer (String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, int nbFleches) {
-        super(n, pV, dA, pPar, paAtt, paPar, dMax, p);
+    public Archer(String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, Map<String, Nourriture> effets, int nbFleches) {
+        super(n, pV, dA, pPar, paAtt, paPar, dMax, p, effets);
         this.nbFleches = nbFleches;
     }
     
-    
     /**
      * Constructeur de copie d'Archer
-     * @param a à copier
+     * @param a Archer à copier
     */
     public Archer(Archer a) {
-        super(a);  // Appel au constructeur par copie de la classe parent Lapin
+        super(a);  // Appel au constructeur par copie de la classe parent Personnage
         this.nbFleches = a.nbFleches;
     }
     
     /**
      * Constructeur par défaut de l'archer
     */
-    public Archer(){
+    public Archer() {
         super();
-        this.nbFleches = 5;
+        this.nbFleches = 5; // Initialisation par défaut à 5 flèches
     }
     
     /**
@@ -65,12 +66,12 @@ public class Archer extends Personnage implements Combattant {
     }
     
     /**
-     * Méthode d'affichage de nombre de flèches de l'archer
+     * Méthode d'affichage du nombre de flèches de l'archer
     */
     @Override
     public void affiche() {
         super.affiche();
-        System.out.println("L'archer possédé " + nbFleches + " flèches");
+        System.out.println("L'archer possède " + nbFleches + " flèches");
     }
     
     /**
@@ -80,47 +81,60 @@ public class Archer extends Personnage implements Combattant {
     @Override
     public void combattre(Creature c) {
         Random alea = new Random();
-        int ouch = 0;
-        float d = this.getPos().distance(c.getPos());
+        int ouch = 0; // Dégâts infligés à la créature
+        float d = this.getPos().distance(c.getPos()); // Calcul de la distance à la créature
+
+        // Vérification de la portée d'attaque
         if (d > this.getDistAttMax()) {
-            System.out.println("La créature est trop loin pour être attaquée"); 
+            System.out.println("La créature est trop loin pour être attaquée");
         } else {
+            // Si la distance est égale à 1, l'archer utilise une attaque au corps à corps
             if (d == 1) {
                 int patt = alea.nextInt(101);
                 System.out.println(this.getNom() + " utilise Coup de dague");
                 if (patt > this.getPageAtt()) {
                     System.out.println("L'attaque échoue");
                 } else {
-                    System.out.println("L'attaque réussi");
+                    System.out.println("L'attaque réussit");
                     int ppar = alea.nextInt(101);
                     if (ppar > c.getPagePar()) {
                         System.out.println("La parade échoue");
-                        ouch = this.getDegAtt();
+                        ouch = this.getDegAtt(); // Dégâts infligés
                     } else {
-                        System.out.println("La parade réussi");
-                        ouch =  Math.max(0,this.getDegAtt()-c.getPtPar());
+                        System.out.println("La parade réussit");
+                        ouch = Math.max(0, this.getDegAtt() - c.getPtPar()); // Dégâts après la parade
                     }
                 }
             } else {
-               int patt = alea.nextInt(101);
-               System.out.println(this.getNom() + " utilise Tir à l'arc");
-               this.setNbFleches(this.getNbFleches()-1);  
-                if (patt > this.getPageAtt()) {
-                    System.out.println("L'attaque échoue");
+                // Si la distance est supérieure à 1, l'archer tire une flèche
+                if (this.nbFleches > 0) { // Vérifier s'il reste des flèches
+                    int patt = alea.nextInt(101);
+                    System.out.println(this.getNom() + " utilise Tir à l'arc");
+                    this.setNbFleches(this.getNbFleches() - 1); // Décrémenter le nombre de flèches
+                    if (patt > this.getPageAtt()) {
+                        System.out.println("L'attaque échoue");
+                    } else {
+                        System.out.println("L'attaque réussit");
+                        ouch = this.getDegAtt(); // Dégâts infligés
+                    }
                 } else {
-                    System.out.println("L'attaque réussi");
-                    ouch = this.getDegAtt();
+                    System.out.println("Aucune flèche disponible pour tirer.");
+                    return; // Sortir de la méthode si aucune flèche
                 }
             }
         }
-        System.out.println("L'attaque inflige " + ouch + " points de dégâts");
-        if (ouch >= 0.5*c.getPtVie()) {
-            System.out.println("C'est super efficace");
+        
+        // Affichage des résultats de l'attaque
+        if (ouch > 0) {
+            System.out.println("L'attaque inflige " + ouch + " points de dégâts");
+            if (ouch >= 0.5 * c.getPtVie()) {
+                System.out.println("C'est super efficace");
+            }
+            if (ouch <= 0.1 * c.getPtVie()) {
+                System.out.println("Ce n'est pas très efficace");
+            }
+            c.setPtVie(c.getPtVie() - ouch); // Mise à jour des points de vie de la créature
+            System.out.println("Il reste " + c.getPtVie() + " points de vie");
         }
-        if (ouch <= 0.1*c.getPtVie()) {
-            System.out.println("Ce n'est pas très efficace");
-        }
-        c.setPtVie(c.getPtVie()-ouch);
-        System.out.println("Il reste " + c.getPtVie() + " points de vie");     
     }
 }

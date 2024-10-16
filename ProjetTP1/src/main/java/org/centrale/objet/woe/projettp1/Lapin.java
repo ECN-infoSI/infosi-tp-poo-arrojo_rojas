@@ -4,6 +4,8 @@
 */
 package org.centrale.objet.woe.projettp1;
 
+import java.util.Map;
+
 /**
  * Sous-classe de monstre qui gére les Lapins
  * @author Augusto ARROJO et Fernando ROJAS
@@ -19,8 +21,8 @@ public class Lapin extends Monstre {
      * @param paPar Pourcentage de chance de parer une attaque
      * @param p Position du lapin
     */
-    public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
-        super (pV, dA, pPar, paAtt, paPar, p);
+    public Lapin (int pV, int dA, int pPar, int paAtt, int paPar, Point2D p, Map<String, Nourriture> effets) {
+        super (pV, dA, pPar, paAtt, paPar, p, effets);
     }
     
     /**
