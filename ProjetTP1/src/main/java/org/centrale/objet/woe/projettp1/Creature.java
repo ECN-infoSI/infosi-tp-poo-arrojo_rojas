@@ -175,6 +175,17 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
         this.effets = effets;
     }
     
+    // Méthode pour supprimer un effet
+    public void removeEffet(String nomEffet) {
+        if (effets.containsKey(nomEffet)) {
+            effets.remove(nomEffet); // Supprime l'effet du mapa
+            System.out.println("Effet " + nomEffet + " supprimé."); // Message de confirmation
+        } else {
+            System.out.println("Effet " + nomEffet + " introuvable."); // Message si l'effet n'existe pas
+        }
+    }
+
+    
     /**
      * Définit le pourcentage de chance de parer une attaque.
      * 
@@ -226,7 +237,6 @@ public abstract class Creature extends ElementDeJeu implements Deplacable {
             r2 = Alea.nextInt(3) - 1;
 
             // Applique temporairement la translation sur la nouvelle position
-            nouvellePos.setPosition(this.getPos().getX(), this.getPos().getY()); // Copie de la position actuelle
             nouvellePos.translate(r1, r2); // Applique la translation
 
             // Continue tant que le déplacement n'est pas nul (r1 == 0 et r2 == 0) ou que la position est invalide

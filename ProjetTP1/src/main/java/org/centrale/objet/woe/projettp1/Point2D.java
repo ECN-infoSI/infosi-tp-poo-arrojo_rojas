@@ -29,9 +29,9 @@ class Point2D {
      *
      * @param p Point à recopier
      */
-    public Point2D(Point2D pto) {
-        this.PosX = pto.getX();
-        this.PosY = pto.getY();
+    public Point2D(Point2D pos) {
+        this.PosX = pos.getX();
+        this.PosY = pos.getY();
     }
 
     /**
