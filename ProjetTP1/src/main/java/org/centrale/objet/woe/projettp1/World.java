@@ -446,6 +446,330 @@ public class World {
             }
            }
         }
-    } 
+    }
+
+    public void chargementPartie(String nom_fichier){
+        try (BufferedReader br = new BufferedReader(new FileReader(nom_fichier))) {
+            String delimiteur = " "; //Définition de delimiteur dans le texte
+            ArrayList<Creatures> new_crea = new ArrayList<>();
+            ArrayList<Objet> new_obj = new ArrayList<>();
+            ArrayList<Nourriture> new_consommable = new ArrayList<>();
+            ArrayList<objet> inventaire = new ArrayList<>();
+            Joueur new_player = new Joueur();
+            
+            //Taille du monde
+            String ligne1 = br.readLine(); //Longueur
+            String ligne2 = br.readLine(); //Hauteur
+            StringTokenizer tokenizer = new StringTokenizer(ligne1,delimiteur); //
+            tokenizer.nextToken();
+            TAILLE_WORLD = Integer.parseInt(tokenizer.nextToken());
+            
+            //
+            String lignes;
+            while((lignes = br.readLine()) != null){
+                // Création de StringTokenizer pour diviser par un delimiteur les lignes en mots 
+                StringTokenizer tokenizer = new StringTokenizer(lignes, delimiteur);
+                
+                if (tokenizer.hasMoreTokens()){
+                    String mot = tokenizer.nextToken();
+                    
+                    switch (mot) {
+                        case "Guerrier" : 
+                            //Recuperation des attributs
+                            String nom = tokenizer.nextToken();
+                            int ptVie = Integer.parseInt(tokenizer.nextToken());
+                            int degAtt = Integer.parseInt(tokenizer.nextToken());
+                            int ptPar = Integer.parseInt(tokenizer.nextToken());
+                            float pageAtt = Float.valueOf(tokenizer.nextToken());
+                            float pagePar = Float.valueOf(tokenizer.nextToken());
+                            int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de Guerrier
+                            Guerrier guerrier = new Guerrier(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>());
+                            
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(guerrier);
+                            break;
+                            
+                        case "Archer" : 
+                            //Recuperation des attributs
+                            String nom = tokenizer.nextToken();
+                            int ptVie = Integer.parseInt(tokenizer.nextToken());
+                            int degAtt = Integer.parseInt(tokenizer.nextToken());
+                            int ptPar = Integer.parseInt(tokenizer.nextToken());
+                            float pageAtt = Float.valueOf(tokenizer.nextToken());
+                            float pagePar = Float.valueOf(tokenizer.nextToken());
+                            int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            int fleches = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de Guerrier
+                            Archer archer = new Archer(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>(), fleches);
+                            
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(archer);
+                            break;
+                            
+                            
+                        case "Paysan" : 
+                            //Recuperation des attributs
+                            String nom = tokenizer.nextToken();
+                            int ptVie = Integer.parseInt(tokenizer.nextToken());
+                            int degAtt = Integer.parseInt(tokenizer.nextToken());
+                            int ptPar = Integer.parseInt(tokenizer.nextToken());
+                            float pageAtt = Float.valueOf(tokenizer.nextToken());
+                            float pagePar = Float.valueOf(tokenizer.nextToken());
+                            int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de Guerrier
+                            Paysan paysan = new Paysan(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>(), fleches);
+                            
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(archer);
+                            break;
+                            
+                            
+                        case "Loup" : 
+                            //Recuperation des attributs
+                            
+                            int ptVie = Integer.parseInt(tokenizer.nextToken());
+                            int degAtt = Integer.parseInt(tokenizer.nextToken());
+                            int ptPar = Integer.parseInt(tokenizer.nextToken());
+                            float pageAtt = Float.valueOf(tokenizer.nextToken());
+                            float pagePar = Float.valueOf(tokenizer.nextToken());
+                            int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de Guerrier
+                            Loup loup = new Loup(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>());
+                            
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(loup);
+                            break;
+                            
+                        case "Lapin" : 
+                            //Recuperation des attributs
+                            
+                            int ptVie = Integer.parseInt(tokenizer.nextToken());
+                            int degAtt = Integer.parseInt(tokenizer.nextToken());
+                            int ptPar = Integer.parseInt(tokenizer.nextToken());
+                            float pageAtt = Float.valueOf(tokenizer.nextToken());
+                            float pagePar = Float.valueOf(tokenizer.nextToken());
+                            int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de Lapin
+                            Lapin lapin = new Lapin(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>(), fleches);
+                            
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(lapin);
+                            break;
+                            
+                        case "NuageToxique" :
+                            //Recuperation des attributs
+                            int toxicite = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Nuage toxique";
+                            description = "Sans description";
+                            
+                            // Création de NuageToxique
+                            NuageToxique nuage = new NuageToxique(nom, description, new Point2D(posX, posY), toxicite);
+                            
+                            // Adhesion à la liste des Objets 
+                            new_obj.add(nuage);
+                            break;
+                            
+                        case "PotionSoin" : 
+                            //Recuperation des attributs
+                            int valeur_soin = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Potion soin";
+                            description = "Sans description";
+                            
+                            
+                            // Création de PotionSoin
+                            PotionSoin potion = new PotionSoin(valeur_soin, nom, description, new Point2D(posX, posY));
+                            
+                            // Adhesion à la liste des Objets 
+                            new_obj.add(potion);
+                            break;
+                            
+                        case "Epee" : 
+                            int bonus_att = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Epee";
+                            description = "Sans description";
+                            
+                            // Création de Epee
+                            Epee epee = new Epee(bonus_att, nom, description, new Point2D(posX, posY));
+                            
+                            // Adhesion à la liste des Objets 
+                            new_obj.add(epee);
+                            break;
+                            
+                        case "Baguette" :
+                            // Récuperation des attributs
+                            int modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                            int modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                            int nb_tours = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de la baguette
+                            Nourriture baguette = new Nourriture("Baguette", modif_ptvie, modif_degatt, 0, 0, 0, nb_tours, new Point2D(posX, posY));
+                            
+                            // Adhesion à la liste des Objets 
+                            new_consommable.add(baguette);
+                            break;
+                        
+                        case "Fromage magique" :
+                            // Récuperation des attributs
+                            int modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                            int modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                            int nb_tours = Integer.parseInt(tokenizer.nextToken());
+                            int posX = Integer.parseInt(tokenizer.nextToken());
+                            int posY = Integer.parseInt(tokenizer.nextToken());
+                            
+                            // Création de la baguette
+                            Nourriture fromage = new Nourriture("Fromage magique", modif_ptvie, 0, modif_pageatt, 0, 0, nb_tours, new Point2D(posX, posY));
+                            
+                            // Adhesion à la liste des Objets 
+                            new_consommable.add(fromage);
+                            break;    
+                            
+                        case "Joueur" : 
+                            //Recuperation des attributs
+                            String type = tokenizer.nextToken();
+                            
+                            switch (type) {
+                                case "Guerrier" : 
+                                    //Recuperation des attributs
+                                    String nom = tokenizer.nextToken();
+                                    int ptVie = Integer.parseInt(tokenizer.nextToken());
+                                    int degAtt = Integer.parseInt(tokenizer.nextToken());
+                                    int ptPar = Integer.parseInt(tokenizer.nextToken());
+                                    float pageAtt = Float.valueOf(tokenizer.nextToken());
+                                    float pagePar = Float.valueOf(tokenizer.nextToken());
+                                    int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                                    int posX = Integer.parseInt(tokenizer.nextToken());
+                                    int posY = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de Guerrier
+                                    Guerrier guerrierJoueur = new Guerrier(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>());
+                                    
+                                    // Insertion du personnage au joueur
+                                    new_player.setPersonnage(guerrierJoueur)
+                                    break;
+                                    
+                                case "Archer" : 
+                                    //Recuperation des attributs
+                                    String nom = tokenizer.nextToken();
+                                    int ptVie = Integer.parseInt(tokenizer.nextToken());
+                                    int degAtt = Integer.parseInt(tokenizer.nextToken());
+                                    int ptPar = Integer.parseInt(tokenizer.nextToken());
+                                    float pageAtt = Float.valueOf(tokenizer.nextToken());
+                                    float pagePar = Float.valueOf(tokenizer.nextToken());
+                                    int distAttMax = Integer.parseInt(tokenizer.nextToken());
+                                    int posX = Integer.parseInt(tokenizer.nextToken());
+                                    int posY = Integer.parseInt(tokenizer.nextToken());
+                                    int fleches = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de Guerrier
+                                    Archer archerJoueur = new Archer(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new Map<String, Creature>(), fleches);
+                                    
+                                    // Insertion du personnage au joueur
+                                    new_player.setPersonnage(archerJoueur)
+                                    break;
+                                    }  
+                            
+                        case "Inventaire" : 
+                            // Class d'objet
+                            String objet = tokenizer.nextToken();
+                            
+                            switch (objet){
+                                case "PotionSoin" : 
+                                    //Recuperation des attributs
+                                    int valeur_soin = Integer.parseInt(tokenizer.nextToken());
+                                    
+                                    nom = "Potion soin";
+                                    description = "Sans description";
+
+
+                                    // Création de PotionSoin
+                                    PotionSoin potion = new PotionSoin(valeur_soin, nom, description, new Point2D(-1, -1));
+
+                                    // Adhesion à la liste des Objets 
+                                    inventaire.add(potion);
+                                    break;
+
+                                case "Epee" : 
+                                    int bonus_att = Integer.parseInt(tokenizer.nextToken());
+                                    
+                                    nom = "Epee";
+                                    description = "Sans description";
+
+                                    // Création de Epee
+                                    Epee epee = new Epee(bonus_att, nom, description, new Point2D(-1, -1));
+
+                                    // Adhesion à l'inventaire 
+                                    inventaire.add(epee);
+                                    break;
+
+                                case "Baguette" :
+                                    // Récuperation des attributs
+                                    int modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                                    int modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                                    int nb_tours = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de la baguette
+                                    Nourriture baguette = new Nourriture("Baguette", modif_ptvie, modif_degatt, 0, 0, 0, nb_tours, new Point2D(-1, -1));
+
+                                    // Adhesion à la liste des Objets 
+                                    new_consommable.add(baguette);
+                                    break;
+
+                                case "Fromage magique" :
+                                    // Récuperation des attributs
+                                    int modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                                    int modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                                    int nb_tours = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de la baguette
+                                    Nourriture fromage = new Nourriture("Fromage magique", modif_ptvie, 0, modif_pageatt, 0, 0, nb_tours, new Point2D(-1, -1));
+
+                                    // Adhesion à la liste des Objets 
+                                    new_consommable.add(fromage);
+                                    break;
+                            }
+                            
+                            
+                    }
+                    
+                    
+                }
+                
+                // Mise à jour d'inventaire du joueur
+                new_joueur.setInventaire(inventaire);
+                
+                // Création du monde sauvegardé
+                new World(new_crea, new_obj, nuage, new_consommable)
+                this.player = new_player;
+   
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+    }
+    }
     
 }
