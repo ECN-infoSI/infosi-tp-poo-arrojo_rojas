@@ -341,5 +341,111 @@ public class World {
 
         // Légende
         System.out.println("Légende : \tJ: Vous \t O: Objet \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup");
+    }
+
+    public void sauvegardePartie(String nomPartie){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomPartie.toLowerCase() + ".txt"))){
+           //On écrit les paramètres du monde
+           //Largueur du monde
+           bw.write("Largeur " + TAILLE_WORLD);
+           bw.newLine();
+           
+           //Hauteur du monde
+           bw.write("Hauteur " + TAILLE_WORLD);
+           bw.newLine();
+           
+           for (Créature c : crea){
+               bw.write(c.getClass() + " ");
+               bw.write(c.getNom() + " ");
+               bw.write(c.getPtVie() + " ");
+               bw.write(c.getDegAtt() + " ");
+               bw.write(c.getPtPar() + " ");
+               bw.write(c.getPageAtt() + " ");
+               bw.write(c.getPagePar() + " ");
+               if (c instanceof Personnage.class)
+               {Personnage c = (Personnage) c;
+               bw.write(c.getDistAttMax() + " ");}
+               bw.write(c.getPos().getX() + " ");
+               bw.write(c.getPos().getY() + " ");
+               if (c.getClass() instanceof Archer.class)
+               {Archer c = (Archer) c;
+                bw.write(" " + c.getNbFleches());}
+               bw.newLine();
+               
+               
+           }
+           
+           for (Objet o : obj){
+                switch (o.getClass().getSimpleName()){
+                    case "NuageToxique" : 
+                        NuageToxique o = (NuageToxique) o;
+                        bw,write(o.getToxicite()) //Falta escribir los atributos de Nueage
+                        break; 
+                    case "PotionSoin" :
+                        PotionSoin o = (PotionSoin) o; 
+                        bw.write(o.getValeur_soin())
+                        break;
+                    case "Epee" : 
+                        Epee o = (Epee) o;
+                        bw.write(o.getBonus_att());
+                        break;
+                    default
+                        break;
+                }
+                bw.write(" ")
+                bw.write(o.getPos().getX() + " ");
+                bw.write(o.getPos().getY() + " ");
+                bw.newLine();    
+           }
+           
+           for (Nourriture n : consommable){
+                bw.write(n.getModifPtVie() + " ");
+                bw.write(n.getPos().getX() + " ");
+                bw.write(n.getPos().getY());
+                bw.newLine();    
+           }
+           
+           bw.write("Joueur ");
+           bw.write(player.getPersonnage().getNom() + " ");
+           bw.write(player.getPersonnage().getClass() + " ");
+           bw.write(player.getPersonnage().getNom() + " ");
+           bw.write(player.getPersonnage().getPtVie() + " ");
+           bw.write(player.getPersonnage().getDegAtt() + " ");
+           bw.write(player.getPersonnage().getPtPar() + " ");
+           bw.write(player.getPersonnage().getPageAtt() + " ");
+           bw.write(player.getPersonnage().getPagePar() + " ");
+           bw.write(player.getPersonnage().getDistAttMax() + " ");
+           bw.write(player.getPersonnage().getPos().getX() + " ");
+           bw.write(player.getPersonnage().getPos().getY() + " ");
+           if (player.getPersonnage().getClass() instanceof Archer.class)
+           {bw.write(" " + player.getPersonnage().getNbFleches());}
+           bw.newLine();
+
+           Map<String, Integer> compteurObjets = new HashMap<>();
+           for (Nourriture obj : player.getInventaire()) {
+                String nom = obj.getNom();
+                compteurObjets.put(nom, compteurObjets.getOrDefault(nom, 0) + 1);
+           }
+
+           
+           for (Map.Entry<String, Integer> entry : compteurObjets.entrySet()) {
+                br.write("inventaire " + entry.getKey() + " " + entry.getValue());
+           }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+              try {
+                if (bw != null) {
+                    bw.close(); 
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }  
+            }
+           }
+        }
     } 
+    
 }
