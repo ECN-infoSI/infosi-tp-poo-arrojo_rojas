@@ -44,10 +44,10 @@ public final class Joueur {
     /**
      * Constructeur par copie de la classe joueur
      *
-     * @param perso_d
-     * @param class_p
-     * @param personnage
-     * @param inventaire
+     * @param perso_d jouer
+     * @param class_p class
+     * @param personnage personnage
+     * @param inventaire inventaire
      */
     public Joueur(HashMap<String, Class> perso_d, Class class_p, Personnage personnage, ArrayList<Nourriture> inventaire) {
         this.classe_p = class_p;
@@ -90,7 +90,8 @@ public final class Joueur {
         String nomPerso = scanner2.nextLine();
         if ("".equals(nomPerso)) {
             Random ale = new Random();
-            switch (ale.nextInt(0, 4)) {
+            int value = ale.nextInt(4);
+            switch (value) {
                 case 0:
                     nomPerso = "Paul";
                     break;

@@ -121,7 +121,7 @@ public class Nourriture extends Objet implements Utilisable {
     public void setNbToursEffet(int nbToursEffet) {
         this.nbToursEffet = nbToursEffet;
     }
-
+    
     /**
      * Setter de l'attribut modifPtVie
      *
