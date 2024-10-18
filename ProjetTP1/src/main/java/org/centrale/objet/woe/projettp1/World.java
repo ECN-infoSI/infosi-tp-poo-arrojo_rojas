@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Iterator;
+import java.io.*;
+import java.util.StringTokenizer;
 
 /**
  * CLasse permettant de gérer la création du monde ainsi, que l'emplacement des
@@ -42,7 +44,7 @@ public class World {
     /**
      * Taille du monde
      */
-    public final static int TAILLE_WORLD = 10;
+    public static int TAILLE_WORLD = 50;
     /**
      * Joueur
      */
@@ -319,11 +321,13 @@ public class World {
     public ArrayList<Nourriture> getConsommable() {
         return consommable;
     }
-    
+
     /**
-     * Méthode de gestion de l'option de combat lorsque le jeu l'a choisie au tour en cours
+     * Méthode de gestion de l'option de combat lorsque le jeu l'a choisie au
+     * tour en cours
+     *
      * @param sc Scanner
-    */
+     */
     public void combattre(Scanner sc) {
         int k = 0;
         int j = -1;
@@ -374,9 +378,11 @@ public class World {
     }
 
     /**
-      * Méthode de gestion de l'option de utiliser le inventaire lorsque le jeu l'a choisie au tour en cours
-      * @param sc Scanner
-    */
+     * Méthode de gestion de l'option de utiliser le inventaire lorsque le jeu
+     * l'a choisie au tour en cours
+     *
+     * @param sc Scanner
+     */
     public void utiliser_inventaire(Scanner sc) {
         if (player.getInventaire().isEmpty()) {
             System.out.println("Votre inventaire est vide. Vous ne pouvez rien utiliser.");
@@ -456,11 +462,11 @@ public class World {
             }
         }
     }
-    
+
     /*+
         Méthode pour afficher les effets de la nourriture
         @param objetAUtiliser objet qui il veut utiliser
-    */
+     */
     private void afficherEffets(Nourriture objetAUtiliser) {
         System.out.println("Effets :");
         if (objetAUtiliser.getModifPtVie() != 0) {
@@ -479,9 +485,10 @@ public class World {
             System.out.println("Points de parade : " + objetAUtiliser.getModifPtPar());
         }
     }
+
     /**
-      * Méthode de gestion des effets de la nourriture au tour en cours
-    */
+     * Méthode de gestion des effets de la nourriture au tour en cours
+     */
     public void gerer_effet() {
         int PtVieBonus = 0;
         int DegAttBonus = 0;
@@ -558,9 +565,9 @@ public class World {
                     for (Objet o : obj) {
                         if (o.getPos().equals(pos)) {
                             switch (o.getClass().getSimpleName()) {
-                                case "Epee" ->
+                                case "Epee":
                                     disp_char = "|E|"; // Épée
-                                case "PotionSoin" ->
+                                case "PotionSoin":
                                     disp_char = "|O|"; // Potion
                             }
                             break; // Quitte la boucle si un objet est trouvé
@@ -579,15 +586,15 @@ public class World {
                     for (Creature c : crea) {
                         if (c.getPos().equals(pos)) {
                             switch (c.getClass().getSimpleName()) {
-                                case "Guerrier" ->
+                                case "Guerrier":
                                     disp_char = "|G|"; // Guerrier
-                                case "Archer" ->
+                                case "Archer":
                                     disp_char = "|A|"; // Archer
-                                case "Paysan" ->
+                                case "Paysan":
                                     disp_char = "|P|"; // Paysan
-                                case "Lapin" ->
+                                case "Lapin":
                                     disp_char = "|R|"; // Lapin
-                                case "Loup" ->
+                                case "Loup":
                                     disp_char = "|L|"; // Loup
                             }
                             break; // Quitte la boucle si une créature est trouvée
@@ -601,7 +608,7 @@ public class World {
         }
 
         // Légende
-        System.out.println("Légende : \t J: Vous \t E: Épée \t O: Potion \t C: Nourriture \t G: Guerrier \t A: Archer \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
+        System.out.println("Légende : \nJ: Vous \t E: Épée \t O: Potion \t C: Nourriture \t P: Paysan \t R: Lapin \t L: Loup \t N: Nuage Toxique");
     }
 
     /**
@@ -645,7 +652,7 @@ public class World {
             boolean actionValide = false; // Initialise la flag d'action valide
 
             while (!actionValide) {
-                System.out.println("Choisissez une action : deplace | combattre | inventaire | sortie");
+                System.out.println("Choisissez une action : deplace | combattre | inventaire | sortie | sauvegarder");
                 String action = sc.nextLine();
 
                 switch (action) {
@@ -661,6 +668,10 @@ public class World {
                         combattre(sc);
                         actionValide = true;
                         break;
+                    case "sauvegarder":
+                        System.out.println("Ecrivez le nom de votre fichier pour le sauvegarder (sans .txt)");
+                        String nome = sc.nextLine();
+                        sauvegardePartie(nome + ".txt"); // Sauvegarder
                     case "sortie":
                         System.exit(0); // Termine le programme avec succès
                     default:
@@ -681,6 +692,426 @@ public class World {
             }
             tourJeu += 1;
         }
+    }
+    /**
+     * Méthode pour sauvegarde la partie
+     * @param nomPartie nome partie
+     */
+    public void sauvegardePartie(String nomPartie) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomPartie.toLowerCase() + ".txt"))) {
+            //On écrit les paramètres du monde
+            //Largueur du monde
+            bw.write("Largeur " + TAILLE_WORLD);
+            bw.newLine();
+
+            //Hauteur du monde
+            bw.write("Hauteur " + TAILLE_WORLD);
+            bw.newLine();
+
+            for (Creature c : crea) {
+                bw.write(c.getClass() + " ");
+                if (c instanceof Personnage) {
+                    Personnage p = (Personnage) c;
+                    bw.write(p.getNom() + " ");
+                }
+                bw.write(c.getPtVie() + " ");
+                bw.write(c.getDegAtt() + " ");
+                bw.write(c.getPtPar() + " ");
+                bw.write(c.getPageAtt() + " ");
+                bw.write(c.getPagePar() + " ");
+                if (c instanceof Personnage) {
+                    Personnage c1 = (Personnage) c;
+                    bw.write(c1.getDistAttMax() + " ");
+                }
+                bw.write(c.getPos().getX() + " ");
+                bw.write(c.getPos().getY() + " ");
+                if (c instanceof Archer) {
+                    Archer a1 = (Archer) c;
+                    bw.write(" " + a1.getNbFleches());
+                }
+                bw.newLine();
+
+            }
+
+            for (Objet o : obj) {
+                switch (o.getClass().getSimpleName()) {
+                    case "NuageToxique":
+                        NuageToxique n = (NuageToxique) o;
+                        bw.write(n.getToxicite()); //Falta escribir los atributos de Nueage
+                        break;
+                    case "PotionSoin":
+                        PotionSoin p = (PotionSoin) o;
+                        bw.write(p.getValeur_soin());
+                        break;
+                    case "Epee":
+                        Epee e = (Epee) o;
+                        bw.write(e.getBonus_att());
+                        break;
+                    default:
+                        break;
+                }
+                bw.write(" ");
+                bw.write(o.getPos().getX() + " ");
+                bw.write(o.getPos().getY() + " ");
+                bw.newLine();
+            }
+
+            for (Nourriture n : consommable) {
+                bw.write(n.getModifPtVie() + " ");
+                bw.write(n.getModifDegAtt() + " ");
+                bw.write(n.getModifPageAtt() + " ");
+                bw.write(n.getModifPagePar() + " ");
+                bw.write(n.getModifPtPar() + " ");
+                bw.write(n.getNbToursEffet() + " ");
+                bw.write(n.getPos().getX() + " ");
+                bw.write(n.getPos().getY());
+                bw.newLine();
+            }
+
+            bw.write("Joueur ");
+            bw.write(player.getPersonnage().getNom() + " ");
+            bw.write(player.getPersonnage().getClass() + " ");
+            bw.write(player.getPersonnage().getNom() + " ");
+            bw.write(player.getPersonnage().getPtVie() + " ");
+            bw.write(player.getPersonnage().getDegAtt() + " ");
+            bw.write(player.getPersonnage().getPtPar() + " ");
+            bw.write(player.getPersonnage().getPageAtt() + " ");
+            bw.write(player.getPersonnage().getPagePar() + " ");
+            bw.write(player.getPersonnage().getDistAttMax() + " ");
+            bw.write(player.getPersonnage().getPos().getX() + " ");
+            bw.write(player.getPersonnage().getPos().getY() + " ");
+            if (player.getPersonnage() instanceof Archer) {
+                Archer a = (Archer) player.getPersonnage();
+                bw.write(" " + a.getNbFleches());
+            }
+            bw.newLine();
+
+            Map<String, Integer> compteurObjets = new HashMap<>();
+            for (Nourriture obj : player.getInventaire()) {
+                String nom = obj.getNom();
+                compteurObjets.put(nom, compteurObjets.getOrDefault(nom, 0) + 1);
+            }
+
+            for (Map.Entry<String, Integer> entry : compteurObjets.entrySet()) {
+                bw.write("inventaire " + entry.getKey() + " " + entry.getValue());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Méthode pour charger la partie
+     * @param nom_fichier nom partie
+     * @return le monde
+     */
+    public World chargementPartie(String nom_fichier) {
+        World world = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(nom_fichier))) {
+            String delimiteur = " "; //Définition de delimiteur dans le texte
+            ArrayList<Creature> new_crea = new ArrayList<>();
+            ArrayList<Objet> new_obj = new ArrayList<>();
+            ArrayList<Nourriture> new_consommable = new ArrayList<>();
+            ArrayList<Nourriture> inventaire = new ArrayList<>();
+            ArrayList<NuageToxique> new_nuage = new ArrayList<>();
+            Joueur new_player = new Joueur();
+
+            //Taille du monde
+            String ligne1 = br.readLine(); //Longueur
+            String ligne2 = br.readLine(); //Hauteur
+            StringTokenizer tokenizer0 = new StringTokenizer(ligne1, delimiteur); //
+            tokenizer0.nextToken();
+            TAILLE_WORLD = Integer.parseInt(tokenizer0.nextToken());
+
+            //
+            String lignes;
+            while ((lignes = br.readLine()) != null) {
+                // Création de StringTokenizer pour diviser par un delimiteur les lignes en mots 
+                StringTokenizer tokenizer = new StringTokenizer(lignes, delimiteur);
+
+                if (tokenizer0.hasMoreTokens()) {
+                    String mot = tokenizer0.nextToken();
+
+                    String nom;
+                    int ptVie = 0, degAtt = 0, ptPar = 0, pageAtt = 0, pagePar = 0, distAttMax = 0, posX = 0, posY = 0, modif_ptvie = 0, modif_degatt = 0, nb_tours = 0, fleches = 0, modif_pageatt = 0, valeur_soin = 0, modif_pagepar = 0, modif_ptpar = 0;
+
+                    switch (mot) {
+                        case "Guerrier":
+                            //Recuperation des attributs
+                            nom = tokenizer.nextToken();
+                            ptVie = Integer.parseInt(tokenizer.nextToken());
+                            degAtt = Integer.parseInt(tokenizer.nextToken());
+                            ptPar = Integer.parseInt(tokenizer.nextToken());
+                            pageAtt = Integer.parseInt(tokenizer.nextToken());
+                            pagePar = Integer.parseInt(tokenizer.nextToken());
+                            distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de Guerrier
+                            Guerrier guerrier = new Guerrier(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new HashMap<>());
+
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(guerrier);
+                            break;
+
+                        case "Archer":
+                            //Recuperation des attributs
+                            nom = tokenizer.nextToken();
+                            ptVie = Integer.parseInt(tokenizer.nextToken());
+                            degAtt = Integer.parseInt(tokenizer.nextToken());
+                            ptPar = Integer.parseInt(tokenizer.nextToken());
+                            pageAtt = Integer.parseInt(tokenizer.nextToken());
+                            pagePar = Integer.parseInt(tokenizer.nextToken());
+                            distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+                            fleches = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de Archer
+                            Archer archer = new Archer(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new HashMap<>(), fleches);
+
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(archer);
+                            break;
+
+                        case "Paysan":
+                            //Recuperation des attributs
+                            nom = tokenizer.nextToken();
+                            ptVie = Integer.parseInt(tokenizer.nextToken());
+                            degAtt = Integer.parseInt(tokenizer.nextToken());
+                            ptPar = Integer.parseInt(tokenizer.nextToken());
+                            pageAtt = Integer.parseInt(tokenizer.nextToken());
+                            pagePar = Integer.parseInt(tokenizer.nextToken());
+                            distAttMax = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de Paysan
+                            Paysan paysan = new Paysan(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new HashMap<>());
+
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(paysan);
+                            break;
+
+                        case "Loup":
+                            //Recuperation des attributs
+
+                            ptVie = Integer.parseInt(tokenizer.nextToken());
+                            degAtt = Integer.parseInt(tokenizer.nextToken());
+                            ptPar = Integer.parseInt(tokenizer.nextToken());
+                            pageAtt = Integer.parseInt(tokenizer.nextToken());
+                            pagePar = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de Loup
+                            Loup loup = new Loup(ptVie, degAtt, ptPar, pageAtt, pagePar, new Point2D(posX, posY), new HashMap<>());
+
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(loup);
+                            break;
+
+                        case "Lapin":
+                            //Recuperation des attributs
+
+                            ptVie = Integer.parseInt(tokenizer.nextToken());
+                            degAtt = Integer.parseInt(tokenizer.nextToken());
+                            ptPar = Integer.parseInt(tokenizer.nextToken());
+                            pageAtt = Integer.parseInt(tokenizer.nextToken());
+                            pagePar = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de Lapin
+                            Lapin lapin = new Lapin(ptVie, degAtt, ptPar, pageAtt, pagePar, new Point2D(posX, posY), new HashMap<>());
+
+                            // Adhesion à la liste de Créatures
+                            new_crea.add(lapin);
+                            break;
+
+                        case "NuageToxique":
+                            //Recuperation des attributs
+                            int toxicite = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Nuage toxique";
+                            String description = "Sans description";
+
+                            // Création de NuageToxique
+                            NuageToxique nuage = new NuageToxique(nom, description, new Point2D(posX, posY), toxicite);
+                            // Adhesion à la liste des Objets 
+                            new_nuage.add(nuage);
+                            break;
+
+                        case "PotionSoin":
+                            //Recuperation des attributs
+                            valeur_soin = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Potion soin";
+                            description = "Sans description";
+
+                            // Création de PotionSoin
+                            PotionSoin potion = new PotionSoin(valeur_soin, nom, description, new Point2D(posX, posY));
+
+                            // Adhesion à la liste des Objets 
+                            new_obj.add(potion);
+                            break;
+
+                        case "Epee":
+                            int bonus_att = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+                            nom = "Epee";
+                            description = "Sans description";
+
+                            // Création de Epee
+                            Epee epee = new Epee(bonus_att, nom, description, new Point2D(posX, posY));
+
+                            // Adhesion à la liste des Objets 
+                            new_obj.add(epee);
+                            break;
+
+                        case "Baguette":
+                            modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                            modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                            modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                            modif_pagepar = Integer.parseInt(tokenizer.nextToken());
+                            modif_ptpar = Integer.parseInt(tokenizer.nextToken());
+                            nb_tours = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de la baguette
+                            Nourriture baguette = new Nourriture(modif_ptvie, modif_degatt, modif_pageatt, modif_pagepar, modif_ptpar, nb_tours, "Baguette", "Baguette", new Point2D(posX, posY));
+
+                            // Adhesion à la liste des Objets 
+                            new_consommable.add(baguette);
+                            break;
+
+                        case "Fromage magique":
+                            modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                            modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                            modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                            modif_pagepar = Integer.parseInt(tokenizer.nextToken());
+                            modif_ptpar = Integer.parseInt(tokenizer.nextToken());
+                            nb_tours = Integer.parseInt(tokenizer.nextToken());
+                            posX = Integer.parseInt(tokenizer.nextToken());
+                            posY = Integer.parseInt(tokenizer.nextToken());
+
+                            // Création de la baguette
+                            Nourriture fromage = new Nourriture(modif_ptvie, modif_degatt, modif_pageatt, modif_pagepar, modif_ptpar, nb_tours, "Fromage magique", "Fromage magique", new Point2D(posX, posY));
+
+                            // Adhesion à la liste des Objets 
+                            new_consommable.add(fromage);
+                            break;
+
+                        case "Joueur":
+                            //Recuperation des attributs
+                            String type = tokenizer0.nextToken();
+
+                            switch (type) {
+                                case "Guerrier":
+                                    //Recuperation des attributs
+                                    nom = tokenizer.nextToken();
+                                    ptVie = Integer.parseInt(tokenizer.nextToken());
+                                    degAtt = Integer.parseInt(tokenizer.nextToken());
+                                    ptPar = Integer.parseInt(tokenizer.nextToken());
+                                    pageAtt = Integer.parseInt(tokenizer.nextToken());
+                                    pagePar = Integer.parseInt(tokenizer.nextToken());
+                                    distAttMax = Integer.parseInt(tokenizer.nextToken());
+                                    posX = Integer.parseInt(tokenizer.nextToken());
+                                    posY = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de Guerrier
+                                    Guerrier guerrierJoueur = new Guerrier(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new HashMap<>());
+
+                                    // Insertion du personnage au joueur
+                                    new_player.setPersonnage(guerrierJoueur);
+                                    break;
+
+                                case "Archer":
+                                    //Recuperation des attributs
+                                    nom = tokenizer.nextToken();
+                                    ptVie = Integer.parseInt(tokenizer.nextToken());
+                                    degAtt = Integer.parseInt(tokenizer.nextToken());
+                                    ptPar = Integer.parseInt(tokenizer.nextToken());
+                                    pageAtt = Integer.parseInt(tokenizer.nextToken());
+                                    pagePar = Integer.parseInt(tokenizer.nextToken());
+                                    distAttMax = Integer.parseInt(tokenizer.nextToken());
+                                    posX = Integer.parseInt(tokenizer.nextToken());
+                                    posY = Integer.parseInt(tokenizer.nextToken());
+                                    fleches = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de Guerrier
+                                    Archer archerJoueur = new Archer(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, new Point2D(posX, posY), new HashMap<>(), fleches);
+
+                                    // Insertion du personnage au joueur
+                                    new_player.setPersonnage(archerJoueur);
+                                    break;
+                            }
+
+                        case "Inventaire":
+                            // Class d'objet
+                            String objet = tokenizer.nextToken();
+
+                            switch (objet) {
+                                case "Baguette":
+                                    // Récuperation des attributs
+                                    modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                                    modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                                    modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                                    modif_pagepar = Integer.parseInt(tokenizer.nextToken());
+                                    modif_ptpar = Integer.parseInt(tokenizer.nextToken());
+                                    nb_tours = Integer.parseInt(tokenizer.nextToken());
+                                    posX = Integer.parseInt(tokenizer.nextToken());
+                                    posY = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de la baguette
+                                    Nourriture baguette_inv = new Nourriture(modif_ptvie, modif_degatt, modif_pageatt, modif_pagepar, modif_ptpar, nb_tours, "Baguette", "Baguette", new Point2D(posX, posY));
+
+                                    // Adhesion à la liste des Objets 
+                                    new_consommable.add(baguette_inv);
+                                    break;
+
+                                case "Fromage magique":
+                                    // Récuperation des attributs
+                                    modif_ptvie = Integer.parseInt(tokenizer.nextToken());
+                                    modif_degatt = Integer.parseInt(tokenizer.nextToken());
+                                    modif_pageatt = Integer.parseInt(tokenizer.nextToken());
+                                    modif_pagepar = Integer.parseInt(tokenizer.nextToken());
+                                    modif_ptpar = Integer.parseInt(tokenizer.nextToken());
+                                    nb_tours = Integer.parseInt(tokenizer.nextToken());
+                                    posX = Integer.parseInt(tokenizer.nextToken());
+                                    posY = Integer.parseInt(tokenizer.nextToken());
+
+                                    // Création de la baguette
+                                    Nourriture fromage_inv = new Nourriture(modif_ptvie, modif_degatt, modif_pageatt, modif_pagepar, modif_ptpar, nb_tours, "Fromage magique", "Fromage magique", new Point2D(posX, posY));
+                                    // Adhesion à la liste des Objets 
+                                    new_consommable.add(fromage_inv);
+                                    break;
+                            }
+
+                    }
+
+                }
+
+                // Mise à jour d'inventaire du joueur
+                new_player.setInventaire(inventaire);
+
+                // Création du monde sauvegardé
+                world = new World(new_crea, new_obj, new_nuage, new_consommable);
+                this.player = new_player;
+                tour_de_jeu(0);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return world;
     }
 
 }
